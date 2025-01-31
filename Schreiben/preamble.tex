@@ -1,0 +1,444 @@
+% !! USE LuaLaTeX FOR COMPILING WITH CURRENT PREAMBLE !!
+
+% LTeX: enabled=false
+% Cleaner text spacing
+\usepackage[final]{microtype}
+% Math-Stuff
+\usepackage{mathtools}
+\usepackage{keytheorems}
+% Plots
+\usepackage{pgfplots}
+% Block comments
+\usepackage{verbatim}
+% Subfigures
+\usepackage[labelformat=brace, singlelinecheck=false, skip=1pt, font=footnotesize]{subcaption}
+% Font
+\usepackage{fontspec}
+\usepackage[warnings-off={mathtools-colon,mathtools-overbracket}]{unicode-math}
+\setmainfont{XCharter}
+\setmathfont{XCharter Math}
+\setmathfont[range=\mathcal]{STIX Two Math}
+% German
+\usepackage[ngerman]{babel}
+% Spacing
+\linespread{1.04}
+\usepackage{setspace}
+% New type area calculation with font and linespread
+\KOMAoptions{DIV=last}
+% Header
+\usepackage{scrlayer-scrpage}
+% Colors and graphics
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+% Nice tables
+\usepackage{longtable, booktabs}
+% Lists
+\usepackage{enumitem}
+% Bibliography
+\usepackage[backend=biber,style=alphabetic,sorting=none,doi=false,isbn=false,url=false,giveninits=true, block=ragged]{biblatex}
+\addbibresource{literature.bib}
+\DeclareFieldFormat{urldate}{(Stand: #1)}
+% Quotes
+\usepackage[autostyle=true]{csquotes}
+% Nice numbers and units
+\usepackage{siunitx}
+% References
+\usepackage[hidelinks,linktocpage=true]{hyperref}
+\hypersetup{
+  linkcolor  = RoyalBlue,
+  citecolor  = RoyalBlue,
+  urlcolor   = RoyalBlue,
+  colorlinks = true,
+}
+\usepackage[all]{hypcap}
+\usepackage{zref-clever}
+\usepackage{bookmark}
+
+% Macros
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\prim}{\mathbb{P}}
+\newcommand{\pot}{\mathcal{P}}
+\newcommand{\Llr}{\Longleftrightarrow}
+\newcommand{\Lr}{\Longrightarrow}
+\newcommand{\Ll}{\Longleftarrow}
+\newcommand{\Lra}{\Leftrightarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\La}{\Leftarrow}
+\renewcommand{\vec}[1]{\symbfit{#1}}
+\newcommand{\mat}[1]{\symbfit{#1}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+
+% Horizontal lines in matrix
+\newcommand{\brows}[1]{%
+  \begin{bmatrix}
+  \begin{array}{@{\protect\rotvert\;}c@{\;\protect\rotvert}}
+  #1
+  \end{array}
+  \end{bmatrix}
+}
+\newcommand{\rotvert}{\rotatebox[origin=c]{90}{\(\vert\)}}
+\newcommand{\rowsvdots}{\multicolumn{1}{@{}c@{}}{\vdots}}
+
+% Definition
+\definecolor{defcolor}{RGB}{123, 185, 229}
+\newkeytheoremstyle{defstyle}
+{
+  headfont=\normalfont\scshape\bfseries,
+  notefont=\normalfont\bfseries,
+  notebraces={(}{)},  % chktex 9
+  headpunct={.},
+  bodyfont=\normalfont,
+  headformat=\NAME~\NUMBER\NOTE,
+  break,
+  tcolorbox-no-titlebar={
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=defcolor!20,
+    boxrule=0pt,
+    leftrule=4pt,       
+    colframe=defcolor,
+    left=8pt,
+    right=8pt,
+  }
+}
+\newkeytheorem{definition}[
+style=defstyle,
+numberwithin=chapter,
+name=Definition,
+]
+
+% Theorem
+\definecolor{theocolor}{RGB}{237, 138, 130}
+\newkeytheoremstyle{theoremstyle}
+{
+  headfont=\normalfont\scshape\bfseries,
+  notefont=\normalfont\bfseries,
+  notebraces={(}{)},  % chktex 9
+  headpunct={.},
+  bodyfont=\normalfont,
+  headformat=\NAME~\NUMBER\NOTE,
+  break,
+  tcolorbox-no-titlebar={
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=theocolor!20,
+    boxrule=0pt,
+    leftrule=4pt,       
+    colframe=theocolor,
+    left=8pt,
+    right=8pt,
+  }
+}
+\newkeytheorem{theorem}[
+Refname={Satz,Sätze},
+style=theoremstyle,
+sibling=definition,
+name=Satz,
+]
+
+% Corollary
+\definecolor{corcolor}{RGB}{164, 214, 165}
+\newkeytheoremstyle{corstyle}
+{
+  headfont=\normalfont\scshape\bfseries,
+  notefont=\normalfont\bfseries,
+  notebraces={(}{)},  % chktex 9
+  headpunct={.},
+  bodyfont=\normalfont,
+  headformat=\NAME~\NUMBER\NOTE,
+  break,
+  tcolorbox-no-titlebar={
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=corcolor!20,
+    boxrule=0pt,
+    leftrule=4pt,       
+    colframe=corcolor,
+    left=8pt,
+    right=8pt,
+  }
+}
+\newkeytheorem{corollary}[
+Refname={Korollar,Korollare},
+style=corstyle,
+sibling=definition,
+name=Korollar,
+]
+
+% Lemma
+\definecolor{lemmacolor}{RGB}{242, 213, 133}
+\newkeytheoremstyle{lemmastyle}
+{
+  headfont=\normalfont\scshape\bfseries,
+  notefont=\normalfont\bfseries,
+  notebraces={(}{)},  % chktex 9
+  headpunct={.},
+  bodyfont=\normalfont,
+  break,
+  headformat=\NAME~\NUMBER\NOTE,
+  tcolorbox-no-titlebar={
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=lemmacolor!20,
+    boxrule=0pt,
+    leftrule=4pt,       
+    colframe=lemmacolor,
+    left=8pt,
+    right=8pt,
+  }
+}
+\newkeytheorem{lemma}[
+Refname={Lemma,Lemmata},
+style=lemmastyle,
+sibling=definition,
+name=Lemma,
+]
+
+% Proof
+\newkeytheoremstyle{proofstyle}
+{
+headfont=\normalfont\itshape,
+notebraces={}{},
+headpunct={.},
+bodyfont=\normalfont,
+headformat=\NAME\NOTE,
+spaceabove = 0pt,
+qed
+}
+\renewkeytheorem{proof}[
+Refname={Beweis,Beweise},
+style=proofstyle,
+name=Beweis
+]
+
+% Repitition
+\definecolor{excolor}{RGB}{200, 205, 207}
+\newkeytheoremstyle{repstyle}
+{
+headfont=\normalfont\scshape\bfseries,
+notefont=\normalfont\bfseries,
+notebraces={(}{)},  % chktex 9
+headpunct={.},
+bodyfont=\normalfont,
+headformat=\NAME~\NUMBER\NOTE,
+break,
+tcolorbox-no-titlebar={
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=excolor!20,
+    boxrule=0pt,
+    leftrule=4pt,       
+    colframe=excolor,
+    left=8pt,
+    right=8pt,
+  }
+}
+
+% Remark and example
+\newkeytheoremstyle{reexstyle}
+{
+headfont=\normalfont\bfseries\scshape,
+notebraces={}{},
+headpunct={.},
+bodyfont=\normalfont,
+headformat=\NAME~\NUMBER\NOTE,
+break,
+tcolorbox-no-titlebar={
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=white,
+    boxrule=1pt,  
+    leftrule=4pt,    
+    colframe=black,
+    left=8pt,
+    right=8pt,
+  }
+}
+\definecolor{colexam}{RGB}{200, 205, 207}
+\newkeytheoremstyle{exstyle}
+{
+headfont=\normalfont\bfseries\scshape,
+notebraces={}{},
+headpunct={.},
+bodyfont=\normalfont,
+headformat=\NAME~\NUMBER\NOTE,
+}
+
+
+% Example
+\newkeytheorem{example}[
+  Refname={Beispiel, Beispiele},
+  style=exstyle,  
+  sibling=definition,
+  name=Beispiel,
+]
+% Remark
+\newkeytheorem{remark}[
+  Refname={Bemerkung, Bemerkungen},
+  style=reexstyle,
+  sibling=definition,
+  name=Bemerkung,
+]
+% Repitition
+\newkeytheorem{repitition}[
+  Refname={Wiederholung, Wiederholungen},
+  style=repstyle, 
+  sibling=definition,
+  name=Wiederholung,
+]
+
+% Header
+\automark[chapter]{chapter}
+\automark*[section]{}
+
+% Still header
+\clearpairofpagestyles
+\rohead{%
+  \headmark\quad
+  \makebox[0pt][l]{%
+    \makebox[\marginparsep][r]{%
+    \raisebox{0pt}[\ht\strutbox][\dp\strutbox]{%
+      \rule[-\dp\strutbox]{1pt}{\dimexpr 1in+\topmargin+\headheight+7mm}%
+      }%
+    \nobreakspace
+    }%
+    \makebox[\marginparwidth][l]{\footnotesize\pagemark}%
+  }%
+}
+\lehead{%
+  \makebox[0pt][r]{%
+    \makebox[0pt][r]{\footnotesize\pagemark}%
+    \makebox[\marginparsep][l]{%
+      \nobreakspace
+      \raisebox{0pt}[\ht\strutbox][\dp\strutbox]{%
+        \rule[-\dp\strutbox]{1pt}{\dimexpr 1in+\topmargin+\headheight+7mm}%
+      }%
+    }%
+  }%
+  \quad\headmark
+}
+
+% Header format
+\renewcommand*{\chaptermarkformat}{%
+\footnotesize{\bfseries\chapapp~\thechapter}\autodot\enskip}
+\renewcommand*{\sectionmarkformat}{%
+\footnotesize{\bfseries\thesection}\autodot\enskip}
+
+% Letterspacing chaptermark
+\renewcommand*{\chaptermark}[1]{%
+  \markboth{%
+    \Ifnumbered{chapter}{%
+      \MakeMarkcase{\chaptermarkformat}% 
+    }{}%
+    \MakeMarkcase{\textls{#1}}% 
+  }{%
+    \Ifnumbered{chapter}{%
+      \MakeMarkcase{\chaptermarkformat}% 
+    }{}%
+    \MakeMarkcase{\textls{#1}}% 
+  }%
+}
+
+% Letterspacing sectionmark
+\renewcommand*{\sectionmark}[1]{%
+  \markright{%
+    \Ifnumbered{section}{%
+      \MakeMarkcase{\sectionmarkformat}% 
+    }{}%
+    \MakeMarkcase{\textls{#1}}% 
+  }%
+}
+
+% Increase space between literature in bib
+\setlength{\bibitemsep}{1.3ex}
+
+% Caption no colon
+\renewcommand*{\captionformat}{\ }
+
+% Beschriftung von Abbildungen
+\renewcaptionname{ngerman}{\figurename}{Abb.}
+\renewcommand*{\figureformat}{\bfseries\figurename~\thefigure\autodot}
+
+% Beschriftung von Tabellen
+\renewcaptionname{ngerman}{\tablename}{Tab.}
+\renewcommand*{\tableformat}{\bfseries\tablename~\thetable\autodot}
+
+% Layout ToC
+\RedeclareSectionCommands[%
+  toclinefill=\hspace{14pt},%
+  tocraggedpagenumber,%
+  tocpagenumberbox=\mbox
+]{part,chapter,section,subsection,subsubsection,paragraph,subparagraph}
+
+% Layout ToT, ToF
+\DeclareTOCStyleEntries[
+  linefill=\hspace{14pt}, 
+  dynnumwidth,
+  numsep=5em,
+  raggedentrytext=true,
+]{default}{figure,table}
+
+% Chapter Numbers
+\definecolor{chaptergrey}{gray}{0.5}
+\newfontface\eulerfont{Euler Math}
+
+% Chapter and chapter number font
+\addtokomafont{disposition}{\normalfont\scshape\bfseries}
+\newkomafont{chapternumber}{\fontsize{60}{70}\normalfont\color{chaptergrey}\eulerfont} 
+\addtokomafont{pagehead}{\normalfont\scshape}
+
+% No dot after chapter number if no prefix
+\renewcommand*{\chapterformat}{\IfUsePrefixLine{
+  \mbox{\chapappifchapterprefix{\nobreakspace}\thechapter
+    \autodot}
+  }
+  {\thechapter}
+}
+
+% Chapter title format
+\makeatletter
+\renewcommand*{\chapterlinesformat}[3]{%
+  \Ifstr{#1}{chapter}{%
+  \parbox[t]{\linewidth}{\textls{#3}}%
+  \makebox[0pt][l]{\hspace{7pt}\usekomafont{chapternumber}{#2}}%
+  \par\nobreak\rule[.6\baselineskip]{\linewidth}{1pt}\par\nobreak%
+  \vspace{-10pt}
+  }{}%
+}
+% Section title letters spaced
+\renewcommand{\sectionlinesformat}[4]{%
+\@hangfrom{\hskip #2#3}{\textls{#4}}% chktex 41
+}
+\makeatother
+
+% Allow page breaks in equations
+\allowdisplaybreaks[3]
+
+% Allow page breaks in boxes
+\tcbuselibrary{breakable}
+\tcbuselibrary{skins}
+
+% Version from pgfplot
+\pgfplotsset{compat=1.18}
+
+% Externalization for pgfplots for better compiling time
+\usepgfplotslibrary{external}
+\tikzset{external/system call={lualatex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"}} % chktex 18
+\tikzexternalize
+
+% Otherwise error with tikz-externalize
+\tcbset{shield externalize}
+
+% Alternative to flushbottom
+\raggedbottom

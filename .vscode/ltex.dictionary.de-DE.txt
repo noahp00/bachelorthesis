@@ -1,0 +1,5 @@
+Orthonormalisierungsverfahren
+semidefinit
+orthornomal
+Singulärvektoren
+diag

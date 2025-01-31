@@ -1,0 +1,37 @@
+% !! USE LuaLaTeX FOR COMPILING WITH CURRENT PREAMBLE !!
+
+% LTeX: enabled=false
+\documentclass[BCOR=10mm,DIV=calc,twoside,open=right,paper=17cm:24cm,bibliography=totoc,listof=entryprefix, pagesize=auto]{scrreprt}
+
+\input{preamble.tex}
+%\usepackage{showframe}
+
+
+\begin{document}
+\input{titlepage.tex}
+\cleardoubleoddpage
+\pagenumbering{roman}
+\setcounter{page}{3}
+\begin{spacing}{1}
+\tableofcontents
+\cleardoubleoddpage
+\begingroup
+  \renewcommand\clearpage{\relax}
+  \listoffigures
+  \listoftables
+\endgroup
+\end{spacing}
+\include{notation}
+\cleardoubleoddpage
+\pagenumbering{arabic}
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\begin{spacing}{1}
+\printbibliography[title=Literaturverzeichnis]
+\end{spacing}
+\include{appendix}
+
+
+
+\end{document}
