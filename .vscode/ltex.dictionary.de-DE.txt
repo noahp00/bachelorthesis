@@ -3,3 +3,4 @@ semidefinit
 orthornomal
 Singulärvektoren
 diag
+trunkierte

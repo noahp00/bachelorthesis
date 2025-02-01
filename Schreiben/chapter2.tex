@@ -2,7 +2,7 @@
 
 In diesem Kapitel wird zunächst unter Verwendung vorher eingeführter Sätze und Definitionen die Existenz und eine fundamentale Eigenschaft der Singulärwertzerlegung formal bewiesen.
 Anschließend wird an einem konkreten Beispiel die Berechnung durchgeführt und die SVD visualisiert.
-Um das Kapitel abzuschließen, erfolgt eine Beschreibung der wichtigsten beiden Varianten der Singulärwertzerlegung.
+Um das Kapitel abzuschließen, erfolgt eine Beschreibung der wichtigsten beiden Arten der Singulärwertzerlegung.
 \section{Beweisführung}
 Es wird davon ausgegangen, dass der Leser\footnote{Aus Gründen der besseren Lesbarkeit wird das generische Maskulinum verwendet, wobei alle Geschlechter mit eingeschlossen sind.} mit den Grundlagen der linearen Algebra vertraut ist, insbesondere mit Matrizen und ihren Eigenschaften.
 Bekannte Definitionen werden nicht erneut aufgeführt, die einzige Ausnahme bildet \zcref{eigvec}, da diese für jegliche Beweisführung und für das Verständnis in diesem Kapitel unerlässlich ist und deswegen eine Auffrischung sinnvoll erscheint.
@@ -347,7 +347,7 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
             \begin{matrix}
                 \sigma_1 &  &  &  \\
                  & \sigma_2 &  & \\
-                 &  & \ddots &  \\
+                 &  &  \raisebox{-0.9ex}{\rotatebox{13}{\(\ddots\)}} &  \\
                  &  &  & \sigma_r
             \end{matrix} & \symbf{0} \\
             \symbf{0} & \symbf{0}
@@ -916,10 +916,86 @@ An dieser Stelle ist auch wichtig zu erwähnen, dass in \zcref{fig:svdsphc} und 
 Außerdem sei angemerkt, dass ab \zcref{fig:svdsphc} die Darstellung der \(z\)-Achse überflüssig und eigentlich nicht zu empfehlen ist, da sich dort durch die Dimensionsreduktion mittels \(\Sigma\) im zweidimensionalen Raum bewegt wird.
 Um eine Vergleichbarkeit der Plots zu verbessern, wird die Darstellung dennoch beibehalten.  
 
-Zusammenfassend zerlegt also die Singulärwertzerlegung eine Matrix in grundlegende geometrische Transformationen: Drehung, Skalierung und gegebenenfalls Dimensionsreduktion.
+Zusammenfassend zerlegt also die Singulärwertzerlegung eine Matrix in grundlegende geometrische Transformationen: Drehung, Skalierung und gegebenenfalls Dimensionsreduktion oder -erhöhung.
 
-Mit dieser Erkenntnis wird sich dem letzten Abschnitt des theoretischen Teils zugewandt, in dem die wichtigsten beiden Varianten der SVD beschrieben werden.
+Mit dieser Erkenntnis wird sich dem letzten Abschnitt des theoretischen Teils zugewandt, in dem die wichtigsten beiden Arten der SVD definiert werden.
 
-\section{Varianten der SVD}
+\section{Arten der Singulärwertzerlegung}
 
-Test
+Die Singulärwertzerlegung, die im vorherigen Teil der Arbeit beschrieben wurde, ist die klassische und vollständige Zerlegung.
+In den tatsächlichen Anwendungsgebieten, welche im nächsten Kapitel ausgeführt werden, finden häufig Variationen Verwendung.
+\begin{definition}\label{df:redsvd}
+    Sei \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U \Sigma V^{T}\) die vollständige SVD von \(A\) mit \(U \in R^{m \times m},\ \Sigma \in \R^{m \times n}\) und \(V \in \R^{n \times n}\). \\
+    Definiere die \textit{reduzierte SVD} von \(A\):
+    \begin{equation*}
+        A = U_r \Sigma_r V^{T}_r
+    \end{equation*}
+    mit
+    \begin{alignat*}{2}
+        &U_r &{}={}&
+        \big[
+        \begin{matrix}
+            u_1 \dots u_{r}
+        \end{matrix}
+        \big]
+        \in \R^{m \times r}, \\
+        &\Sigma_r &{}={}&
+        \text{diag}(\sigma_i,\ldots,\sigma_r)
+        \in \R^{r \times r}, \\
+        &V_r &{}={}&
+        \big[
+        \begin{matrix}
+            v_1 \dots v_{r}
+        \end{matrix}
+        \big]
+        \in \R^{n \times r}.
+    \end{alignat*}
+\end{definition}
+Die in \zcref{df:redsvd} beschriebene Art der Singulärwertzerlegung besitzt den Vorteil, dass eine exakte Berechnung mit deutlich weniger Speicherbedarf möglich ist, insbesondere bei großen Matrizen \(X \in \R^{m \times n}\) mit \(\text{rg}(X) \ll \text{min}(m,n)\). 
+
+Nachteilig ist, dass die Basen für den Kern und Linkskern \enquote{verloren gehen} (siehe \zcref{df:four}), dies spielt für die meisten Anwendungen allerdings eine untergeordnete Rolle.
+
+Bevor zur nächsten Variation übergegangen werden kann, betrachten wir eine weitere Darstellungsform von \zcref{df:redsvd}.
+\begin{remark}\label{rem:onesvd}
+    Sei
+    \begin{equation*}
+        A = 
+        \big[
+            \begin{matrix}
+                u_1 \dots u_{r}
+            \end{matrix}
+        \big]
+        \begin{bmatrix}
+            \sigma_1 &  & \\
+              &  \rotatebox{12}{\(\ddots\)} &  \\
+              &  &  \sigma_r \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            v^{T}_1 \\
+            \vdots \\
+            v^{T}_r \\
+        \end{bmatrix}
+    \end{equation*}
+    wie in \zcref{df:redsvd}. \\
+    Dann ist \(A_{1,1} = u_{1,1} \sigma_1 v^{T}_{1,1} + u_{2,1} \sigma_2 v^{T}_{2,1} +\ \cdots \ + u_{r,1} \sigma_r v^{T}_{r,1} \). \\
+    Für die andere Komponenten von \(A\) kann die Summe analog gebildet werden. 
+    Wir erhalten also
+    \begin{alignat*}{2}
+        &A_{i,j} &{}={}& \sum_{k=1}^{r} \sigma_k u_{k,i} v^{T}_{k,j}  \\
+        \Lra \quad &A &{}={}& \sum_{i=1}^{r} \sigma_i u_i v^{T}_i.
+    \end{alignat*}
+    Damit kann \(A\) als \textit{Summe von Rang-\num{1}-Matrizen} dargestellt werden, da für \(i \in \{1,\ldots,r\}\) die Zeilen von \((\sigma_i u_i v^{T}_i)\in \R^{m \times n}\) ein Vielfaches von \(v^{T}_i\) und die Spalten ein Vielfaches von \(u_i\) sind. \\
+    Beachte, dass \(\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_r\) und \(\norm{u_i}=1=\norm{v_i}\), also gilt komponentenweise: \(\sigma_1 u_1 v^{T}_1 \geq \sigma_2 u_2 v^{T}_2 \geq \cdots \geq \sigma_r u_r v^{T}_r\). 
+\end{remark}
+Nun wird die womöglich interessanteste Art der Singulärwertzerlegung für diverse Anwendungsfälle definiert.
+\begin{definition}\label{df:trunsvd}
+    Sei \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U_r \Sigma_r V^{T}_r = \sum_{i=1}^{r} \sigma_i u_i v^{T}_i\) die reduzierte SVD von \(A\) mit \(U_r \in R^{m \times r},\ \Sigma_r \in \R^{r \times r}\) und \(V_r \in \R^{n \times r}\). \\
+    Für \(k \leq r\) sei die \textit{trunkierte SVD} definiert mit:
+    \begin{equation*}
+        A \approx \sum_{i=1}^{k} \sigma_i u_i v^{T}_i.
+    \end{equation*}
+\end{definition}
+Zur \zcref{df:trunsvd} sei angemerkt, dass die Approximation von \(A\) für größere Werte von \(k\) zunehmend präziser wird, aber da komponentenweise \(\sigma_1 u_1 v^{T}_1 \geq \cdots \geq \sigma_r u_r v^{T}_r\) gilt (siehe \zcref{rem:onesvd}), kann bereits mit \(k \ll r\) eine gute Annäherung erzielt werden. 
+
+Mit den beiden, in diesem Abschnitt eingeführten, Variationen der Singulärwertzerlegung sind alle wesentlichen Grundlagen für die Vertiefung verschiedener Anwendungsmöglichkeiten der SVD gelegt.
+Damit wird der theoretische Teil dieser Arbeit beendet und zum Anwendungsteil übergegangen.
