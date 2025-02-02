@@ -288,7 +288,7 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
 
     \noindent Definiere \(\sigma_i \coloneq \sqrt{\lambda_i}\) für \(i = 1,\ldots,r\) und
     \begin{alignat*}{2}
-        &\Sigma_{i,j} &{}={}& 
+        &\Sigma_{ij} &{}={}& 
             \begin{cases}
                 \sigma_i, \quad &i=j. \\
                 0, \quad &i \neq j.
@@ -977,11 +977,11 @@ Bevor zur nächsten Variation übergegangen werden kann, betrachten wir eine wei
         \end{bmatrix}
     \end{equation*}
     wie in \zcref{df:redsvd}. \\
-    Dann ist \(A_{1,1} = u_{1,1} \sigma_1 v^{T}_{1,1} + u_{2,1} \sigma_2 v^{T}_{2,1} +\ \cdots \ + u_{r,1} \sigma_r v^{T}_{r,1} \). \\
+    Dann ist \(A_{11} = u_{1,1} \sigma_1 v^{T}_{1,1} + u_{2,1} \sigma_2 v^{T}_{2,1} +\ \cdots \ + u_{r,1} \sigma_r v^{T}_{r,1} \). \\
     Für die andere Komponenten von \(A\) kann die Summe analog gebildet werden. 
     Wir erhalten also
     \begin{alignat*}{2}
-        &A_{i,j} &{}={}& \sum_{k=1}^{r} \sigma_k u_{k,i} v^{T}_{k,j}  \\
+        &A_{ij} &{}={}& \sum_{k=1}^{r} \sigma_k u_{k,i} v^{T}_{k,j}  \\
         \Lra \quad &A &{}={}& \sum_{i=1}^{r} \sigma_i u_i v^{T}_i.
     \end{alignat*}
     Damit kann \(A\) als \textit{Summe von Rang-\num{1}-Matrizen} dargestellt werden, da für \(i \in \{1,\ldots,r\}\) die Zeilen von \((\sigma_i u_i v^{T}_i)\in \R^{m \times n}\) ein Vielfaches von \(v^{T}_i\) und die Spalten ein Vielfaches von \(u_i\) sind. \\
@@ -992,10 +992,11 @@ Nun wird die womöglich interessanteste Art der Singulärwertzerlegung für dive
     Sei \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U_r \Sigma_r V^{T}_r = \sum_{i=1}^{r} \sigma_i u_i v^{T}_i\) die reduzierte SVD von \(A\) mit \(U_r \in R^{m \times r},\ \Sigma_r \in \R^{r \times r}\) und \(V_r \in \R^{n \times r}\). \\
     Für \(k \leq r\) sei die \textit{trunkierte SVD} definiert mit:
     \begin{equation*}
-        A \approx \sum_{i=1}^{k} \sigma_i u_i v^{T}_i.
+        A \approx \sum_{i=1}^{k} \sigma_i u_i v^{T}_i = A_k.
     \end{equation*}
 \end{definition}
-Zur \zcref{df:trunsvd} sei angemerkt, dass die Approximation von \(A\) für größere Werte von \(k\) zunehmend präziser wird, aber da komponentenweise \(\sigma_1 u_1 v^{T}_1 \geq \cdots \geq \sigma_r u_r v^{T}_r\) gilt (siehe \zcref{rem:onesvd}), kann bereits mit \(k \ll r\) eine gute Annäherung erzielt werden. 
+Zur \zcref{df:trunsvd} sei angemerkt, dass sich \(A_k\) für größere Werte von \(k\) zunehmend \(A\) annähert, aber da komponentenweise \(\sigma_1 u_1 v^{T}_1 \geq \cdots \geq \sigma_r u_r v^{T}_r\) gilt (siehe \zcref{rem:onesvd}), kann bereits mit \(k \ll r\) eine gute Approximation erzielt werden. 
+Außerdem sollte betont werden, dass \(\text{rg}(A_k)=k\) ist, aufgrund dessen spricht man auch von einer \textit{Niedrigrang-Approximation}.
 
 Mit den beiden, in diesem Abschnitt eingeführten, Variationen der Singulärwertzerlegung sind alle wesentlichen Grundlagen für die Vertiefung verschiedener Anwendungsmöglichkeiten der SVD gelegt.
 Damit wird der theoretische Teil dieser Arbeit beendet und zum Anwendungsteil übergegangen.
