@@ -4,3 +4,4 @@ orthornomal
 Singulärvektoren
 diag
 trunkierte
+PCA

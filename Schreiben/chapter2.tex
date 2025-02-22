@@ -245,7 +245,7 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     \end{equation*}
     Dann ist
     \begin{equation*}
-        AR = R\Lambda,
+        AR = R\Lambda, 
     \end{equation*} 
     oder spaltenweise
     \begin{equation*}
@@ -265,7 +265,7 @@ Nun kann mithilfe der vorangegangenen Sätze die Existenz der Singulärwertzerle
 Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
 
 \begin{theorem}[Singulärwertzerlegung]\label{th:svd}
-    Sei \(m,n\in\N\) und \(X \in \R^{m \times n}\). \\
+    Seien \(m,n\in\N\) und \(X \in \R^{m \times n}\). \\
     Dann existieren orthogonale Matrizen \(U \in \R^{m \times m}, V \in \R^{n \times n}\) und eine Diagonalmatrix \(\Sigma \in \R^{m \times n}\), sodass
     \begin{equation*}
         X = U \Sigma V^{T}.
@@ -400,7 +400,7 @@ Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt
     \end{equation*} 
 \end{repitition}
 \begin{corollary}\label{cor:svd}
-    Sei \(m,n\in\N, X \in \R^{m \times n}\)\ und \(r = \textit{rg}(X)\).  \\
+    Seien \(m,n\in\N, X \in \R^{m \times n}\)\ und \(r = \textit{rg}(X)\).  \\
     Dann existieren orthogonale Matrizen \(U \in \R^{m \times m}, V \in \R^{n \times n}\) und eine Diagonalmatrix \(\Sigma \in \R^{m \times n}\), sodass
     \begin{equation*}
         X = U \Sigma V^{T}
@@ -925,7 +925,7 @@ Mit dieser Erkenntnis wird sich dem letzten Abschnitt des theoretischen Teils zu
 Die Singulärwertzerlegung, die im vorherigen Teil der Arbeit beschrieben wurde, ist die klassische und vollständige Zerlegung.
 In den tatsächlichen Anwendungsgebieten, welche im nächsten Kapitel ausgeführt werden, finden häufig Variationen Verwendung.
 \begin{definition}\label{df:redsvd}
-    Sei \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U \Sigma V^{T}\) die vollständige SVD von \(A\) mit \(U \in R^{m \times m},\ \Sigma \in \R^{m \times n}\) und \(V \in \R^{n \times n}\). \\
+    Seien \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U \Sigma V^{T}\) die vollständige SVD von \(A\) mit \(U \in R^{m \times m},\ \Sigma \in \R^{m \times n}\) und \(V \in \R^{n \times n}\). \\
     Definiere die \textit{reduzierte SVD} von \(A\):
     \begin{equation*}
         A = U_r \Sigma_r V^{T}_r
@@ -967,8 +967,8 @@ Bevor zur nächsten Variation übergegangen werden kann, betrachten wir eine wei
         \big]
         \begin{bmatrix}
             \sigma_1 &  & \\
-              &  \rotatebox{12}{\(\ddots\)} &  \\
-              &  &  \sigma_r \\
+            &  \rotatebox{12}{\(\ddots\)} &  \\
+            &  &  \sigma_r \\
         \end{bmatrix}
         \begin{bmatrix}
             v^{T}_1 \\
@@ -989,7 +989,7 @@ Bevor zur nächsten Variation übergegangen werden kann, betrachten wir eine wei
 \end{remark}
 Nun wird die womöglich interessanteste Art der Singulärwertzerlegung für diverse Anwendungsfälle definiert.
 \begin{definition}\label{df:trunsvd}
-    Sei \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U_r \Sigma_r V^{T}_r = \sum_{i=1}^{r} \sigma_i u_i v^{T}_i\) die reduzierte SVD von \(A\) mit \(U_r \in R^{m \times r},\ \Sigma_r \in \R^{r \times r}\) und \(V_r \in \R^{n \times r}\). \\
+    Seien \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U_r \Sigma_r V^{T}_r = \sum_{i=1}^{r} \sigma_i u_i v^{T}_i\) die reduzierte SVD von \(A\) mit \(U_r \in R^{m \times r},\ \Sigma_r \in \R^{r \times r}\) und \(V_r \in \R^{n \times r}\). \\
     Für \(k \leq r\) sei die \textit{trunkierte SVD} definiert mit:
     \begin{equation*}
         A \approx \sum_{i=1}^{k} \sigma_i u_i v^{T}_i = A_k.
