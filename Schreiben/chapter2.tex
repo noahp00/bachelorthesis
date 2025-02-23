@@ -645,11 +645,11 @@ Da dies an einem einzelnen Vektor schwer visualisiert werden kann, multipliziere
     v \in 
     \left\{
     \begin{bmatrix}
-        \cos(u)\sin(v) \\ \sin(u)\sin(v) \\ \cos(v)
+        \cos(x)\sin(y) \\ \sin(x)\sin(y) \\ \cos(y)
     \end{bmatrix}
     \in \R^{3}
     \mid
-    u \in [0, 2\pi], \, v \in [0, \pi]
+    x \in [0, 2\pi], \, y \in [0, \pi]
     \right\}.
 \end{equation*}
 Das Ergebnis ist in \zcref{fig:sph} dargestellt.  
@@ -657,256 +657,38 @@ Das Ergebnis ist in \zcref{fig:sph} dargestellt.
     \centering
     \begin{subfigure}{0.45\textwidth}
         \centering
-        %\caption{}\label{fig:spha}
-        \begin{tikzpicture}
-            \begin{axis}[%
-                axis equal,
-                width=8.5cm,
-                height=8.5cm,
-                colormap/blackwhite,
-                axis lines = center,
-                xlabel = {$x$},
-                ylabel = {$y$},
-                zlabel = {$z$},
-                ticks=none, 
-                enlargelimits=0.3,
-                view/h=45,
-                scale uniformly strategy=units only,
-            ]
-            \addplot3[%
-                opacity = 0.5,
-                surf,
-                line width=0.2pt,
-                fill=Aquamarine,
-                point meta=100,
-                z buffer = sort,
-                samples = 25,
-                variable = \u,
-                variable y = \v,
-                domain = 0:180,
-                y domain = 0:360,
-            ]
-            ({cos(u)*sin(v)}, {sin(u)*sin(v)}, {cos(v)});
-            \end{axis}
-        \end{tikzpicture}
+        \input{plots/svd_complete_1.tex}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
         \centering
-        %\caption{}\label{fig:sphb}
-        \begin{tikzpicture}
-            \begin{axis}[%
-                axis equal,
-                width=8.5cm,
-                height=8.5cm,
-                colormap/blackwhite,
-                axis lines = center,
-                xlabel = {$x$},
-                ylabel = {$y$},
-                zlabel = {$z$},
-                ticks=none, 
-                enlargelimits=0.3,
-                view/h=45,
-                scale uniformly strategy=units only,
-                zmin=-0.1,
-                zmax=0.1,
-                xmin=-3.5,
-                xmax=3.5,
-                ymin=-3.5,
-                ymax=3.5,
-                zmin=-3.5, 
-                zmax=3.5
-            ]
-            \addplot3[%
-                opacity = 0.5,
-                surf,
-                line width=0.2pt,
-                fill=Aquamarine,
-                point meta=100,
-                z buffer = sort,
-                samples = 25,
-                variable = \u,
-                variable y = \v,
-                domain = 0:180,
-                y domain = 0:360,
-            ]
-            (
-                {4/2*cos(u)*sin(v) + 4/2*cos(v) -cos(u)*sin(v) - sin(u)*sin(v) + cos(v) }, 
-                {4/2*cos(u)*sin(v) + 4/2*cos(v) +cos(u)*sin(v) +sin(u)*sin(v) -cos(v)}, 
-                {0} 
-            );
-            \end{axis}
-        \end{tikzpicture}
+        \input{plots/svd_complete_2.tex}
     \end{subfigure}
     \caption{Wirkung von \(A\) auf die Einheitssphäre}\label{fig:sph}
-  \end{figure}
+\end{figure}
 
-  Um nachzuvollziehen, wie dieses Ergebnis zustande gekommen ist, verwenden wir die Singulärwertzerlegung und veranschaulichen die Zwischenschritte von \(Av = U \Sigma V^{T}v\) anhand von einzelner Plots (siehe \zcref{fig:svdsph}). 
+Um nachzuvollziehen, wie dieses Ergebnis zustande gekommen ist, verwenden wir die Singulärwertzerlegung und veranschaulichen die Zwischenschritte von \(Av = U \Sigma V^{T}v\) anhand von einzelner Plots (siehe \zcref{fig:svdsph}). 
 \begin{figure}[t]
     \centering
     \captionsetup[subfigure]{justification=centering}
     \begin{subfigure}{0.45\textwidth}
         \centering
         \caption{Einheitssphäre}\label{fig:svspha}
-        \begin{tikzpicture}
-            \begin{axis}[%
-                axis equal,
-                width=8.5cm,
-                height=8.5cm,
-                colormap/blackwhite,
-                axis lines = center,
-                xlabel = {$x$},
-                ylabel = {$y$},
-                zlabel = {$z$},
-                ticks=none, 
-                enlargelimits=0.3,
-                view/h=45,
-                scale uniformly strategy=units only,
-            ]
-            \addplot3[%
-                opacity = 0.5,
-                surf,
-                line width=0.2pt,
-                fill=Aquamarine,
-                point meta=100,
-                z buffer = sort,
-                samples = 25,
-                variable = \u,
-                variable y = \v,
-                domain = 0:180,
-                y domain = 0:360,
-            ]
-            ({cos(u)*sin(v)}, {sin(u)*sin(v)}, {cos(v)});
-            \end{axis}
-        \end{tikzpicture}
+        \input{plots/svd_steps_1.tex}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
         \centering
         \caption{Rotation durch \(V^{T}\)}\label{fig:svsphb}
-        \begin{tikzpicture}
-            \begin{axis}[%
-                axis equal,
-                width=8.5cm,
-                colormap/blackwhite,
-                height=8.5cm,
-                axis lines = center,
-                xlabel = {$x$},
-                ylabel = {$y$},
-                zlabel = {$z$},
-                ticks=none,
-                enlargelimits=0.3,
-                view/h=45,
-                scale uniformly strategy=units only,
-            ]
-            \addplot3[%
-                opacity = 0.5,
-                surf,
-                line width=0.2pt,
-                fill=Aquamarine,
-                point meta=100,
-                z buffer = sort,
-                samples = 25,
-                variable = \u,
-                variable y = \v,
-                domain = 0:180,
-                y domain = 0:360,
-            ]
-            (
-                {1/sqrt(2)*cos(u)*sin(v) + 0*sin(u)*sin(v) + 1/sqrt(2)*cos(v)}, % x'
-                {-1/sqrt(3)*cos(u)*sin(v) - 1/sqrt(3)*sin(u)*sin(v) + 1/sqrt(3)*cos(v)}, % y'
-                {-1/sqrt(6)*cos(u)*sin(v) + 2/sqrt(6)*sin(u)*sin(v) + 1/sqrt(6)*cos(v)} % z'
-            );
-            \end{axis}
-        \end{tikzpicture}
+        \input{plots/svd_steps_2.tex}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
         \centering
         \caption{Skalierung durch \(\Sigma\)}\label{fig:svdsphc}
-        \begin{tikzpicture}
-            \begin{axis}[%
-                axis equal,
-                width=8.5cm,
-                colormap/blackwhite,
-                height=8.5cm,
-                axis lines = center,
-                xlabel = {$x$},
-                ylabel = {$y$},
-                zlabel = {$z$},
-                ticks=none,
-                enlargelimits=0.3,
-                view/h=45,
-                scale uniformly strategy=units only,
-                xmin=-3.5,
-                xmax=3.5,
-                ymin=-3.5,
-                ymax=3.5,
-                zmin=-3.5,
-                zmax=3.5
-            ]
-            \addplot3[%
-                opacity = 0.5,
-                surf,
-                line width=0.2pt,
-                fill=Aquamarine,
-                point meta=100,
-                z buffer = sort,
-                samples = 25,
-                variable = \u,
-                variable y = \v,
-                domain = 0:180,
-                y domain = 0:360,
-            ]
-            (
-                {4/sqrt(2)*cos(u)*sin(v) + 0*sin(u)*sin(v) + 4/sqrt(2)*cos(v)}, 
-                {-sqrt(2)*cos(u)*sin(v) - sqrt(2)*sin(u)*sin(v) + sqrt(2)*cos(v)}, 
-                {0} 
-            );
-            \end{axis}
-            \end{tikzpicture}
+        \input{plots/svd_steps_3.tex}
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
         \centering
         \caption{Rotation durch \(U\)}\label{fig:svdsphd}
-        \begin{tikzpicture}
-            \begin{axis}[%
-                axis equal,
-                width=8.5cm,
-                height=8.5cm,
-                colormap/blackwhite,
-                axis lines = center,
-                xlabel = {$x$},
-                ylabel = {$y$},
-                zlabel = {$z$},
-                ticks=none, 
-                enlargelimits=0.3,
-                view/h=45,
-                scale uniformly strategy=units only,
-                xmin=-3.5,
-                xmax=3.5,
-                ymin=-3.5,
-                ymax=3.5,
-                zmin=-3.5, 
-                zmax=3.5
-            ]
-            \addplot3[%
-                opacity = 0.5,
-                surf,
-                line width=0.2pt,
-                fill=Aquamarine,
-                point meta=100,
-                z buffer = sort,
-                samples = 25,
-                variable = \u,
-                variable y = \v,
-                domain = 0:180,
-                y domain = 0:360,
-            ]
-            (
-                {4/2*cos(u)*sin(v) + 4/2*cos(v) -cos(u)*sin(v) - sin(u)*sin(v) + cos(v) }, 
-                {4/2*cos(u)*sin(v) + 4/2*cos(v) +cos(u)*sin(v) +sin(u)*sin(v) -cos(v)}, 
-                {0} 
-            );
-            \end{axis}
-        \end{tikzpicture}
+        \input{plots/svd_steps_4.tex}
     \end{subfigure}
     \caption{Visualisierung der Singulärwertzerlegung}\label{fig:svdsph}
 \end{figure}
@@ -990,13 +772,13 @@ Bevor zur nächsten Variation übergegangen werden kann, betrachten wir eine wei
 Nun wird die womöglich interessanteste Art der Singulärwertzerlegung für diverse Anwendungsfälle definiert.
 \begin{definition}\label{df:trunsvd}
     Seien \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U_r \Sigma_r V^{T}_r = \sum_{i=1}^{r} \sigma_i u_i v^{T}_i\) die reduzierte SVD von \(A\) mit \(U_r \in R^{m \times r},\ \Sigma_r \in \R^{r \times r}\) und \(V_r \in \R^{n \times r}\). \\
-    Für \(k \leq r\) sei die \textit{trunkierte SVD} definiert mit:
+    Für \(k < r\) sei die \textit{trunkierte SVD} definiert mit:
     \begin{equation*}
         A \approx \sum_{i=1}^{k} \sigma_i u_i v^{T}_i = A_k.
     \end{equation*}
 \end{definition}
 Zur \zcref{df:trunsvd} sei angemerkt, dass sich \(A_k\) für größere Werte von \(k\) zunehmend \(A\) annähert, aber da komponentenweise \(\sigma_1 u_1 v^{T}_1 \geq \cdots \geq \sigma_r u_r v^{T}_r\) gilt (siehe \zcref{rem:onesvd}), kann bereits mit \(k \ll r\) eine gute Approximation erzielt werden. 
-Außerdem sollte betont werden, dass \(\text{rg}(A_k)=k\) ist, aufgrund dessen spricht man auch von einer \textit{Niedrigrang-Approximation}.
+Außerdem sollte betont werden, dass \(\text{rg}(A_k)=k < r\) ist, aufgrund dessen spricht man auch von einer \textit{Niedrigrang-Approximation}.
 
 Mit den beiden, in diesem Abschnitt eingeführten, Variationen der Singulärwertzerlegung sind alle wesentlichen Grundlagen für die Vertiefung verschiedener Anwendungsmöglichkeiten der SVD gelegt.
 Damit wird der theoretische Teil dieser Arbeit beendet und zum Anwendungsteil übergegangen.

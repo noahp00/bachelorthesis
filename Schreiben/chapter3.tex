@@ -10,6 +10,7 @@ Genauer: Es handelt sich um eine Methode, um komplexe Daten auf ihr Wesentliches
 
 In diesem Unterkapitel wird zunächst die Intuition hinter der PCA erläutert, bevor der mathematische Hintergrund und insbesondere die Verbindung zur Singulärwertzerlegung beschrieben wird.
 Abschließend betrachten wir ein konkretes Anwendungsbeispiel und berechnen dies mithilfe von \texttt{Python}.
+Die Intuition und Mathematik orientiert sich dabei zum Großteil an~\cite{ngMachineLearningCS2292023}.
 
 \subsection{Intuition der PCA}
 Angenommen, es sei eine Datenmatrix
@@ -22,58 +23,89 @@ Angenommen, es sei eine Datenmatrix
 \end{equation*}
 gegeben, wobei die Spaltenvektoren \(x_i \in \R^{m}\) für \(i \in \{1,\ldots,n\}\) die Ausprägung von \(n\) Merkmalen über \(m\) Objekte hinweg repräsentieren.
 In \zcref{fig:pcadim}, zu finden in \zcref{appen}, wird dies für verschiedene Werte von \(n\) veranschaulicht.
-Soll die Ähnlichkeit der Objekte hinsichtlich der unterschiedlichen Merkmale betrachtet werden, kann dies im zwei- und dreidimensionalen Raum durch die grafischen Darstellungen erfolgen, indem die Entfernung der verschiedenen Punkte analysiert wird.
+Sollen die Objekte auf Ähnlichkeit bezüglich der verschiedenen Merkmale untersucht werden, kann dies im zwei- und dreidimensionalen Raum durch die grafischen Darstellungen erfolgen, indem betrachtet wird, wie sich die Punkte im Raum gruppieren.
 In höheren Dimensionen ist diese visuelle Interpretation jedoch nicht mehr möglich, es besteht also die Notwendigkeit, die Anzahl der Merkmale zu verringern.
 
 Die Hauptkomponentenanalyse bietet dafür die Möglichkeit, indem neue, unkorrelierte Komponenten konstruiert werden, die sich als Linearkombination aus den bestehenden Merkmalen zusammensetzen.
 Das Ziel der Analyse ist, die Daten auf eine niedrigere Dimension zu projizieren und gleichzeitig ein Minimum an Informationen zu verlieren, also eine maximale Streuung oder auch Varianz der Daten zu erhalten.
-Um dieses Konzept näher zu verdeutlichen, betrachte Abbildung.
-\begin{figure}[hbt]
-    \centering
-    \begin{tikzpicture}[baseline]
-        \begin{axis}[
-            xlabel={\(x\)},
-            ylabel={\(y\)},
-            axis y line=center,
-            axis x line=middle,
-            axis equal,
-        ]
-        \addplot[only marks,mark options={fill=blue, color=blue},domain=-2:2] coordinates {
-            (1.4167,-1.2667)
-            (-1.4833,1.2333)
-            (1.3167,-0.1667)
-            (-1.9833,-0.2667)
-            (0.9167,-0.2667)
-            (-0.1833,0.7333)                
-        };
-        \addplot[red, thick, domain=-2.5:2.5] {-0.4337*x};
 
-        \addplot[only marks, mark options={fill=red, color=red}] coordinates {
-            ( 1.65481157, -0.71762599)
-            (-1.69867778,  0.73664903)
-            ( 1.16912424, -0.50700271)
-            (-1.57200891,  0.68171777)
-            ( 0.86894276, -0.37682593)
-            (-0.42195053,  0.18298317)
-        };
-        \addplot[dashed, gray] coordinates {
-            (1.4167, -1.2667) ( 1.65481157, -0.71762599)
-        };
-        \addplot[dashed, gray] coordinates {
-            (-1.4833, 1.2333) (-1.69867778,  0.73664903)
-        };
-        \addplot[dashed, gray] coordinates {
-            (1.3167, -0.1667) ( 1.16912424, -0.50700271)
-        };
-        \addplot[dashed, gray] coordinates {
-            (-1.9833, -0.2667) (-1.57200891,  0.68171777)
-        };
-        \addplot[dashed, gray] coordinates {
-            (0.9167, -0.2667) (0.86894276, -0.37682593)
-        };
-        \addplot[dashed, gray] coordinates {
-            (-0.1833, 0.7333) (-0.42195053,  0.18298317)  
-        };
-        \end{axis}
-    \end{tikzpicture}
+Um dieses Konzept näher zu verdeutlichen, betrachte \zcref{fig:pca2d}.
+\begin{figure}[bt]
+    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{}\label{fig:pca2d1}
+        \input{plots/pca_projection_1.tex}
+        \hspace{20pt}
+        \input{plots/pca_projection_2.tex}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \caption{}\label{fig:pca2d2}
+        \input{plots/pca_projection_3.tex}
+        \hspace{20pt}
+        \input{plots/pca_projection_4.tex}
+    \end{subfigure}
+    \caption{Projektionen im zweidimensionalen Raum}\label{fig:pca2d}
 \end{figure}
+Bei der Frage, ob durch die Projektion in \zcref{fig:pca2d1} oder durch die in \zcref{fig:pca2d2} mehr Informationen bezüglich der Ähnlichkeit der verschiedenen Punkte bewahrt werden, ergibt sich die intuitive Antwort, dass \zcref{fig:pca2d1} vorzuziehen ist.
+Trotz der Reduktion der Dimensionen von zwei auf eine, bleibt die räumliche Verteilung im Wesentlichen erhalten.
+
+Der Grund dafür ist, dass in \zcref{fig:pca2d1} eine Richtung gewählt wurde, die den durchschnittlichen Abstand der ursprünglichen Punkte zu den projizierten Punkten auf der durch die Richtung definierten Gerade minimiert.
+Es wird also versucht, den Fehler (Informationsverlust) durch die Projektion so gering wie möglich zu halten.
+Dies ist äquivalent dazu, den durchschnittlichen Abstand der projizierten Punkte zum Ursprung zu maximieren (dies lässt sich durch den Satz des Pythagoras herleiten), folglich bleibt die maximal mögliche Varianz der Daten erhalten.
+Es sei darauf hingewiesen, dass hier davon ausgegangen wird, dass die Daten zentriert sind, der Mittelwert also null beträgt.
+
+Die erste Hauptkomponente (PC1) stellt dann die gewählte Richtung mit maximaler Varianz dar.
+In höheren Dimensionen wird die zweite Hauptkomponente orthogonal zur ersten gewählt, damit die verbleibende Varianz, die durch den Fehler in der PC1 nicht erklärt wird, erneut zu maximieren.
+Dies kann beliebig fortgesetzt werden, die PCA besitzt allerdings eine nützliche Eigenschaft, die dies meist nicht erforderlich macht und auf die in der mathematischen Herleitung ausführlicher eingegangen wird.
+
+\subsection{Mathematische Herleitung}
+
+Um die vorangegangenen Überlegungen zu formalisieren, wird zunächst die Datenmatrix
+\begin{equation*}
+    X = 
+    \big[
+        \begin{matrix}
+            x_1 \dots x_d
+        \end{matrix}    
+    \big] \in \R^{n \times d}
+\end{equation*} 
+standardisiert, indem wir eine neue Matrix 
+\begin{equation*}
+    \overline{X} = 
+        \begin{bmatrix}
+            \overline{x}_1 \dots \overline{x}_d
+        \end{bmatrix} \in \R^{n \times d}
+\end{equation*} 
+definieren mit 
+\begin{equation*}
+    \overline{x}_{i,j} = \frac{x_{i,j}-\mu_i}{\sigma_i} \quad \text{für } i \in \{1,\ldots,d\} \text{ und } j \in \{1,\ldots,n\},
+\end{equation*}  
+wobei 
+\begin{equation*}
+    \mu_i = \frac{1}{n}\sum_{j=1}^{n}x_{i,j}, \quad \sigma_{i}^{2} = \frac{1}{n}\sum_{j=1}^{n}{(x_{i,j} - \mu_{i})}^{2}
+\end{equation*}
+jeweils die Mittelwerte, bzw.\ die Varianzen der einzelnen Merkmale, also der Spalten sind.
+Die Subtraktion des Mittelwerts vereinfacht dabei spätere Rechnungen erheblich.
+Durch die Division der Standardabweichung wird Ungenauigkeiten aufgrund verschiedener Skalen der Merkmale vorgebeugt.
+Falls Merkmal A beispielsweise das Bruttoinlandsprodukt und Merkmal B die Geburtenrate verschiedener Länder darstellt, wird dadurch eine Vergleichbarkeit gewährleistet.
+In den folgenden Berechnungen wird eine Standardisierung angenommen und weiterhin mit \(X\) gearbeitet.
+
+Bevor die Herleitung fortgesetzt werden kann, wird \zcref{rep:proj} benötigt.
+\begin{repitition}\label{rep:proj}
+    Sei \(n \in \N\) und \(u,x \in \R^{n}\) mit \(\norm{u} = 1\).  \\
+    Dann ist der projizierte Vektor \(\operatorname{proj}_{u}(x)\) von \(x\) auf \(u\) gegeben durch
+    \begin{equation*}
+        \operatorname{proj}_{u}(x) = \langle x,u \rangle u = (x^{T}u)u.
+    \end{equation*}     
+\end{repitition}
+Damit ist 
+\begin{equation*}
+    \norm{\operatorname{proj}_{u}(x)} = \norm{(x^{T}u)u} =  \abs{(x^{T}u)}\norm{u} = \abs{x^{T}u}.
+\end{equation*}
+Unser Ziel ist es, die Varianz der Projektionen zu maximieren.
+Da wir wissen, dass 
+\begin{alignat*}{2}
+    &\max \quad &&
+\end{alignat*}

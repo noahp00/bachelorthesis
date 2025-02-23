@@ -36,7 +36,7 @@
 % Lists
 \usepackage{enumitem}
 % Bibliography
-\usepackage[backend=biber,style=alphabetic,sorting=none,doi=false,isbn=false,url=false,giveninits=true, block=ragged]{biblatex}
+\usepackage[backend=biber,style=alphabetic,sorting=none,doi=false,isbn=false,giveninits=true, block=ragged]{biblatex}
 \addbibresource{literature.bib}
 \DeclareFieldFormat{urldate}{(Stand: #1)}
 % Quotes
@@ -363,6 +363,18 @@ headformat=\NAME~\NUMBER\NOTE,
 
 % Increase space between literature in bib
 \setlength{\bibitemsep}{1.3ex}
+
+% Url only for documents and websites
+\AtEveryBibitem{%
+  \ifentrytype{online}{%
+  }{%
+    \ifentrytype{misc}{%
+    }{%
+      \clearfield{url}%
+      \clearfield{urlyear}%
+    }% 
+  }%    
+}
 
 % Caption no colon
 \renewcommand*{\captionformat}{\ }
