@@ -1,7 +1,7 @@
 % !! USE LuaLaTeX FOR COMPILING WITH CURRENT PREAMBLE !!
 
 % LTeX: enabled=false
-\documentclass[BCOR=10mm,DIV=calc,twoside,open=right,paper=17cm:24cm,bibliography=totoc,listof=entryprefix, pagesize=auto]{scrreprt}
+\documentclass[BCOR=10mm,DIV=calc,twoside,open=right,paper=17cm:24cm,bibliography=totoc,listof=entryprefix, pagesize=auto, chapteratlists=0pt]{scrreprt}
 
 \input{preamble.tex}
 %\usepackage{showframe}
@@ -20,7 +20,12 @@
   \listoftables
 \endgroup
 \end{spacing}
-\include{notation}
+\cleardoubleoddpage
+\begingroup
+  \renewcommand\clearpage{\relax}
+  \include{notation}
+  \include{abbreviation}
+\endgroup
 \cleardoubleoddpage
 \pagenumbering{arabic}
 \include{chapter1}

@@ -17,12 +17,12 @@ Angenommen, es sei eine Datenmatrix
 \begin{equation*}
     \big[
         \begin{matrix}
-            x_1 \dots x_n
+            x_1 \dots x_d
         \end{matrix}    
-    \big] \in \R^{m \times n},
+    \big] \in \R^{n \times d},
 \end{equation*}
-gegeben, wobei die Spaltenvektoren \(x_i \in \R^{m}\) für \(i \in \{1,\ldots,n\}\) die Ausprägung von \(n\) Merkmalen über \(m\) Objekte hinweg repräsentieren.
-In \zcref{fig:pcadim}, zu finden in \zcref{appen}, wird dies für verschiedene Werte von \(n\) veranschaulicht.
+gegeben, wobei die Spaltenvektoren \(x_i \in \R^{n}\) für \(i \in \{1,\ldots,d\}\) die Ausprägung von \(d\) Merkmalen über \(n\) Objekte hinweg repräsentieren.
+In \zcref{fig:pcadim}, zu finden in \zcref{appen}, wird dies für verschiedene Werte von \(d\) veranschaulicht.
 Sollen die Objekte auf Ähnlichkeit bezüglich der verschiedenen Merkmale untersucht werden, kann dies im zwei- und dreidimensionalen Raum durch die grafischen Darstellungen erfolgen, indem betrachtet wird, wie sich die Punkte im Raum gruppieren.
 In höheren Dimensionen ist diese visuelle Interpretation jedoch nicht mehr möglich, es besteht also die Notwendigkeit, die Anzahl der Merkmale zu verringern.
 
@@ -57,7 +57,7 @@ Dies ist äquivalent dazu, den durchschnittlichen Abstand der projizierten Punkt
 Es sei darauf hingewiesen, dass hier davon ausgegangen wird, dass die Daten zentriert sind, der Mittelwert also null beträgt.
 
 Die erste Hauptkomponente (PC1) stellt dann die gewählte Richtung mit maximaler Varianz dar.
-In höheren Dimensionen wird die zweite Hauptkomponente orthogonal zur ersten gewählt, damit die verbleibende Varianz, die durch den Fehler in der PC1 nicht erklärt wird, erneut zu maximieren.
+In höheren Dimensionen wird die zweite Hauptkomponente orthogonal zur ersten gewählt, um die verbleibende Varianz, die durch den Fehler in der PC1 nicht erklärt wird, erneut zu maximieren.
 Dies kann beliebig fortgesetzt werden, die PCA besitzt allerdings eine nützliche Eigenschaft, die dies meist nicht erforderlich macht und auf die in der mathematischen Herleitung ausführlicher eingegangen wird.
 
 \subsection{Mathematische Herleitung}
@@ -87,25 +87,54 @@ wobei
     \mu_i = \frac{1}{n}\sum_{j=1}^{n}x_{i,j}, \quad \sigma_{i}^{2} = \frac{1}{n}\sum_{j=1}^{n}{(x_{i,j} - \mu_{i})}^{2}
 \end{equation*}
 jeweils die Mittelwerte, bzw.\ die Varianzen der einzelnen Merkmale, also der Spalten sind.
-Die Subtraktion des Mittelwerts vereinfacht dabei spätere Rechnungen erheblich.
+Die Zentrierung um den Ursprung durch die Subtraktion des Mittelwerts vereinfacht dabei spätere Rechnungen erheblich, ist rein formal allerdings nicht zwingend erforderlich.
 Durch die Division der Standardabweichung wird Ungenauigkeiten aufgrund verschiedener Skalen der Merkmale vorgebeugt.
 Falls Merkmal A beispielsweise das Bruttoinlandsprodukt und Merkmal B die Geburtenrate verschiedener Länder darstellt, wird dadurch eine Vergleichbarkeit gewährleistet.
 In den folgenden Berechnungen wird eine Standardisierung angenommen und weiterhin mit \(X\) gearbeitet.
+Wir definieren 
+\begin{equation*}
+    \R^{d} \ni x^{(i)} \coloneqq X_{i,:} \quad \text{für } i \in \{1,\ldots,n\},
+\end{equation*}
+also die \(i\)-te (transponierte) Zeile von \(X\), wobei jede Zeile je einen Punkt im Raum darstellt.
 
-Bevor die Herleitung fortgesetzt werden kann, wird \zcref{rep:proj} benötigt.
+Das Ziel ist, einen Einheitsvektor \(u\) zu finden, sodass nach Projektion der \(x^{(i)}\) auf \(u\) eine maximale Varianz, also eine maximale quadratische Abweichung vom Mittelwert, erhalten bleibt.
+Die Projektion eines Vektors ist gegeben durch \zcref{rep:proj}.
 \begin{repitition}\label{rep:proj}
     Sei \(n \in \N\) und \(u,x \in \R^{n}\) mit \(\norm{u} = 1\).  \\
-    Dann ist der projizierte Vektor \(\operatorname{proj}_{u}(x)\) von \(x\) auf \(u\) gegeben durch
+    Dann ist der orthogonal projizierte Vektor \(\operatorname{proj}_{u}(x)\) von \(x\) auf \(u\) gegeben durch
     \begin{equation*}
         \operatorname{proj}_{u}(x) = \langle x,u \rangle u = (x^{T}u)u.
     \end{equation*}     
 \end{repitition}
-Damit ist 
+Um die Varianz zu ermitteln wird zunächst der Mittelwert \(\mu_{\operatorname{proj}}\) der projizierten Vektoren berechnet:
 \begin{equation*}
-    \norm{\operatorname{proj}_{u}(x)} = \norm{(x^{T}u)u} =  \abs{(x^{T}u)}\norm{u} = \abs{x^{T}u}.
+    \mu_{\operatorname{proj}} = \frac{1}{n}\sum_{i=1}^{n}\big(x^{{(i)}^{T}}u\big)u = \left({\left(\frac{1}{n}\sum_{i=1}^{n}x^{(i)}\right)}^{T}u\right)u = \symbf{0},
 \end{equation*}
-Unser Ziel ist es, die Varianz der Projektionen zu maximieren.
-Da wir wissen, dass 
+da durch die Standardisierung der Spaltenmittelwert für jede Spalte von \(X\) null beträgt, wodurch
+\begin{equation*}
+    \sum_{i=1}^{n}x^{(i)} = \symbf{0}.
+\end{equation*}
+Die Entfernung (Abweichung) vom Ursprung für einen beliebigen Vektor \(x^{(i)}\) beträgt
+\begin{equation*}
+    \norm{\operatorname{proj}_{u}\big(x^{(i)}\big)} = \norm{\big(x^{{(i)}^{T}}u\big)u} =  \abs{\big(x^{{(i)}^{T}}u\big)}\norm{u} = \abs{x^{{(i)}^{T}}u}.
+\end{equation*}
+Damit ist die Varianz der projizierten Punkte gegeben durch 
+\begin{align*}
+    \frac{1}{n}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u)}^{2} &= \frac{1}{n}\sum_{i=1}^{n}x^{{(i)}^{T}}ux^{{(i)}^{T}}u \\
+    &= \frac{1}{n}\sum_{i=1}^{n}u^{T}x^{(i)}x^{{(i)}^{T}}u \qquad (\text{Skalarprodukt kommutativ})\\
+    &= u^{T}\left(\frac{1}{n}\sum_{i=1}^{n}x^{(i)}x^{{(i)}^{T}}\right)u
+\end{align*}
+Definiere 
+\begin{equation*}
+    \Sigma \coloneqq \frac{1}{n}\sum_{i=1}^{n}x^{(i)}x^{{(i)}^{T}} \in \R^{d \times d}.
+\end{equation*}
+Diese Matrix ist als \emph{Kovarianzmatrix} bekannt, in unserem Fall ist sie die Kovarianzmatrix der verschiedenen Merkmale.
+Es sei angemerkt, dass \(\Sigma\) symmetrisch ist, beachte dafür:
+\begin{equation*}
+    \Sigma^{T} = {\left(\frac{1}{n}\sum_{i=1}^{n}x^{(i)}x^{{(i)}^{T}}\right)}^{T} = \frac{1}{n}\sum_{i=1}^{n}{\left(x^{(i)}x^{{(i)}^{T}}\right)}^{T} = \Sigma.
+\end{equation*}
+Damit haben wir unser Ziel auf folgendes Optimierungsproblem reduziert:
 \begin{alignat*}{2}
-    &\max \quad &&
+    &\!\max \qquad &&u^{T} \Sigma u, \\
+    &\text{u.d.B.}  &&\norm{u}=1.
 \end{alignat*}

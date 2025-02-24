@@ -388,18 +388,16 @@ headformat=\NAME~\NUMBER\NOTE,
 \renewcommand*{\tableformat}{\bfseries\tablename~\thetable\autodot}
 
 % Layout ToC
-\RedeclareSectionCommands[%
-  toclinefill=\hspace{14pt},%
-  tocraggedpagenumber,%
+\RedeclareSectionCommands[
+  toclinefill=\hspace{14pt},
+  tocraggedpagenumber,
   tocpagenumberbox=\mbox
 ]{part,chapter,section,subsection,subsubsection,paragraph,subparagraph}
 
 % Layout ToT, ToF
 \DeclareTOCStyleEntries[
   linefill=\hspace{14pt}, 
-  dynnumwidth,
-  numsep=5em,
-  raggedentrytext=true,
+  raggedentrytext=true
 ]{default}{figure,table}
 
 % Chapter Numbers
