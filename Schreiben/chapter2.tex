@@ -232,14 +232,14 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     R=
     \big[
     \begin{matrix}
-        v_1 \dots v_n
+        r_1 \dots r_n
     \end{matrix}
     \big]
     \)
     mit
-    \(v_1,\ldots,v_n \in \R^{n}\) 
+    \(r_1,\ldots,r_n \in \R^{n}\) 
     und 
-    \(\Lambda = \text{diag}(\lambda_1,\ldots,\lambda_n)\), sodass
+    \(\Lambda = \operatorname{diag}(\lambda_1,\ldots,\lambda_n)\), sodass
     \begin{equation*}
         R^{-1}AR = \Lambda.
     \end{equation*}
@@ -249,14 +249,14 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     \end{equation*} 
     oder spaltenweise
     \begin{equation*}
-        Av_i = {\lambda}_i v_i, \quad \text{für } i = 1,\ldots,n.
+        Ar_i = {\lambda}_i r_i, \quad \text{für } i = 1,\ldots,n.
     \end{equation*}
-    Da \(R\) orthogonal ist, sind nach Definition die Spaltenvektoren von \(R\), also \(v_1,\ldots,v_n\), orthonormal.
-    Für beliebiges \(v_i\) gilt somit \(\norm{v_i} = 1\), wodurch \(v_i \neq 0\) sein muss.
-    Mit \zcref{eigvec} sind also \(v_1,\ldots,v_n\) die (normierten) Eigenvektoren von \(A\) mit zugehörigen Eigenwerten \(\lambda_1,\ldots,\lambda_n\).
+    Da \(R\) orthogonal ist, sind nach Definition die Spaltenvektoren von \(R\), also \(r_1,\ldots,r_n\), orthonormal.
+    Für beliebiges \(r_i\) gilt somit \(\norm{r_i} = 1\), wodurch \(r_i \neq \symbf{0}\) sein muss.
+    Mit \zcref{eigvec} sind also \(r_1,\ldots,r_n\) die (normierten) Eigenvektoren von \(A\) mit zugehörigen Eigenwerten \(\lambda_1,\ldots,\lambda_n\).
     
-    \textit{Hinweis}. Mithilfe von Zeilen- und Spaltenvertauschungen innerhalb von \(R\) und \(\Lambda\) kann \(\Lambda\) so geordnet werden, dass \(\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n\).
-Diese Sortierung wird für den Rest des Kapitels angenommen.
+    \underline{\emph{Hinweis}}. Mithilfe von Zeilen- und Spaltenvertauschungen innerhalb von \(R\) und \(\Lambda\) kann \(\Lambda\) so geordnet werden, dass \(\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n\).
+Diese Sortierung wird für den Rest der Arbeit angenommen.
 \end{proof}
 \begin{remark}
     Durch \zcref{cor:spec} lässt sich direkt die nützliche Aussage treffen, dass bei einer symmetrischen Matrix Eigenvektoren zu verschiedenen Eigenwerten orthogonal zueinander sind. 
@@ -273,8 +273,16 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
 \end{theorem}
 \begin{proof}
     Sei \(C = X^{T}X \in \R^{n \times n}\) und \(r = \text{rg}(X) \leq \text{min}(m,n)\).
-    Dann ist \(C\) symmetrisch und positiv semidefinit (alle Eigenwerte sind positiv oder gleich \num{0} bei symmetrischen Matrizen). 
-    Nach \zcref{cor:spec} gibt es ein orthogonales 
+    Dann ist \(C\) symmetrisch und positiv semidefinit, da zum einen 
+    \begin{equation*}
+        C^{T} = {\big(X^{T}X\big)}^{T} = X^{T}X = C
+    \end{equation*}  
+    und zum anderen für beliebiges \(\R^{n} \ni w \neq 0\) gilt:
+    \begin{equation*}
+        w^{T}Cw = w^{T}(X^{T}X)w = {\big(Xw\big)}^{T}\big(Xw\big) = \langle Xw,Xw \rangle = \norm{Xw} \geq 0.
+    \end{equation*}
+    Damit sind alle Eigenwerte von \(C\) positiv oder gleich null. 
+    Nach \zcref{cor:spec} gibt es dann ein orthogonales 
     \begin{equation*}
         \symbf{V} =
         \big[
@@ -284,7 +292,7 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
         \big]
         \in \R^{n \times n}
     \end{equation*}
-    und diagonales \(\R^{n \times n} \ni \Lambda = \text{diag}(\lambda_1,\ldots,\lambda_n)\) mit \(\lambda_1 \geq \cdots \geq \lambda_r > 0 = \lambda_{r+1} = \cdots = \lambda_n\), sodass \(C = V \Lambda V^{T}\).    
+    und diagonales \(\R^{n \times n} \ni \Lambda = \operatorname{diag}(\lambda_1,\ldots,\lambda_n)\) mit \(\lambda_1 \geq \cdots \geq \lambda_r > 0 = \lambda_{r+1} = \cdots = \lambda_n\), sodass \(C = V \Lambda V^{T}\).    
 
     \noindent Definiere \(\sigma_i \coloneq \sqrt{\lambda_i}\) für \(i = 1,\ldots,r\) und
     \begin{alignat*}{2}
@@ -346,9 +354,9 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
         \begin{bmatrix}
             \begin{matrix}
                 \sigma_1 &  &  &  \\
-                 & \sigma_2 &  & \\
-                 &  &  \raisebox{-0.9ex}{\rotatebox{13}{\(\ddots\)}} &  \\
-                 &  &  & \sigma_r
+                & \sigma_2 &  & \\
+                &  &  \raisebox{-0.9ex}{\rotatebox{13}{\(\ddots\)}} &  \\
+                &  &  & \sigma_r
             \end{matrix} & \symbf{0} \\
             \symbf{0} & \symbf{0}
         \end{bmatrix}.

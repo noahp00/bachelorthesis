@@ -10,7 +10,7 @@ Genauer: Es handelt sich um eine Methode, um komplexe Daten auf ihr Wesentliches
 
 In diesem Unterkapitel wird zunächst die Intuition hinter der PCA erläutert, bevor der mathematische Hintergrund und insbesondere die Verbindung zur Singulärwertzerlegung beschrieben wird.
 Abschließend betrachten wir ein konkretes Anwendungsbeispiel und berechnen dies mithilfe von \texttt{Python}.
-Die Intuition und Mathematik orientiert sich dabei zum Großteil an~\cite{ngMachineLearningCS2292023}.
+Die Intuition und Mathematik orientiert sich dabei zum Großteil an~\cite[S.~165-169]{ngMachineLearningCS2292023}.
 
 \subsection{Intuition der PCA}
 Angenommen, es sei eine Datenmatrix
@@ -97,7 +97,7 @@ Wir definieren
 \end{equation*}
 also die \(i\)-te (transponierte) Zeile von \(X\), wobei jede Zeile je einen Punkt im Raum darstellt.
 
-Das Ziel ist, einen Einheitsvektor \(u\) zu finden, sodass nach Projektion der \(x^{(i)}\) auf \(u\) eine maximale Varianz, also eine maximale quadratische Abweichung vom Mittelwert, erhalten bleibt.
+Das Ziel ist, einen Einheitsvektor \(u \in \R^{d}\) zu finden, sodass nach Projektion der Vektoren \(x^{(i)}\) auf \(u\) eine maximale Varianz, also eine maximale quadratische Abweichung vom Mittelwert, erhalten bleibt.
 Die Projektion eines Vektors ist gegeben durch \zcref{rep:proj}.
 \begin{repitition}\label{rep:proj}
     Sei \(n \in \N\) und \(u,x \in \R^{n}\) mit \(\norm{u} = 1\).  \\
@@ -120,7 +120,7 @@ Die Entfernung (Abweichung) vom Ursprung für einen beliebigen Vektor \(x^{(i)}\
 \end{equation*}
 Damit ist die Varianz der projizierten Punkte gegeben durch 
 \begin{align*}
-    \frac{1}{n}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u)}^{2} &= \frac{1}{n}\sum_{i=1}^{n}x^{{(i)}^{T}}ux^{{(i)}^{T}}u \\
+    \frac{1}{n}\sum_{i=1}^{n}{\big(x^{{(i)}^{T}}u\big)}^{2} &= \frac{1}{n}\sum_{i=1}^{n}x^{{(i)}^{T}}ux^{{(i)}^{T}}u \\
     &= \frac{1}{n}\sum_{i=1}^{n}u^{T}x^{(i)}x^{{(i)}^{T}}u \qquad (\text{Skalarprodukt kommutativ})\\
     &= u^{T}\left(\frac{1}{n}\sum_{i=1}^{n}x^{(i)}x^{{(i)}^{T}}\right)u
 \end{align*}
@@ -138,3 +138,40 @@ Damit haben wir unser Ziel auf folgendes Optimierungsproblem reduziert:
     &\!\max \qquad &&u^{T} \Sigma u, \\
     &\text{u.d.B.}  &&\norm{u}=1.
 \end{alignat*}
+Dieses Optimierungsproblem wird in der Literatur meist mithilfe von Lagrange-Multiplikatoren gelöst.
+In dieser Arbeit werden wir einen anderen Ansatz verfolgen und mit dem, im vorherigen Kapitel bewiesenen, Spektralsatz (\zcref{spec}) vorgehen, wobei sich an~\cite{hsuMachineLearningTheory2016} orientiert wird.
+
+Da \(\Sigma\) symmetrisch ist, kann der Spektralsatz angewendet werden, womit 
+\begin{equation*}
+    \Sigma = R \Lambda R^{T}
+\end{equation*}
+für orthogonales \(R =
+\big[
+    \begin{matrix}
+        r_{1}\ldots r_{d}
+    \end{matrix}
+\big] \in \R^{d \times d}\) und diagonales \(\Lambda = \operatorname{diag}(\lambda_1,\ldots,\lambda_d)\) mit \(\lambda_1 \geq \cdots \geq \lambda_d\).
+Für \(w \coloneqq R^{T}u\) gilt dann
+\begin{equation*}
+    u^{T}\Sigma u = u^{T}R \Lambda R^{T} u = w^{T}\Lambda w = w^{T}
+    \begin{bmatrix}
+        \lambda_1 w_{1} \\
+        \vdots \\
+        \lambda_d w_{d}
+    \end{bmatrix}
+    =\sum_{i=1}^{d}\lambda_{i}w_{i}^{2}.
+\end{equation*}
+Nach Bedingung gilt \(\norm{u}=1\), womit:
+\begin{equation*}
+    \norm{w} = \norm{R^{T}u} = \sqrt{\langle R^{T}u,R^{T}u \rangle} = \sqrt{u^{T}RR^{T}u} = \norm{u} = 1.
+\end{equation*} 
+Da 
+\begin{equation*}
+    \sum_{i=1}^{d}\lambda_{i}w_{i}^{2} = \lambda_{1}w_{1} + \lambda_{2}w_{2} + \cdots + \lambda_{d}w_{d}
+\end{equation*}
+und \(\lambda_1 \geq \cdots \geq \lambda_d\) wird der Ausdruck maximiert für \(w = \symbf{e}_{1}\).
+Es folgt
+\begin{equation*}
+    u = Rw = R\symbf{e}_{1} = r_{1},
+\end{equation*}
+womit \(u\) nach \zcref{cor:spec} gleich dem zugehörigen Eigenvektor zum größten Eigenwert von \(\Sigma\) ist.  
