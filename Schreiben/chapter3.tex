@@ -1,35 +1,26 @@
-\chapter{Anwendungsbeispiele}   
-Dieses Kapitel gliedert sich in verschiedene Unterkapitel, in denen jeweils einzelne Anwendungsbeispiele der Singulärwertzerlegung näher beschrieben werden.
-In ausgewählten Beispielen wird zusätzlich mithilfe der Programmiersprache \texttt{Python} eine eigene, simplifizierte Art der Anwendung konstruiert.
-Grundkenntnisse in \texttt{Python} werden bei den Erklärungen des Programmcodes vorausgesetzt, es wird folglich nicht auf jede Zeile im Code genau eingegangen.
+\chapter{Hauptkomponentenanalyse}   
 
-\section{Hauptkomponentenanalyse}
-
-Die Hauptkomponentenanalyse (engl.\ \textit{Principal Component Analysis}, PCA) ist ein Verfahren zur Dimensionsreduktion von Daten.
+Die Hauptkomponentenanalyse (engl.\ \emph{Principal Component Analysis}, PCA) ist ein Verfahren zur Dimensionsreduktion von Daten.
 Genauer: Es handelt sich um eine Methode, um komplexe Daten auf ihr Wesentliches zu reduzieren, was eine Weiterverarbeitung und Visualisierung erleichtert.
 
-In diesem Unterkapitel wird zunächst die Intuition hinter der PCA erläutert, bevor der mathematische Hintergrund und insbesondere die Verbindung zur Singulärwertzerlegung beschrieben wird.
-Abschließend betrachten wir ein konkretes Anwendungsbeispiel und berechnen dies mithilfe von \texttt{Python}.
+In diesem Kapitel wird zunächst die Intuition hinter der PCA erläutert, bevor der mathematische Hintergrund und insbesondere die Verbindung zur Singulärwertzerlegung beschrieben wird.
+Abschließend betrachten wir ein konkretes Anwendungsbeispiel und veranschaulichen dieses mithilfe der Programmiersprache \texttt{Python}.
 Die Intuition und Mathematik orientiert sich dabei zum Großteil an~\cite[S.~165-169]{ngMachineLearningCS2292023}.
 
-\subsection{Intuition der PCA}
-Angenommen, es sei eine Datenmatrix
-\begin{equation*}
-    \big[
-        \begin{matrix}
-            x_1 \dots x_d
-        \end{matrix}    
-    \big] \in \R^{n \times d},
-\end{equation*}
-gegeben, wobei die Spaltenvektoren \(x_i \in \R^{n}\) für \(i \in \{1,\ldots,d\}\) die Ausprägung von \(d\) Merkmalen über \(n\) Objekte hinweg repräsentieren.
-In \zcref{fig:pcadim}, zu finden in \zcref{appen}, wird dies für verschiedene Werte von \(d\) veranschaulicht.
-Sollen die Objekte auf Ähnlichkeit bezüglich der verschiedenen Merkmale untersucht werden, kann dies im zwei- und dreidimensionalen Raum durch die grafischen Darstellungen erfolgen, indem betrachtet wird, wie sich die Punkte im Raum gruppieren.
-In höheren Dimensionen ist diese visuelle Interpretation jedoch nicht mehr möglich, es besteht also die Notwendigkeit, die Anzahl der Merkmale zu verringern.
+\section{Intuition der PCA}
+Angenommen, beim Familienessen käme die Frage auf, welche der mitgebrachten Weine sich am ähnlichsten sind. 
+Um diese Frage zu beantworten, überlegt sich die Familie verschiedene Merkmale und ordnet jedem Wein für jedes Merkmal Zahlen zwischen \num{-3} und \num{3} zu.
+Dadurch können die Weine als Punkte im Raum bezüglich der verschiedenen Werte dargestellt und anschließend analysiert werden, welche Weine sich gruppieren, also sich ähneln. 
+
+In \zcref{fig:pcadim}, zu finden im \zcref{appen}, wird dies für verschiedene \(n \coloneqq \emph{Anzahl der Merkmale}\) verdeutlicht. 
+
+Das Problem wird schnell ersichtlich:
+Eine visuelle Interpretation ist zwar möglich, allerdings nur im niedrig-dimensionalen Raum, für eine größere Anzahl an Merkmalen (Dimensionen) besteht die Notwendigkeit, die Anzahl zu reduzieren.
+Diese Dimensionsreduktion stellt häufig auch unabhängig von der visuellen Interpretation eine sinnvolle Maßnahme dar, falls beispielsweise verschiedene Merkmale stark korrelieren und somit redundant für eine Rekonstruktion der Objekte sind. 
 
 Die Hauptkomponentenanalyse bietet dafür die Möglichkeit, indem neue, unkorrelierte Komponenten konstruiert werden, die sich als Linearkombination aus den bestehenden Merkmalen zusammensetzen.
-Das Ziel der Analyse ist, die Daten auf eine niedrigere Dimension zu projizieren und gleichzeitig ein Minimum an Informationen zu verlieren, also eine maximale Streuung oder auch Varianz der Daten zu erhalten.
-
-Um dieses Konzept näher zu verdeutlichen, betrachte \zcref{fig:pca2d}.
+An unserem konkreten Beispiel könnten beispielsweise Merkmale wie \enquote{Vollmundigkeit} und \enquote{Farbintensität} zu einer neuen Komponente (PC1) zusammengefasst werden.
+Anschließend werden die Weine auf den durch PC1 vorgegebenen Unterraum projiziert, was in \zcref{fig:pca2d} veranschaulicht wird.
 \begin{figure}[bt]
     \centering
     \begin{subfigure}{\textwidth}
@@ -48,19 +39,26 @@ Um dieses Konzept näher zu verdeutlichen, betrachte \zcref{fig:pca2d}.
     \end{subfigure}
     \caption{Projektionen im zweidimensionalen Raum}\label{fig:pca2d}
 \end{figure}
-Bei der Frage, ob durch die Projektion in \zcref{fig:pca2d1} oder durch die in \zcref{fig:pca2d2} mehr Informationen bezüglich der Ähnlichkeit der verschiedenen Punkte bewahrt werden, ergibt sich die intuitive Antwort, dass \zcref{fig:pca2d1} vorzuziehen ist.
-Trotz der Reduktion der Dimensionen von zwei auf eine, bleibt die räumliche Verteilung im Wesentlichen erhalten.
 
-Der Grund dafür ist, dass in \zcref{fig:pca2d1} eine Richtung gewählt wurde, die den durchschnittlichen Abstand der ursprünglichen Punkte zu den projizierten Punkten auf der durch die Richtung definierten Gerade minimiert.
-Es wird also versucht, den Fehler (Informationsverlust) durch die Projektion so gering wie möglich zu halten.
-Dies ist äquivalent dazu, den durchschnittlichen Abstand der projizierten Punkte zum Ursprung zu maximieren (dies lässt sich durch den Satz des Pythagoras herleiten), folglich bleibt die maximal mögliche Varianz der Daten erhalten.
-Es sei darauf hingewiesen, dass hier davon ausgegangen wird, dass die Daten zentriert sind, der Mittelwert also null beträgt.
+Der Unterschied zwischen \zcref{fig:pca2d1} und \zcref{fig:pca2d2} zeigt folgendes Problem auf:
+Wie kann die neue Komponente optimal gewählt werden, sodass unsere Daten trotz der Dimensionsreduktion so originalgetreu wie möglich rekonstruiert werden können?
+Dafür gibt es zwei alternative, aber äquivalente, Formulierungen:
+\begin{enumerate}
+    \item Die Komponente wird so konstruiert, dass ein Minimum an Informationen verloren wird.
+    \item Die Komponente wird so konstruiert, dass eine maximale Varianz erhalten bleibt.
+\end{enumerate}
+Eine Äquivalenz dieser beiden Aussagen kann durch den Satz des Pythagoras hergeleitet werden, indem das rechtwinklige Dreieck zwischen einem Punkt, dem projizierten Punkt und dem Ursprung betrachtet wird. 
+Wird der Informationsverlust (Distanz zwischen der Projektion und dem Original) minimiert, maximiert sich die Varianz (Abstand zum Ursprung).
+Es sei angemerkt, dass dafür von einer Zentrierung der Daten ausgegangen wird, also von einem Mittelwert gleich null.
 
-Die erste Hauptkomponente (PC1) stellt dann die gewählte Richtung mit maximaler Varianz dar.
-In höheren Dimensionen wird die zweite Hauptkomponente orthogonal zur ersten gewählt, um die verbleibende Varianz, die durch den Fehler in der PC1 nicht erklärt wird, erneut zu maximieren.
-Dies kann beliebig fortgesetzt werden, die PCA besitzt allerdings eine nützliche Eigenschaft, die dies meist nicht erforderlich macht und auf die in der mathematischen Herleitung ausführlicher eingegangen wird.
+Mit diesem Hintergrund wird intuitiv ersichtlich, dass \zcref{fig:pca2d1} im Vergleich zu \zcref{fig:pca2d2} vorzuziehen ist, was sich im Ergebnis widerspiegelt, in dem die räumliche Verteilung im Wesentlichen erhalten geblieben ist.
 
-\subsection{Mathematische Herleitung}
+Die erste Hauptkomponente (PC1) stellt dann den Einheitsvektor dar, der als Basis den Unterraum aufspannt, auf den die Daten projiziert werden.
+In höheren Dimensionen wird die zweite Hauptkomponente unabhängig, also orthogonal zur ersten, gewählt, damit die verbleibende Varianz  erneut maximiert wird.
+Dies kann beliebig fortgesetzt werden, die PCA besitzt allerdings die nützliche Eigenschaft, dass die Hauptkomponenten nach \enquote{Wichtigkeit} sortiert sind, also die ersten Komponenten bereits den Großteil der Varianz erklären.
+Eine Präzision dieser Aussage wird dabei in der folgenden mathematischen Herleitung gegeben.
+
+\section{Mathematische Herleitung}
 
 Um die vorangegangenen Überlegungen zu formalisieren, wird zunächst die Datenmatrix
 \begin{equation*}
@@ -114,7 +112,7 @@ da durch die Standardisierung der Spaltenmittelwert für jede Spalte von \(X\) n
 \begin{equation*}
     \sum_{i=1}^{n}x^{(i)} = \symbf{0}.
 \end{equation*}
-Die Entfernung (Abweichung) vom Ursprung für einen beliebigen Vektor \(x^{(i)}\) beträgt
+Die Entfernung (Abweichung) vom Mittelwert, also dem Ursprung, für einen beliebigen Vektor \(x^{(i)}\) beträgt
 \begin{equation*}
     \norm{\operatorname{proj}_{u}\big(x^{(i)}\big)} = \norm{\big(x^{{(i)}^{T}}u\big)u} =  \abs{\big(x^{{(i)}^{T}}u\big)}\norm{u} = \abs{x^{{(i)}^{T}}u}.
 \end{equation*}

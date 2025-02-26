@@ -5,3 +5,4 @@ Singulärvektoren
 diag
 trunkierte
 PCA
+Vollmundigkeit
