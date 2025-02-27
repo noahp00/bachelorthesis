@@ -258,7 +258,7 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     \underline{\emph{Hinweis}}. Mithilfe von Zeilen- und Spaltenvertauschungen innerhalb von \(R\) und \(\Lambda\) kann \(\Lambda\) so geordnet werden, dass \(\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n\).
 Diese Sortierung wird für den Rest der Arbeit angenommen.
 \end{proof}
-\begin{remark}
+\begin{remark}\label{rem:orth}
     Durch \zcref{cor:spec} lässt sich direkt die nützliche Aussage treffen, dass bei einer symmetrischen Matrix Eigenvektoren zu verschiedenen Eigenwerten orthogonal zueinander sind. 
 \end{remark}
 Nun kann mithilfe der vorangegangenen Sätze die Existenz der Singulärwertzerlegung für beliebige reelle Matrizen bewiesen werden.
@@ -659,9 +659,9 @@ Da dies an einem einzelnen Vektor schwer visualisiert werden kann, multipliziere
     \mid
     x \in [0, 2\pi], \, y \in [0, \pi]
     \right\}.
-\end{equation*}
-Das Ergebnis ist in \zcref{fig:sph} dargestellt.  
-\begin{figure}[b]
+\end{equation*} 
+Das Ergebnis ist in \zcref{fig:sph} dargestellt. 
+\begin{figure}[htb]
     \centering
     \begin{subfigure}{0.45\textwidth}
         \centering
@@ -673,9 +673,8 @@ Das Ergebnis ist in \zcref{fig:sph} dargestellt.
     \end{subfigure}
     \caption{Wirkung von \(A\) auf die Einheitssphäre}\label{fig:sph}
 \end{figure}
-
 Um nachzuvollziehen, wie dieses Ergebnis zustande gekommen ist, verwenden wir die Singulärwertzerlegung und veranschaulichen die Zwischenschritte von \(Av = U \Sigma V^{T}v\) anhand von einzelner Plots (siehe \zcref{fig:svdsph}). 
-\begin{figure}[t]
+\begin{figure}[!b]
     \centering
     \captionsetup[subfigure]{justification=centering}
     \begin{subfigure}{0.45\textwidth}

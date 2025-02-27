@@ -6,3 +6,4 @@ diag
 trunkierte
 PCA
 Vollmundigkeit
+Orthogonalitätsbedingung

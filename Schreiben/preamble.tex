@@ -244,9 +244,45 @@ tcolorbox-no-titlebar={
     right=8pt,
   }
 }
+\newkeytheorem{repitition}[
+  Refname={Wiederholung, Wiederholungen},
+  style=repstyle, 
+  sibling=definition,
+  name=Wiederholung,
+]
 
-% Remark and example
-\newkeytheoremstyle{reexstyle}
+% Application
+\definecolor{appcolor}{RGB}{60, 158, 153}
+\newkeytheoremstyle{appstyle}
+{
+headfont=\normalfont\scshape\bfseries,
+notefont=\normalfont\bfseries,
+notebraces={(}{)},  % chktex 9
+headpunct={.},
+bodyfont=\normalfont,
+headformat=\NAME~\NUMBER\NOTE,
+break,
+tcolorbox-no-titlebar={
+    enhanced,
+    breakable,
+    sharp corners,
+    colback=appcolor!20,
+    boxrule=0pt,
+    leftrule=4pt,       
+    colframe=appcolor,
+    left=8pt,
+    right=8pt,
+  }
+}
+\newkeytheorem{application}[
+  Refname={Anwendung, Anwendungen},
+  style=appstyle, 
+  sibling=definition,
+  name=Anwendung,
+]
+
+% Remark 
+\newkeytheoremstyle{remstyle}
 {
 headfont=\normalfont\bfseries\scshape,
 notebraces={}{},
@@ -266,7 +302,14 @@ tcolorbox-no-titlebar={
     right=8pt,
   }
 }
-\definecolor{colexam}{RGB}{200, 205, 207}
+\newkeytheorem{remark}[
+  Refname={Bemerkung, Bemerkungen},
+  style=remstyle,
+  sibling=definition,
+  name=Bemerkung,
+]
+
+% Example
 \newkeytheoremstyle{exstyle}
 {
 headfont=\normalfont\bfseries\scshape,
@@ -275,28 +318,11 @@ headpunct={.},
 bodyfont=\normalfont,
 headformat=\NAME~\NUMBER\NOTE,
 }
-
-
-% Example
 \newkeytheorem{example}[
   Refname={Beispiel, Beispiele},
   style=exstyle,  
   sibling=definition,
   name=Beispiel,
-]
-% Remark
-\newkeytheorem{remark}[
-  Refname={Bemerkung, Bemerkungen},
-  style=reexstyle,
-  sibling=definition,
-  name=Bemerkung,
-]
-% Repitition
-\newkeytheorem{repitition}[
-  Refname={Wiederholung, Wiederholungen},
-  style=repstyle, 
-  sibling=definition,
-  name=Wiederholung,
 ]
 
 % Header
