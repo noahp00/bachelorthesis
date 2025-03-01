@@ -1,6 +1,7 @@
 % !! USE LuaLaTeX FOR COMPILING WITH CURRENT PREAMBLE !!
 
 % LTeX: enabled=false
+
 % Cleaner text spacing
 \usepackage[final]{microtype}
 % Math-Stuff
@@ -56,6 +57,8 @@
 \usepackage{bookmark}
 
 % Macros
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rg}{\operatorname{rg}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\C}{\mathbb{C}}
@@ -390,7 +393,7 @@ headformat=\NAME~\NUMBER\NOTE,
 % Increase space between literature in bib
 \setlength{\bibitemsep}{1.3ex}
 
-% Url only for documents and websites
+% URL only for documents and websites in bib
 \AtEveryBibitem{%
   \ifentrytype{online}{%
   }{%
@@ -405,11 +408,11 @@ headformat=\NAME~\NUMBER\NOTE,
 % Caption no colon
 \renewcommand*{\captionformat}{\ }
 
-% Beschriftung von Abbildungen
+% New caption for figures (only for german)
 \renewcaptionname{ngerman}{\figurename}{Abb.}
 \renewcommand*{\figureformat}{\bfseries\figurename~\thefigure\autodot}
 
-% Beschriftung von Tabellen
+% New caption for tables (only for german)
 \renewcaptionname{ngerman}{\tablename}{Tab.}
 \renewcommand*{\tableformat}{\bfseries\tablename~\thetable\autodot}
 
@@ -426,7 +429,7 @@ headformat=\NAME~\NUMBER\NOTE,
   raggedentrytext=true
 ]{default}{figure,table}
 
-% Chapter Numbers
+% Chapter numbers
 \definecolor{chaptergrey}{gray}{0.5}
 \newfontface\eulerfont{Euler Math}
 

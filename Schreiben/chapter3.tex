@@ -6,7 +6,7 @@ Genauer: Es handelt sich um eine Methode, um komplexe Daten auf ihr Wesentliches
 In diesem Kapitel wird zunächst die Intuition hinter der PCA erläutert, bevor der mathematische Hintergrund und insbesondere die Verbindung zur Singulärwertzerlegung beschrieben wird.
 Abschließend betrachten wir ein konkretes Anwendungsbeispiel und veranschaulichen dieses mithilfe der Programmiersprache \texttt{Python}.
 
-\section{Intuition der PCA}
+\section{Intuition der PCA}\label{sec:pcaint}
 Angenommen, beim Familienessen käme die Frage auf, welche der mitgebrachten Weine sich am ähnlichsten sind. 
 Um diese Frage zu beantworten, überlegt sich die Familie verschiedene Merkmale und ordnet jedem Wein für jedes Merkmal Zahlen zwischen \num{-3} und \num{3} zu.
 Dadurch können die Weine als Punkte im Raum bezüglich der verschiedenen Werte dargestellt und anschließend analysiert werden, welche Weine sich gruppieren, also sich ähneln. 
@@ -47,6 +47,7 @@ Die Projektion wird in \zcref{fig:pca2d} veranschaulicht.
 Der Unterschied zwischen \zcref{fig:pca2d1} und \zcref{fig:pca2d2} zeigt folgendes Problem auf:
 Wie kann die neue Richtung optimal gewählt werden, sodass unsere Daten trotz der Dimensionsreduktion so originalgetreu wie möglich rekonstruiert werden können?
 Dafür gibt es zwei alternative, aber äquivalente, Formulierungen:
+\vspace{-2pt}
 \begin{enumerate}
     \item Die Richtung wird so konstruiert, dass ein Minimum an Informationen verloren wird.
     \item Die Richtung wird so konstruiert, dass eine maximale Varianz erhalten bleibt.
@@ -59,7 +60,7 @@ Mit diesem Hintergrund wird intuitiv ersichtlich, dass \zcref{fig:pca2d1} im Ver
 
 In vielen mathematischen Texten erfolgt keine klare Differenzierung zwischen den Begriffen Hauptrichtung und Hauptkomponente.
 Stattdessen wird der Begriff Hauptkomponente häufig synonym für beide verwendet.
-In dieser Arbeit definieren wir die erste Hauptrichtung als den Einheitsvektor, der den eindimensionalen Unterraum aufspannt, auf den die Daten projiziert werden.
+In dieser Arbeit definieren wir die erste Hauptrichtung als den Einheitsvektor, der den eindimensionalen Unterraum aufspannt, auf den die Daten mit maximaler Varianz projiziert werden.
 Die erste Hauptkomponente bezeichnet die projizierten Koordinaten der Datenpunkte entlang dieser Hauptrichtung.
 In höheren Dimensionen wird die zweite Hauptrichtung so gewählt, dass sie orthogonal zur ersten Hauptrichtung liegt und die verbleibende Varianz maximiert.
 Dies kann beliebig fortgesetzt werden, die PCA besitzt allerdings die nützliche Eigenschaft, dass die Hauptrichtungen nach \enquote{Wichtigkeit} sortiert sind, also die ersten Richtungen bereits den Großteil der Varianz erklären.
@@ -90,10 +91,11 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
         \R^{d} \ni x^{(i)} \coloneqq X_{i,:} \quad \text{für } i \in \{1,\ldots,n\},
     \end{equation*}
     die \(i\)-te (transponierte) Zeile von \(X\), also ein Datenpunkt.     \\
-    Bei der Projektion der Daten auf \(\R^{k}\) mit \(\N \ni k < d\) wird die Basis dieses Unterraums durch die ersten \(k\) Hauptrichtungen \(u_{j}\) für \(j \in \{1,\ldots,k\}\) gegeben, die den Eigenvektoren der Matrix \(\frac{1}{n}X^{T}X\) entsprechen, sortiert in absteigender Reihenfolge der zugehörigen Eigenwerte.
+    Bei der Projektion der Daten auf \(\R^{k}\) für \(\N \ni k < d\) mit dem Ziel, dass die maximale Varianz der \(x^{(i)}\) erhalten bleiben soll, wird die Basis von \(\R^{k}\)  durch die ersten \(k\) Hauptrichtungen \(u_{j} \in \R^{d}\) für \(j \in \{1,\ldots,k\}\) gegeben.
+    Diese entsprechen den Eigenvektoren der Matrix \(\frac{1}{n}X^{T}X \in \R^{d \times d}\), sortiert in absteigender Reihenfolge der zugehörigen Eigenwerte.
 \end{application}
 \begin{proof}
-    Der Beweis orientiert sich zum Großteil an~\cite[S.~166-169]{ngMachineLearningCS2292023} und~\cite{hsuMachineLearningTheory2016}.
+    Der Beweis orientiert sich zum Großteil an~\cite[S.~166-169]{ngMachineLearningCS2292023} und~\cite[S.~32 f.]{hsuMachineLearningTheory2016}.
     \begin{enumerate}[wide,label=\underline{Schritt \arabic*}.]
         \item\label{itm:pca1} Vorbereitung der Daten:\\    
         Wir standardisieren zunächst \(X\), indem 
@@ -108,7 +110,6 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
         Durch die Subtraktion des Mittelwerts werden die Daten um den Ursprung zentriert.
         Die Division durch die Standardabweichung verhindert Ungenauigkeiten, die aufgrund unterschiedlicher Skalen der Merkmale entstehen könnten.
         Falls Merkmal A beispielsweise das Bruttoinlandsprodukt und Merkmal B die Geburtenrate verschiedener Länder darstellt, wird dadurch eine Vergleichbarkeit gewährleistet.
-        In den folgenden Berechnungen wird eine Standardisierung angenommen und weiterhin mit \(X\) gearbeitet.
         \item\label{itm:pca2} Herleitung für \(k=1\):\\
         Es sei daran erinnert, dass die erste Hauptrichtung der Richtung entspricht, die die Varianz der Projektion maximiert.
         Dafür wird zunächst der Mittelwert \(\mu_{\operatorname{proj}}\) der projizierten Vektoren berechnet:
@@ -131,7 +132,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
         \end{align*}
         Definiere 
         \begin{equation*}
-            \Sigma \coloneqq \frac{1}{n}\sum_{i=1}^{n}x^{(i)}x^{{(i)}^{T}} \in \R^{d \times d}.
+            \Sigma \coloneqq \frac{1}{n}\sum_{i=1}^{n}x^{(i)}x^{{(i)}^{T}} = \frac{1}{n}X^{T}X \in \R^{d \times d}.
         \end{equation*}
         Bei standardisierten Daten ist diese Matrix als \emph{Kovarianzmatrix} bekannt, in unserem Fall ist sie die Kovarianzmatrix der verschiedenen Merkmale.
         Damit haben wir das Ziel der Herleitung auf folgendes Optimierungsproblem reduziert:
@@ -145,7 +146,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
         \begin{equation*}
             \Sigma^{T} = {\left(\frac{1}{n}\sum_{i=1}^{n}x^{(i)}x^{{(i)}^{T}}\right)}^{T} = \frac{1}{n}\sum_{i=1}^{n}{\left(x^{(i)}x^{{(i)}^{T}}\right)}^{T} = \Sigma.
         \end{equation*}
-        Dadurch ist die Voraussetzung für den Spektralsatz erfüllt, womit 
+        Damit sind die Voraussetzungen für den Spektralsatz erfüllt, womit 
         \begin{equation*}
             \Sigma = R \Lambda R^{T}
         \end{equation*}
@@ -165,7 +166,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
             \end{bmatrix}
             =\sum_{i=1}^{d}\lambda_{i}w_{i}^{2}.
         \end{equation*}
-        Nach Bedingung gilt \(\norm{u}=1\), womit:
+        Nach Bedingung gilt \(\norm{u}=1\), wodurch:
         \begin{equation*}
             \norm{w} = \norm{R^{T}u} = \sqrt{\langle R^{T}u,R^{T}u \rangle} = \sqrt{u^{T}RR^{T}u} = \norm{u} = 1.
         \end{equation*} 
@@ -189,11 +190,11 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
     maximiert wird für \(u_{k} = r_{k}\).
     Betrachte dafür
     \begin{equation*}
-        \frac{1}{n}\sum_{j=1}^{k}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u_{j})}^{2} = \underbrace{\frac{1}{n}\sum_{j=1}^{k-1}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u_{j})}^{2}}_{A} + \underbrace{\frac{1}{n}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u_{k})}^{2}}_{B}.
+        \frac{1}{n}\sum_{j=1}^{k}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u_{j})}^{2} = \underbrace{\frac{1}{n}\sum_{j=1}^{k-1}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u_{j})}^{2}}_{A} + \underbrace{\vphantom{\sum_{j=1}}\frac{1}{n}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u_{k})}^{2}}_{B}.
     \end{equation*}
     Nach Induktionshypothese ist \(A\) maximal für \(u_{1}=r_{1},u_{2}=r_{2},\ldots,u_{k-1}=r_{k-1}\). 
     Um \(B\) zu maximieren, wird analog zu \hyperref[itm:pca2]{Schritt 2} vorgegangen.
-    Es wird das Optimierungsproblem
+    Es wird zunächst das Optimierungsproblem
     \begin{alignat*}{2}
         &\!\max \qquad &&u_{k}^{T} \Sigma u_{k}, \\
         &\text{u.d.B.}  &&\norm{u_{k}}=1, \\   
@@ -203,5 +204,50 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
     Anschließend kann, mithilfe der zusätzlichen Eigenschaft, dass Eigenvektoren zu verschiedenen Eigenwerten bei symmetrischen Matrizen orthogonal sind (\zcref{rem:orth}), das Optimierungsproblem durch \(u_{k} = r_{k}\) gelöst werden, womit der Beweis abgeschlossen ist.
 \end{enumerate}
 \end{proof}
+\begin{corollary}
+    Seien die Voraussetzungen aus \zcref{app:pca} gegeben. \\
+    Die Varianz der Datenpunkte entlang einer beliebigen Hauptrichtung \(u_{j} \in \R^{d}\) für \(j \in \{1,\ldots,k\}\) entspricht genau dem zugehörigen Eigenwert \(\lambda_{j}\)  zu \(u_{j}\).    
+\end{corollary}
+\begin{proof}
+    Wie bereits im vorherigen Beweis gezeigt, ist die Varianz der Datenpunkte entlang von \(u_{j}\) gegeben durch
+    \begin{equation*}
+        u_{j}^{T}\Sigma u_{j}.
+    \end{equation*}
+    Mit dem Wissen, dass \(u_{j}\) ein Eigenvektor von \(\Sigma\) mit zugehörigem Eigenwert \(\lambda_{j}\) ist, kann dies umgeformt werden zu
+    \begin{equation*}
+        u_{j}^{T}(\lambda_{j}u_{j}) = \lambda_{j}u_{j}^{T}u_{j} = \lambda_{j},
+    \end{equation*}   
+    da \(\norm{u_{j}}=1\). 
+\end{proof}
+\begin{remark}
+    Daraus ergibt sich die bereits in der \hyperref[sec:pcaint]{Intuition} erwähnte Eigenschaft der Hauptkomponentenanalyse:
+    Ein Großteil der Varianz kann bereits durch die ersten Hauptkomponenten erklärt werden, da die Eigenwerte der Kovarianzmatrix \(\Sigma\) in absteigender Reihenfolge die jeweilige Varianz angeben.
+\end{remark}
 
 \section{Verbindung zur SVD}
+
+Um die Verbindung zwischen der SVD und PCA aufzudecken, sei erneut \(X \in \R^{n \times d}\) eine standardisierte Datenmatrix mit zugehöriger Kovarianzmatrix
+\begin{equation*}
+    \Sigma = \frac{1}{n}X^{T}X = V\Lambda V^{T}
+\end{equation*}  
+für orthogonales \(V \in \R^{d \times d}\), welches die Eigenvektoren von \(\Sigma\) als Spaltenvektoren enthält und diagonalem \(\Lambda\) mit den zugehörigen Eigenwerten auf der Diagonalen nach dem \hyperref[spec]{Spektralsatz}.
+
+Hervorzuheben ist, dass die Eigenvektoren von \(\Sigma\) und \(X^{T}X\) identisch sind, betrachte dafür für beliebigen Eigenvektor \(v\) mit Eigenwert \(\lambda\) 
+\begin{alignat}{2}
+    &\frac{1}{n}X^{T}Xv &{}={}& \lambda v \notag\\
+    \Lra{}& \quad X^{T}Xv &{}={}&(n\lambda)v \label{eq:pcasvd}.
+\end{alignat}      
+Nur die Eigenwerte unterscheiden sich um einen Faktor \(n\).
+Sei nun 
+\begin{equation*}
+    X = USV^{T}
+\end{equation*}
+die \hyperref[th:svd]{Singulärwertzerlegung} von \(X\) mit orthogonalem \(U \in \R^{n \times n}\), diagonalem \(S \in \R^{n \times d}\) und orthogonalem \(V \in \R^{d \times d}\).
+Da diese Matrix \(V\) die Eigenvektoren von \(X^{T}X\) als Spalten enthält, ist sie identisch zur oben definierten Matrix durch die Spektralzerlegung von \(\Sigma\).     
+
+Es sei daran erinnert, dass \(S=\diag\left(\sqrt{\lambda_{1}},\ldots,\sqrt{\lambda_{d}}\right)\) für die Eigenwerte \(\lambda_{1},\ldots,\lambda_{d}\) von \(X^{T}X\). 
+Mit~\eqref{eq:pcasvd} gilt dann
+\begin{equation*}
+    \lambda_{i} = \frac{\sigma_{i}^{2}}{n} \quad \text{für } i \in \{1,\ldots,\rg(X)\}
+\end{equation*}
+und den Singulärwerten \(\sigma_{i}\). 
