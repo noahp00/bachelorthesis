@@ -120,7 +120,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
         \begin{equation*}
             \sum_{i=1}^{n}x^{(i)} = \symbf{0}.
         \end{equation*}
-        Die Entfernung (Abweichung) vom Mittelwert, also dem Ursprung, für einen beliebigen Vektor \(x^{(i)}\) beträgt
+        Die Entfernung (Abweichung) vom Mittelwert, also hier vom Ursprung, für einen beliebigen Vektor \(x^{(i)}\) beträgt
         \begin{equation*}
             \norm{\operatorname{proj}_{u}\big(x^{(i)}\big)} = \norm{\big(x^{{(i)}^{T}}u\big)u} =  \abs{\big(x^{{(i)}^{T}}u\big)}\norm{u} = \abs{x^{{(i)}^{T}}u}.
         \end{equation*}
@@ -166,7 +166,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
             \end{bmatrix}
             =\sum_{i=1}^{d}\lambda_{i}w_{i}^{2}.
         \end{equation*}
-        Nach Bedingung gilt \(\norm{u}=1\), wodurch:
+        Nach Bedingung ist \(\norm{u}=1\), wodurch:
         \begin{equation*}
             \norm{w} = \norm{R^{T}u} = \sqrt{\langle R^{T}u,R^{T}u \rangle} = \sqrt{u^{T}RR^{T}u} = \norm{u} = 1.
         \end{equation*} 
@@ -179,10 +179,10 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
         \begin{equation*}
             u = Rw = R\symbf{e}_{1} = r_{1},
         \end{equation*}
-        womit \(u\) nach \zcref{cor:spec} gleich dem zugehörigen Eigenvektor zum größten Eigenwert von \(\Sigma\) ist
+        womit \(u\) nach \zcref{cor:spec} gleich dem zugehörigen Eigenvektor zum größten Eigenwert von \(\Sigma\) ist.
     \item Herleitung für beliebiges \(k\) mit vollständiger Induktion über \(k\):\\
     \emph{Induktionsanfang}. Gegeben durch \hyperref[itm:pca2]{Schritt 2}.\\
-    \emph{Induktionshypothese}. Angenommen die ersten \(k-1\) Eigenvektoren \(u_{1},\ldots,u_{k-1}\) von \(\Sigma\) maximieren die Varianz der Projektion.\\
+    \emph{Induktionshypothese}. Angenommen die ersten \(k-1\) Eigenvektoren \(r_{1},\ldots,r_{k-1}\) von \(\Sigma\) maximieren die Varianz der Projektion.\\
     \emph{Induktionsschritt}. Wir wollen zeigen, dass 
     \begin{equation*}
         \frac{1}{n}\sum_{j=1}^{k}\sum_{i=1}^{n}{(x^{{(i)}^{T}}u_{j})}^{2}
@@ -203,6 +203,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
     aufgestellt mit zusätzlicher Orthogonalitätsbedingung.
     Anschließend kann, mithilfe der zusätzlichen Eigenschaft, dass Eigenvektoren zu verschiedenen Eigenwerten bei symmetrischen Matrizen orthogonal sind (\zcref{rem:orth}), das Optimierungsproblem durch \(u_{k} = r_{k}\) gelöst werden, womit der Beweis abgeschlossen ist.
 \end{enumerate}
+\emph{Hinweis.} Die \(i\)-te Hauptkomponente ist dann durch \(Xu_{i}\) gegeben, wodurch die Projektionen der Datenpunkte auf \(u_{i}\) im durch \(u_{i}\) aufgespannten Unterraum zusammengefasst werden.    
 \end{proof}
 \begin{corollary}
     Seien die Voraussetzungen aus \zcref{app:pca} gegeben. \\
@@ -226,28 +227,56 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
 
 \section{Verbindung zur SVD}
 
-Um die Verbindung zwischen der SVD und PCA aufzudecken, sei erneut \(X \in \R^{n \times d}\) eine standardisierte Datenmatrix mit zugehöriger Kovarianzmatrix
+Das Ziel dieses Abschnitts ist, die Hauptrichtungen, -komponenten und die Varianzen mithilfe der SVD auszudrücken.
+Diese Berechnung mittels der Singulärwertzerlegung, statt der Spektralzerlegung der Kovarianzmatrix, ist weit verbreitet und besitzt einen entscheidenden Vorteil, auf den am Ende des Abschnitts genauer eingegangen wird.
+
+Es sei erneut \(X \in \R^{n \times d}\) eine standardisierte Datenmatrix mit zugehöriger Kovarianzmatrix
 \begin{equation*}
     \Sigma = \frac{1}{n}X^{T}X = V\Lambda V^{T}
 \end{equation*}  
 für orthogonales \(V \in \R^{d \times d}\), welches die Eigenvektoren von \(\Sigma\) als Spaltenvektoren enthält und diagonalem \(\Lambda\) mit den zugehörigen Eigenwerten auf der Diagonalen nach dem \hyperref[spec]{Spektralsatz}.
 
-Hervorzuheben ist, dass die Eigenvektoren von \(\Sigma\) und \(X^{T}X\) identisch sind, betrachte dafür für beliebigen Eigenvektor \(v\) mit Eigenwert \(\lambda\) 
-\begin{alignat}{2}
-    &\frac{1}{n}X^{T}Xv &{}={}& \lambda v \notag\\
-    \Lra{}& \quad X^{T}Xv &{}={}&(n\lambda)v \label{eq:pcasvd}.
-\end{alignat}      
-Nur die Eigenwerte unterscheiden sich um einen Faktor \(n\).
-Sei nun 
+Sei außerdem
 \begin{equation*}
     X = USV^{T}
 \end{equation*}
 die \hyperref[th:svd]{Singulärwertzerlegung} von \(X\) mit orthogonalem \(U \in \R^{n \times n}\), diagonalem \(S \in \R^{n \times d}\) und orthogonalem \(V \in \R^{d \times d}\).
-Da diese Matrix \(V\) die Eigenvektoren von \(X^{T}X\) als Spalten enthält, ist sie identisch zur oben definierten Matrix durch die Spektralzerlegung von \(\Sigma\).     
+Die Matrix \(V\) enthält die Eigenvektoren von \(X^{T}X\) als Spalten, wobei diese identisch sind zu den Eigenvektoren von \(\Sigma = \frac{1}{n}X^{T}X\).
+Betrachte dafür für beliebigen Eigenvektor \(v\) mit Eigenwert \(\lambda\)
+\begin{alignat}{2}
+    &\frac{1}{n}X^{T}Xv &{}={}& \lambda v \notag\\
+    \Lra{}& \quad X^{T}Xv &{}={}&(n\lambda)v \label{eq:pcasvd}.
+\end{alignat}      
+Folglich unterscheiden sich nur die Eigenwerte um einen Faktor \(n\) und die Hauptrichtungen sind durch die Spalten von \(V\) gegeben. 
 
-Es sei daran erinnert, dass \(S=\diag\left(\sqrt{\lambda_{1}},\ldots,\sqrt{\lambda_{d}}\right)\) für die Eigenwerte \(\lambda_{1},\ldots,\lambda_{d}\) von \(X^{T}X\). 
-Mit~\eqref{eq:pcasvd} gilt dann
+Es sei daran erinnert, dass \(S=\diag\left(\sqrt{\mu_{1}},\ldots,\sqrt{\mu_{d}}\right)\) für die Eigenwerte \(\mu_{1},\ldots,\mu_{d}\) von \(X^{T}X\). 
+Mit~\eqref{eq:pcasvd} gilt dann für beliebigen Eigenwert \(\lambda_{i}\) von \(\Sigma\) und Singulärwert \(\sigma_{i} = \sqrt{\mu_{i}}\) von \(X\) für \(i \in \{1,\ldots,\rg(X)\}\)
 \begin{equation*}
-    \lambda_{i} = \frac{\sigma_{i}^{2}}{n} \quad \text{für } i \in \{1,\ldots,\rg(X)\}
+    \lambda_{i} = \frac{\sigma_{i}^{2}}{n},
 \end{equation*}
-und den Singulärwerten \(\sigma_{i}\). 
+wodurch wir die Varianzen erhalten.
+
+Die Hauptkomponente zu einer beliebigen Hauptrichtung \(v\) wird, wie bereits in der Herleitung angemerkt, durch \(Xv\) beschrieben.  
+Damit lassen sich alle Hauptkomponenten zusammenfassen durch 
+\begin{equation*}
+    XV = USV^{T}V = US.
+\end{equation*}
+Damit lässt dich die Hauptkomponentenanalyse vollständig durch die Singulärwertzerlegung ausdrücken.
+
+Der Vorteil, die PCA mit der SVD von \(X\) zu bestimmen, anstatt mit der Spektralzerlegung von \(\Sigma\), zeichnet sich durch die numerische Stabilität aus.  
+Um dies näher zu verstehen, hilft \zcref{rep:alma} aus der algorithmischen Mathematik.
+\begin{repitition}\label{rep:alma}\leavevmode
+    \vspace{-14pt}
+    \begin{itemize}[wide]
+        \item Die \emph{Kondition} eines Problems gibt an, wie sich kleine Eingabefehler auf den Ausgabefehler auswirken.
+            Bei einem gut konditionierten Problem führen kleine Eingabefehler zu kleinen Ausgabefehlern.
+        \item Ein Algorithmus ist dann \emph{numerisch stabil}, falls der nicht vermeidbare Fehler, bedingt durch die Kondition, nicht weiter verstärkt wird.
+        \item Für eine Matrix \(A \in \R^{m \times n}\) mit \(\rg(A)=r\)  ist die Konditionszahl \(\kappa\) gegeben durch 
+        \begin{equation*}
+            \kappa(A) = \frac{\sigma_{1}}{\sigma_{r}},
+        \end{equation*} 
+        wobei \(\sigma_{1}\) den größten und \(\sigma_{r}\) den kleinsten Singulärwert darstellt.
+    \end{itemize}
+\end{repitition}
+Desto kleiner die Konditionszahl, desto besser konditioniert ist das Problem.
+

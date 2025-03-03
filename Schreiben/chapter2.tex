@@ -53,7 +53,7 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     Die Behauptungen werden nacheinander bewiesen (vgl.~\cite{proof:SpectralTom}).
 
     \vspace{5pt}
-    \textbf{Zu}~\ref{spec1}: Sei \(\lambda \in \C\) ein Eigenwert von \(A\) mit zugehörigem Eigenvektor \(v \in \C^{n}\). 
+    \underline{Zu~\ref{spec1}}. Sei \(\lambda \in \C\) ein Eigenwert von \(A\) mit zugehörigem Eigenvektor \(v \in \C^{n}\). 
     Dann ist mit \zcref{eigvec}
     \begin{align}
         Av &=\lambda v \notag \label{al21}\\
@@ -79,7 +79,7 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     Nach \zcref{complex} ist dann \(\lambda \in \R\), wodurch auch \(v \in \R^{n}\) sein muss.\qed
     \vspace{5pt} 
 
-    \textbf{Zu}~\ref{spec2}: Induktion über \(n \in \N\): \\
+    \underline{Zu~\ref{spec2}}. Induktion über \(n \in \N\): \\
     \textit{Induktionsanfang}. 
     Für \(n=1\) sind \(A\) und \(R\) Skalare. 
     Setze \(R=1\). 
@@ -105,13 +105,11 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     \end{equation*} 
     mit \(v_1,\ldots,v_n\) als Spaltenvektoren und setze \(\R^{n \times n} \ni B = P^{-1}AP = P^{T}AP\).
 
-    Das Ziel ist, die Induktionshypothese auf eine symmetrische Untermatrix \(C \in \R^{\left(n-1\right)\times\left(n-1\right)}\) von \(B\) anzuwenden.\\
-    \textit{Schritt 1}.
+    Das Ziel ist, die Induktionshypothese auf eine symmetrische Untermatrix \(C \in \R^{\left(n-1\right)\times\left(n-1\right)}\) von \(B\) anzuwenden.
     Dafür wird zunächst die Symmetrie von \(B\) gezeigt:   
     \begin{equation*}
         B^{T} = {\left(P^{T}AP\right)}^{T} = {\left(AP\right)}^{T}P = P^{T}A^{T}P \overset{A\text{ sym.}}{=} P^{T}AP = B.
     \end{equation*} 
-    \textit{Schritt 2}.
     Betrachte jetzt die erste Spalte von \(B\). 
     Die erste Spalte einer beliebigen Matrix erhält man durch Multiplikation mit dem kanonischen Einheitsvektor \(\symbf{e}_1\): 
     \begin{align*}
@@ -789,3 +787,4 @@ Außerdem sollte betont werden, dass \(\text{rg}(A_k)=k < r\) ist, aufgrund dess
 
 Mit den beiden, in diesem Abschnitt eingeführten, Variationen der Singulärwertzerlegung sind alle wesentlichen Grundlagen für die Vertiefung verschiedener Anwendungsmöglichkeiten der SVD gelegt.
 Damit wird der theoretische Teil dieser Arbeit beendet und zur ersten praktischen Anwendung übergegangen.
+
