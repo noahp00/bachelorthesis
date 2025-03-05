@@ -7,3 +7,4 @@ trunkierte
 PCA
 Vollmundigkeit
 Orthogonalitätsbedingung
+Läuchli-Matrix

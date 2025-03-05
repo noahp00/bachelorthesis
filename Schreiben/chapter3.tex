@@ -227,56 +227,124 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
 
 \section{Verbindung zur SVD}
 
-Das Ziel dieses Abschnitts ist, die Hauptrichtungen, -komponenten und die Varianzen mithilfe der SVD auszudrücken.
-Diese Berechnung mittels der Singulärwertzerlegung, statt der Spektralzerlegung der Kovarianzmatrix, ist weit verbreitet und besitzt einen entscheidenden Vorteil, auf den am Ende des Abschnitts genauer eingegangen wird.
+Das Ziel dieses Abschnitts ist, die Hauptrichtungen, -komponenten und die Varianzen mithilfe der Singulärwertzerlegung der Datenmatrix auszudrücken, statt mit der Spektralzerlegung der Kovarianzmatrix.
+Diese Art der Berechnung wird in der Praxis häufig verwendet, da sie einen entscheidenden Vorteil besitzt, auf den am Ende des Abschnitts genauer eingegangen wird.
 
-Es sei erneut \(X \in \R^{n \times d}\) eine standardisierte Datenmatrix mit zugehöriger Kovarianzmatrix
-\begin{equation*}
-    \Sigma = \frac{1}{n}X^{T}X = V\Lambda V^{T}
-\end{equation*}  
-für orthogonales \(V \in \R^{d \times d}\), welches die Eigenvektoren von \(\Sigma\) als Spaltenvektoren enthält und diagonalem \(\Lambda\) mit den zugehörigen Eigenwerten auf der Diagonalen nach dem \hyperref[spec]{Spektralsatz}.
+Sei also erneut \(X \in \R^{n \times d}\) eine standardisierte Datenmatrix mit zugehöriger Kovarianzmatrix
+\begin{equation}
+    \Sigma = \frac{1}{n}X^{T}X = V \Lambda V^{T} \label{eq:pcasvd1}
+\end{equation}
+nach dem \hyperref[spec]{Spektralsatz} für orthogonales \(V \in \R^{d \times d}\), welches die Eigenvektoren von \(\Sigma\) als Spaltenvektoren enthält und diagonales \(\Lambda\) mit den zugehörigen Eigenwerten auf der Diagonalen.
 
 Sei außerdem
 \begin{equation*}
     X = USV^{T}
 \end{equation*}
-die \hyperref[th:svd]{Singulärwertzerlegung} von \(X\) mit orthogonalem \(U \in \R^{n \times n}\), diagonalem \(S \in \R^{n \times d}\) und orthogonalem \(V \in \R^{d \times d}\).
-Die Matrix \(V\) enthält die Eigenvektoren von \(X^{T}X\) als Spalten, wobei diese identisch sind zu den Eigenvektoren von \(\Sigma = \frac{1}{n}X^{T}X\).
-Betrachte dafür für beliebigen Eigenvektor \(v\) mit Eigenwert \(\lambda\)
-\begin{alignat}{2}
-    &\frac{1}{n}X^{T}Xv &{}={}& \lambda v \notag\\
-    \Lra{}& \quad X^{T}Xv &{}={}&(n\lambda)v \label{eq:pcasvd}.
-\end{alignat}      
-Folglich unterscheiden sich nur die Eigenwerte um einen Faktor \(n\) und die Hauptrichtungen sind durch die Spalten von \(V\) gegeben. 
+die \hyperref[th:svd]{Singulärwertzerlegung} von \(X\) mit \enquote{diagonalem} \(S \in \R^{n \times d}\) und orthogonalem \(U \in \R^{n \times n}\).
+Da die Eigenvektoren von \(\Sigma = \frac{1}{n}X^{T}X\) und \(X^{T}X\) identisch sind (folgt direkt aus \zcref{eigvec}; nur die Eigenwerte unterscheiden sich um einen Faktor \(n\)), ist \(V\) die gleiche Matrix wie in~\eqref{eq:pcasvd1}. 
+Folglich sind die Hauptrichtungen durch die Spalten von \(V\) gegeben.  
 
-Es sei daran erinnert, dass \(S=\diag\left(\sqrt{\mu_{1}},\ldots,\sqrt{\mu_{d}}\right)\) für die Eigenwerte \(\mu_{1},\ldots,\mu_{d}\) von \(X^{T}X\). 
-Mit~\eqref{eq:pcasvd} gilt dann für beliebigen Eigenwert \(\lambda_{i}\) von \(\Sigma\) und Singulärwert \(\sigma_{i} = \sqrt{\mu_{i}}\) von \(X\) für \(i \in \{1,\ldots,\rg(X)\}\)
+Um die Varianzen zu ermitteln, betrachten wir
 \begin{equation*}
-    \lambda_{i} = \frac{\sigma_{i}^{2}}{n},
-\end{equation*}
-wodurch wir die Varianzen erhalten.
+    \frac{1}{n}X^{T}X = \frac{1}{n}VS^{T}U^{T}USV^{T} = V\frac{S^{T}S}{n}V^{T} = V\Lambda V^{T}.
+\end{equation*} 
+Für \(\rg(X) = r\) und \(i \in \{1,\ldots,r\}\) kann damit ein beliebiger Eigenwert \(\lambda_{i}\) von \(\Sigma\), also die Varianz zur \(i\)-ten Hauptrichtung, durch den Singulärwert \(\sigma_{i}\) von \(X\) ausgedrückt werden mit
+\begin{equation*}
+    \lambda_{i} = \frac{\sigma_{i}^{2}}{n}, 
+\end{equation*}  
+wobei für \(i > r\) gilt, dass \(\lambda_{i} = 0\).
 
 Die Hauptkomponente zu einer beliebigen Hauptrichtung \(v\) wird, wie bereits in der Herleitung angemerkt, durch \(Xv\) beschrieben.  
-Damit lassen sich alle Hauptkomponenten zusammenfassen durch 
+Es lassen sich also alle Hauptkomponenten zusammenfassen durch 
 \begin{equation*}
     XV = USV^{T}V = US.
 \end{equation*}
 Damit lässt dich die Hauptkomponentenanalyse vollständig durch die Singulärwertzerlegung ausdrücken.
 
-Der Vorteil, die PCA mit der SVD von \(X\) zu bestimmen, anstatt mit der Spektralzerlegung von \(\Sigma\), zeichnet sich durch die numerische Stabilität aus.  
-Um dies näher zu verstehen, hilft \zcref{rep:alma} aus der algorithmischen Mathematik.
+Der Vorteil, die PCA mit der SVD von \(X\) zu berechnen, statt mit der Spektralzerlegung von \(\Sigma\), zeichnet sich durch die numerische Stabilität der Berechnung aus.  
+Um dies zu zeigen, wird ein Exkurs in die algorithmische Mathematik vorgenommen, wobei die für uns wichtigen Konzepte in \zcref{rep:alma} rekapituliert werden.
 \begin{repitition}\label{rep:alma}\leavevmode
     \vspace{-14pt}
     \begin{itemize}[wide]
         \item Die \emph{Kondition} eines Problems gibt an, wie sich kleine Eingabefehler auf den Ausgabefehler auswirken.
             Bei einem gut konditionierten Problem führen kleine Eingabefehler zu kleinen Ausgabefehlern.
         \item Ein Algorithmus ist dann \emph{numerisch stabil}, falls der nicht vermeidbare Fehler, bedingt durch die Kondition, nicht weiter verstärkt wird.
-        \item Für eine Matrix \(A \in \R^{m \times n}\) mit \(\rg(A)=r\)  ist die Konditionszahl \(\kappa\) gegeben durch 
+        \item Für eine Matrix \(A \in \R^{m \times n}\) mit \(\rg(A)=r\)  ist die \emph{Konditionszahl} \(\kappa\) gegeben durch 
         \begin{equation*}
             \kappa(A) = \frac{\sigma_{1}}{\sigma_{r}},
         \end{equation*} 
-        wobei \(\sigma_{1}\) den größten und \(\sigma_{r}\) den kleinsten Singulärwert darstellt.
+        wobei \(\sigma_{1}\) den größten und \(\sigma_{r}\) den kleinsten Singulärwert von \(A\) darstellt.
+        \item Desto kleiner die Konditionszahl ist, desto besser konditioniert ist das Problem.
     \end{itemize}
 \end{repitition}
-Desto kleiner die Konditionszahl, desto besser konditioniert ist das Problem.
+Wir wollen nun zeigen, dass sich die Konditionszahl von \(\Sigma\) im Vergleich zu \(X\) erhöht und \(\Sigma\) somit anfälliger für Fehler bei numerischen Berechnungen, wie beispielsweise der Bestimmung von Eigenwerten ist.  
+Dafür benötigen wir die Singulärwerte von \(\Sigma\), welche als Wurzeln der positiven Eigenwerte von \(\Sigma^{T}\Sigma = \Sigma^{2}\) gegeben sind.
+Betrachte also für beliebigen Eigenvektor \(v\) von \(\Sigma\) mit Eigenwert \(\lambda\)
+\begin{equation*}
+    \Sigma^{2}v = \Sigma \lambda v = \Sigma v \lambda = \lambda^{2} v.
+\end{equation*}   
+Die Singulärwerte von \(\Sigma\) sind damit gegeben durch die Eigenwerte von \(\Sigma\), womit  
+\begin{equation*}
+    \kappa(\Sigma) = \frac{\sigma_{1}^{2}/n}{\sigma_{r}^{2}/n}={\left(\frac{\sigma_{1}}{\sigma_{r}}\right)}^{2} = {\kappa(X)}^{2}.
+\end{equation*}  
+Die Konditionszahl wird folglich quadriert, was insbesondere bei schlecht konditionierten Matrizen zu deutlichen Ungenauigkeiten führen kann.
 
+Um diese abstrakte Folgerung zu verdeutlichen, veranschaulichen wir dies an einem Beispiel.
+Sei 
+\begin{equation*}
+    X = 
+    \begin{bmatrix}
+        1 & 1 & 1 \\
+        \varepsilon & 0 & 0 \\
+        0 & \varepsilon & 0 \\
+        0 & 0 & \varepsilon \\
+    \end{bmatrix},
+\end{equation*}
+auch als \emph{Läuchli-Matrix} bekannt.
+Die quadrierten Singulärwerte von \(X\) sind bekannt als \(3 + \varepsilon^{2},\ \varepsilon^{2}\) und erneut \(\varepsilon^{2}\).  
+Nun berechnen wir die quadrierten Singulärwerte mithilfe von \texttt{Python} auf zwei verschiedene Weisen.
+Zum einen mithilfe der SVD von \(X\) und zum anderen durch direkte Berechnung der Eigenwerte von \(X^{T}X\). 
+Dafür verwenden wir folgenden Code:
+\begin{minted}{python}
+epsilons = [1e-3, 1e-10, 1e-20]
+
+for epsilon in epsilons:
+    X = laeuchli_matrix(epsilon)
+    
+    # Eigenwerte von X^T X
+    eigvals = np.linalg.eigvalsh(X.T @ X)[::-1]
+    
+    # Quadrate der Singulärwerte von X
+    singular_values = np.linalg.svd(X, compute_uv=False)
+    singular_values_squared = singular_values**2
+    
+    print(f"Epsilon: {epsilon}")
+    print("Eigenwerte vs. Quadrate der Singulärwerte:")
+    for ev, sv in zip(eigvals, singular_values_squared):
+        print(f"{ev:.3e} 	 {sv:.3e}")
+    print("-")
+\end{minted}
+Die Funktionen \mintinline{python}|np.linalg.eigvalsh| und \mintinline{python}|np.linalg.svd| berechnen dabei jeweils die Eigenwerte einer reell symmetrischen Matrix, bzw.\ die Singulärwertzerlegung einer Matrix, wobei in diesem Beispiel durch \mintinline{python}|compute_uv=False| ausschließlich die Singulärwerte berechnet werden. 
+
+Damit erhalten wir folgenden Output:
+\begin{outputcode}
+Epsilon: 0.001
+Eigenwerte vs. Quadrate der Singulärwerte:
+3.000e+00        3.000e+00
+1.000e-06        1.000e-06
+1.000e-06        1.000e-06
+-
+Epsilon: 1e-10
+Eigenwerte vs. Quadrate der Singulärwerte:
+3.000e+00        3.000e+00
+-1.770e-17       1.000e-20
+-5.849e-16       1.000e-20
+-
+Epsilon: 1e-20
+Eigenwerte vs. Quadrate der Singulärwerte:
+3.000e+00        3.000e+00
+-1.770e-17       1.000e-40
+-5.849e-16       1.000e-40
+-
+\end{outputcode}
+Wir können beobachten, dass zwar für \(\varepsilon = 10^{-3}\) beide Vorgehensweise das gleiche Ergebnis liefern, für \(\varepsilon=10^{-10}\) und \(\varepsilon = 10^{-20}\) allerdings die Eigenwertberechnung nicht mehr exakt arbeitet. 

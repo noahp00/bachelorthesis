@@ -1,0 +1,19 @@
+\begin{MintedVerbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{n}{epsilons} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mf}{1e\PYGZhy{}3}\PYG{p}{,} \PYG{l+m+mf}{1e\PYGZhy{}10}\PYG{p}{,} \PYG{l+m+mf}{1e\PYGZhy{}20}\PYG{p}{]}
+
+\PYG{k}{for} \PYG{n}{epsilon} \PYG{o+ow}{in} \PYG{n}{epsilons}\PYG{p}{:}
+    \PYG{n}{X} \PYG{o}{=} \PYG{n}{laeuchli\PYGZus{}matrix}\PYG{p}{(}\PYG{n}{epsilon}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Eigenwerte von X\PYGZca{}T X}
+    \PYG{n}{eigvals} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{eigvalsh}\PYG{p}{(}\PYG{n}{X}\PYG{o}{.}\PYG{n}{T} \PYG{o}{@} \PYG{n}{X}\PYG{p}{)}\PYG{p}{[}\PYG{p}{:}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+
+    \PYG{c+c1}{\PYGZsh{} Quadrate der Singulärwerte von X}
+    \PYG{n}{singular\PYGZus{}values} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linalg}\PYG{o}{.}\PYG{n}{svd}\PYG{p}{(}\PYG{n}{X}\PYG{p}{,} \PYG{n}{compute\PYGZus{}uv}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}
+    \PYG{n}{singular\PYGZus{}values\PYGZus{}squared} \PYG{o}{=} \PYG{n}{singular\PYGZus{}values}\PYG{o}{*}\PYG{o}{*}\PYG{l+m+mi}{2}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Epsilon: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{epsilon}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Eigenwerte vs. Quadrate der Singulärwerte:}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{ev}\PYG{p}{,} \PYG{n}{sv} \PYG{o+ow}{in} \PYG{n+nb}{zip}\PYG{p}{(}\PYG{n}{eigvals}\PYG{p}{,} \PYG{n}{singular\PYGZus{}values\PYGZus{}squared}\PYG{p}{)}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{ev}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ 	 }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{sv}\PYG{l+s+si}{:}\PYG{l+s+s2}{.3e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{\PYGZhy{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}

@@ -7,6 +7,8 @@
 % Math-Stuff
 \usepackage{mathtools}
 \usepackage{keytheorems}
+% Nice code
+\usepackage{minted}
 % Plots
 \usepackage{pgfplots}
 % Block comments
@@ -482,3 +484,26 @@ headformat=\NAME~\NUMBER\NOTE,
 
 % Alternative to flushbottom
 \raggedbottom
+
+\setminted{     
+    bgcolor = yellow!15,     
+    linenos=true,              
+    numbersep=5pt,              
+    fontsize=\small,            
+    breaklines=true,            
+    frame=single,                         
+    escapeinside=||, 
+    framesep=0pt,               
+}
+
+\newminted{output}{
+    bgcolor = yellow!15, 
+    linenos=false,                  
+    numbersep=5pt,              
+    fontsize=\small,            
+    breaklines=true,            
+    frame=single,                         
+    escapeinside=||, 
+    framesep=0pt,      
+    style=bw,         
+}

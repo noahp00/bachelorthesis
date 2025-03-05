@@ -1,0 +1,20 @@
+\begin{MintedVerbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{g+go}{Epsilon: 0.001}
+\PYG{g+go}{Eigenwerte vs. Quadrate der Singulärwerte:}
+\PYG{g+go}{3.000e+00        3.000e+00}
+\PYG{g+go}{1.000e\PYGZhy{}06        1.000e\PYGZhy{}06}
+\PYG{g+go}{1.000e\PYGZhy{}06        1.000e\PYGZhy{}06}
+\PYG{g+go}{\PYGZhy{}}
+\PYG{g+go}{Epsilon: 1e\PYGZhy{}10}
+\PYG{g+go}{Eigenwerte vs. Quadrate der Singulärwerte:}
+\PYG{g+go}{3.000e+00        3.000e+00}
+\PYG{g+go}{\PYGZhy{}1.770e\PYGZhy{}17       1.000e\PYGZhy{}20}
+\PYG{g+go}{\PYGZhy{}5.849e\PYGZhy{}16       1.000e\PYGZhy{}20}
+\PYG{g+go}{\PYGZhy{}}
+\PYG{g+go}{Epsilon: 1e\PYGZhy{}20}
+\PYG{g+go}{Eigenwerte vs. Quadrate der Singulärwerte:}
+\PYG{g+go}{3.000e+00        3.000e+00}
+\PYG{g+go}{\PYGZhy{}1.770e\PYGZhy{}17       1.000e\PYGZhy{}40}
+\PYG{g+go}{\PYGZhy{}5.849e\PYGZhy{}16       1.000e\PYGZhy{}40}
+\PYG{g+go}{\PYGZhy{}}
+\end{MintedVerbatim}
