@@ -21,3 +21,4 @@
 !**/build/master.pdf
 *.pyg
 _minted-master
+_minted
