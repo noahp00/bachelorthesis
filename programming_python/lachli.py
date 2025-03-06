@@ -1,10 +1,10 @@
 import numpy as np
 
-# Funktion zur Erstellung der Läuchli-Matrix für gegebenes n und epsilon
+# Funktion zur Erstellung der Läuchli-Matrix für gegebenes epsilon
 def laeuchli_matrix(epsilon):
     L = np.zeros((4, 3))
-    L[0, :] = 1  # Erste Zeile mit Einsen
-    np.fill_diagonal(L[1:, :], epsilon)  # Diagonale mit epsilon
+    L[0, :] = 1  
+    np.fill_diagonal(L[1:, :], epsilon)  
     return L
 
 # Verschiedene Werte für epsilon

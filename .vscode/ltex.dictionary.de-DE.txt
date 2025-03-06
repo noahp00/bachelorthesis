@@ -8,3 +8,4 @@ PCA
 Vollmundigkeit
 Orthogonalitätsbedingung
 Läuchli-Matrix
+Lächli-Matrix

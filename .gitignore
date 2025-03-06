@@ -2,6 +2,7 @@
 *.bbl
 *.bbl-SAVE-ERROR
 *.bcf
+*.bcf-SAVE-ERROR
 *.blg
 *.fdb_latexmk
 *.fls
@@ -18,4 +19,4 @@
 .gz
 **/build/*.pdf
 !**/build/master.pdf
-
+*.pyg

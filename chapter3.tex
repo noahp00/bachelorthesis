@@ -252,14 +252,19 @@ Für \(\rg(X) = r\) und \(i \in \{1,\ldots,r\}\) kann damit ein beliebiger Eigen
 \begin{equation*}
     \lambda_{i} = \frac{\sigma_{i}^{2}}{n}, 
 \end{equation*}  
-wobei für \(i > r\) gilt, dass \(\lambda_{i} = 0\).
+wobei \(\lambda_{i} = 0\) für \(i > r\).
 
 Die Hauptkomponente zu einer beliebigen Hauptrichtung \(v\) wird, wie bereits in der Herleitung angemerkt, durch \(Xv\) beschrieben.  
 Es lassen sich also alle Hauptkomponenten zusammenfassen durch 
 \begin{equation*}
     XV = USV^{T}V = US.
 \end{equation*}
-Damit lässt dich die Hauptkomponentenanalyse vollständig durch die Singulärwertzerlegung ausdrücken.
+Damit lässt dich die Hauptkomponentenanalyse vollständig durch die Singulärwertzerlegung ausdrücken:
+\begin{itemize}
+    \item Die Hauptrichtungen durch die Spaltenvektoren von \(V\).
+    \item Die Hauptkomponenten durch \(US\).
+    \item Die Varianzen durch \(\frac{\sigma_{i}^{2}}{n}\) mit \(n \coloneqq\) Anzahl der Objekte.
+\end{itemize}
 
 Der Vorteil, die PCA mit der SVD von \(X\) zu berechnen, statt mit der Spektralzerlegung von \(\Sigma\), zeichnet sich durch die numerische Stabilität der Berechnung aus.  
 Um dies zu zeigen, wird ein Exkurs in die algorithmische Mathematik vorgenommen, wobei die für uns wichtigen Konzepte in \zcref{rep:alma} rekapituliert werden.
@@ -277,19 +282,21 @@ Um dies zu zeigen, wird ein Exkurs in die algorithmische Mathematik vorgenommen,
         \item Desto kleiner die Konditionszahl ist, desto besser konditioniert ist das Problem.
     \end{itemize}
 \end{repitition}
-Wir wollen nun zeigen, dass sich die Konditionszahl von \(\Sigma\) im Vergleich zu \(X\) erhöht und \(\Sigma\) somit anfälliger für Fehler bei numerischen Berechnungen, wie beispielsweise der Bestimmung von Eigenwerten ist.  
-Dafür benötigen wir die Singulärwerte von \(\Sigma\), welche als Wurzeln der positiven Eigenwerte von \(\Sigma^{T}\Sigma = \Sigma^{2}\) gegeben sind.
-Betrachte also für beliebigen Eigenvektor \(v\) von \(\Sigma\) mit Eigenwert \(\lambda\)
+Wir zeigen nun, dass \(\Sigma\) schlechter konditioniert ist als \(X\) und somit anfälliger für Ungenauigkeiten bei numerischen Berechnungen, wie dem Bestimmen von Eigenwerten.  
+Nach \zcref{rep:alma} kann die Konditionszahl mithilfe der Singulärwerte von \(\Sigma\) bestimmt werden, die als die Wurzeln der positiven Eigenwerte von \(\Sigma^{T}\Sigma = \Sigma^{2}\) gegeben sind.
+
+Sei \(v\) ein beliebiger Eigenvektor von \(\Sigma\) zum Eigenwert \(\lambda\), dann gilt
 \begin{equation*}
-    \Sigma^{2}v = \Sigma \lambda v = \Sigma v \lambda = \lambda^{2} v.
+    \Sigma^{2}v = \Sigma \Sigma v = \Sigma \lambda v = \Sigma v \lambda = \lambda^{2} v.
 \end{equation*}   
-Die Singulärwerte von \(\Sigma\) sind damit gegeben durch die Eigenwerte von \(\Sigma\), womit  
+Daraus folgt, dass die Eigenvektoren von \(\Sigma\) und \(\Sigma^{2}\) identisch sind, während die Eigenwerte quadriert werden.
+Die Singulärwerte von \(\Sigma\) entsprechen damit den Eigenwerten von \(\Sigma\) und
 \begin{equation*}
     \kappa(\Sigma) = \frac{\sigma_{1}^{2}/n}{\sigma_{r}^{2}/n}={\left(\frac{\sigma_{1}}{\sigma_{r}}\right)}^{2} = {\kappa(X)}^{2}.
 \end{equation*}  
-Die Konditionszahl wird folglich quadriert, was insbesondere bei schlecht konditionierten Matrizen zu deutlichen Ungenauigkeiten führen kann.
+Die Konditionszahl von \(\Sigma\) ist somit das Quadrat der Konditionszahl von \(X\), was insbesondere bei schlecht konditionierten Matrizen zu erheblichen Ungenauigkeiten führen kann.
 
-Um diese abstrakte Folgerung zu verdeutlichen, veranschaulichen wir dies an einem Beispiel.
+Diese Folgerung veranschaulichen wir an einem Beispiel.
 Sei 
 \begin{equation*}
     X = 
@@ -300,33 +307,24 @@ Sei
         0 & 0 & \varepsilon \\
     \end{bmatrix},
 \end{equation*}
-auch als \emph{Läuchli-Matrix} bekannt.
-Die quadrierten Singulärwerte von \(X\) sind bekannt als \(3 + \varepsilon^{2},\ \varepsilon^{2}\) und erneut \(\varepsilon^{2}\).  
-Nun berechnen wir die quadrierten Singulärwerte mithilfe von \texttt{Python} auf zwei verschiedene Weisen.
-Zum einen mithilfe der SVD von \(X\) und zum anderen durch direkte Berechnung der Eigenwerte von \(X^{T}X\). 
-Dafür verwenden wir folgenden Code:
+die sogenannte \emph{Läuchli-Matrix}.
+Die quadrierten Singulärwerte von \(X\) sind bekannt und gegeben durch  
+\begin{equation*}
+    \sigma_{1}^{2} = 3 + \varepsilon^{2}, \quad \sigma_{2}^{2} = \varepsilon^{2}, \quad \sigma_{3}^{2} = \varepsilon^{2}.
+\end{equation*} 
+Um diese Werte zu berechnen, verwenden wir zum einen die Singulärwertzerlegung von \(X\) und zum anderen die direkte Berechnung der Eigenwerte von \(X^{T}X\).   
+Mithilfe von \texttt{Python} erreichen wir dies durch:
 \begin{minted}{python}
-epsilons = [1e-3, 1e-10, 1e-20]
-
-for epsilon in epsilons:
-    X = laeuchli_matrix(epsilon)
-    
-    # Eigenwerte von X^T X
-    eigvals = np.linalg.eigvalsh(X.T @ X)[::-1]
-    
-    # Quadrate der Singulärwerte von X
-    singular_values = np.linalg.svd(X, compute_uv=False)
-    singular_values_squared = singular_values**2
-    
-    print(f"Epsilon: {epsilon}")
-    print("Eigenwerte vs. Quadrate der Singulärwerte:")
-    for ev, sv in zip(eigvals, singular_values_squared):
-        print(f"{ev:.3e} 	 {sv:.3e}")
-    print("-")
+# Quadrate der Singulärwerte von X
+singular_values = np.linalg.svd(X, compute_uv=False)
+singular_values_squared = singular_values**2   
+# Eigenwerte von X^T X
+eigvals = np.linalg.eigvalsh(X.T @ X)[::-1]
 \end{minted}
 Die Funktionen \mintinline{python}|np.linalg.eigvalsh| und \mintinline{python}|np.linalg.svd| berechnen dabei jeweils die Eigenwerte einer reell symmetrischen Matrix, bzw.\ die Singulärwertzerlegung einer Matrix, wobei in diesem Beispiel durch \mintinline{python}|compute_uv=False| ausschließlich die Singulärwerte berechnet werden. 
+Der vollständige Code ist zu finden unter \zcref{app:pro:lach} in \zcref{app:pro}.
 
-Damit erhalten wir folgenden Output:
+Für \(\varepsilon=10^{-3},\ 10^{10}\) und \(10^{-20}\) erhalten wir damit folgenden Output: 
 \begin{outputcode}
 Epsilon: 0.001
 Eigenwerte vs. Quadrate der Singulärwerte:
@@ -347,4 +345,5 @@ Eigenwerte vs. Quadrate der Singulärwerte:
 -5.849e-16       1.000e-40
 -
 \end{outputcode}
-Wir können beobachten, dass zwar für \(\varepsilon = 10^{-3}\) beide Vorgehensweise das gleiche Ergebnis liefern, für \(\varepsilon=10^{-10}\) und \(\varepsilon = 10^{-20}\) allerdings die Eigenwertberechnung nicht mehr exakt arbeitet. 
+Es lässt sich beobachten, dass für \(\varepsilon = 10^{-3}\) beide Berechnungsmethoden übereinstimmen und exakt arbeiten. 
+Für \(\varepsilon=10^{-10}\) und \(\varepsilon = 10^{-20}\) treten jedoch Ungenauigkeiten in der direkten Eigenwertberechnung von \(X^{T}X\) auf, während die SVD weiterhin zu stabilen Ergebnissen führt. 
