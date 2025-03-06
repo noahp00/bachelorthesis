@@ -315,35 +315,35 @@ Die quadrierten Singulärwerte von \(X\) sind bekannt und gegeben durch
 Um diese Werte zu berechnen, verwenden wir zum einen die Singulärwertzerlegung von \(X\) und zum anderen die direkte Berechnung der Eigenwerte von \(X^{T}X\).   
 Mithilfe von \texttt{Python} erreichen wir dies durch:
 \begin{minted}{python}
-# Quadrate der Singulärwerte von X
-singular_values = np.linalg.svd(X, compute_uv=False)
-singular_values_squared = singular_values**2   
-# Eigenwerte von X^T X
-eigvals = np.linalg.eigvalsh(X.T @ X)[::-1]
+    # Quadrate der Singulärwerte von X
+    singular_values = np.linalg.svd(X, compute_uv=False)
+    singular_values_squared = singular_values**2   
+    # Eigenwerte von X^T X
+    eigvals = np.linalg.eigvalsh(X.T @ X)[::-1]
 \end{minted}
 Die Funktionen \mintinline{python}|np.linalg.eigvalsh| und \mintinline{python}|np.linalg.svd| berechnen dabei jeweils die Eigenwerte einer reell symmetrischen Matrix, bzw.\ die Singulärwertzerlegung einer Matrix, wobei in diesem Beispiel durch \mintinline{python}|compute_uv=False| ausschließlich die Singulärwerte berechnet werden. 
 Der vollständige Code ist zu finden unter \zcref{app:pro:lach} in \zcref{app:pro}.
 
 Für \(\varepsilon=10^{-3},\ 10^{10}\) und \(10^{-20}\) erhalten wir damit folgenden Output: 
 \begin{outputcode}
-Epsilon: 0.001
-Eigenwerte vs. Quadrate der Singulärwerte:
-3.000e+00        3.000e+00
-1.000e-06        1.000e-06
-1.000e-06        1.000e-06
--
-Epsilon: 1e-10
-Eigenwerte vs. Quadrate der Singulärwerte:
-3.000e+00        3.000e+00
--1.770e-17       1.000e-20
--5.849e-16       1.000e-20
--
-Epsilon: 1e-20
-Eigenwerte vs. Quadrate der Singulärwerte:
-3.000e+00        3.000e+00
--1.770e-17       1.000e-40
--5.849e-16       1.000e-40
--
+    Epsilon: 0.001
+    Eigenwerte vs. Quadrate der Singulärwerte:
+    3.000e+00        3.000e+00
+    1.000e-06        1.000e-06
+    1.000e-06        1.000e-06
+    -
+    Epsilon: 1e-10
+    Eigenwerte vs. Quadrate der Singulärwerte:
+    3.000e+00        3.000e+00
+    -1.770e-17       1.000e-20
+    -5.849e-16       1.000e-20
+    -
+    Epsilon: 1e-20
+    Eigenwerte vs. Quadrate der Singulärwerte:
+    3.000e+00        3.000e+00
+    -1.770e-17       1.000e-40
+    -5.849e-16       1.000e-40
+    -
 \end{outputcode}
 Es lässt sich beobachten, dass für \(\varepsilon = 10^{-3}\) beide Berechnungsmethoden übereinstimmen und exakt arbeiten. 
-Für \(\varepsilon=10^{-10}\) und \(\varepsilon = 10^{-20}\) treten jedoch Ungenauigkeiten in der direkten Eigenwertberechnung von \(X^{T}X\) auf, während die SVD weiterhin zu stabilen Ergebnissen führt. 
+Für \(\varepsilon=10^{-10}\) und \(\varepsilon = 10^{-20}\) treten jedoch Ungenauigkeiten in der direkten Eigenwertberechnung von \(X^{T}X\) auf, während die SVD weiterhin zu stabilen Ergebnissen führt.  

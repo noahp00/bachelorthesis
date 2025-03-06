@@ -8,7 +8,7 @@
 \usepackage{mathtools}
 \usepackage{keytheorems}
 % Nice code
-\usepackage{minted}
+\usepackage[chapter,newfloat]{minted}
 % Plots
 \usepackage{pgfplots}
 % Block comments
@@ -330,6 +330,34 @@ headformat=\NAME~\NUMBER\NOTE,
   name=Beispiel,
 ]
 
+% Code
+\setminted{     
+    bgcolor = yellow!15,     
+    linenos=true,              
+    numbersep=5pt,              
+    fontsize=\small,            
+    breaklines=true,            
+    frame=single,                         
+    escapeinside=||, 
+    framesep=0pt,
+    autogobble =true, 
+    style=xcode,             
+}
+
+% Output (from code)
+\newminted{output}{
+    bgcolor = gray!15, 
+    linenos=false,                  
+    numbersep=5pt,              
+    fontsize=\small,            
+    breaklines=true,            
+    frame=single,                         
+    escapeinside=||, 
+    framesep=0pt,      
+    style=bw,      
+    autogobble = true,   
+}
+
 % Header
 \automark[chapter]{chapter}
 \automark*[section]{}
@@ -418,6 +446,17 @@ headformat=\NAME~\NUMBER\NOTE,
 \renewcaptionname{ngerman}{\tablename}{Tab.}
 \renewcommand*{\tableformat}{\bfseries\tablename~\thetable\autodot}
 
+% New caption for code
+\SetupFloatingEnvironment{listing}{name=Code,autorefname=Code}
+\captionsetup[listing]{skip=-2pt,labelfont=bf}
+\zcRefTypeSetup{listing}{
+Name-sg = Code,
+Name-pl = Codes,
+}
+% Less vertical space after code
+\AfterEndEnvironment{minted}{\vspace{-6pt}}
+
+
 % Layout ToC
 \RedeclareSectionCommands[
   toclinefill=\hspace{14pt},
@@ -484,26 +523,3 @@ headformat=\NAME~\NUMBER\NOTE,
 
 % Alternative to flushbottom
 \raggedbottom
-
-\setminted{     
-    bgcolor = yellow!15,     
-    linenos=true,              
-    numbersep=5pt,              
-    fontsize=\small,            
-    breaklines=true,            
-    frame=single,                         
-    escapeinside=||, 
-    framesep=0pt,               
-}
-
-\newminted{output}{
-    bgcolor = gray!15, 
-    linenos=false,                  
-    numbersep=5pt,              
-    fontsize=\small,            
-    breaklines=true,            
-    frame=single,                         
-    escapeinside=||, 
-    framesep=0pt,      
-    style=bw,         
-}

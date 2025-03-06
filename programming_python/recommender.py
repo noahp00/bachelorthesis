@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 from scipy.sparse.linalg import svds
 
-ratings = pd.read_csv("ratings.csv", header=0)
+ratings = pd.read_csv("programming_python/ratings.csv", header=0)
 ratings = ratings.drop(columns=["timestamp"])
 
-movies = pd.read_csv("movies.csv", header=0)
+movies = pd.read_csv("programming_python/movies.csv", header=0)
 movies = movies.drop(columns="genres")
 
 user_item_matrix = ratings.pivot(

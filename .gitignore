@@ -20,3 +20,4 @@
 **/build/*.pdf
 !**/build/master.pdf
 *.pyg
+_minted-master
