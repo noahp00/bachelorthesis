@@ -21,4 +21,5 @@
 !**/build/master.pdf
 *.pyg
 _minted-master
-_minted
+.vscode/
+**/build/_minted/
