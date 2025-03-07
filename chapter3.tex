@@ -321,7 +321,7 @@ Mithilfe von \texttt{Python} erreichen wir dies durch:
     # Eigenwerte von X^T X
     eigvals = np.linalg.eigvalsh(X.T @ X)[::-1]
 \end{minted}
-Die Funktionen \mintinline{python}|np.linalg.eigvalsh| und \mintinline{python}|np.linalg.svd| berechnen dabei jeweils die Eigenwerte einer reell symmetrischen Matrix, bzw.\ die Singulärwertzerlegung einer Matrix, wobei in diesem Beispiel durch \mintinline{python}|compute_uv=False| ausschließlich die Singulärwerte berechnet werden. 
+Die Funktionen \mintinline{python}{np.linalg.eigvalsh} und \mintinline{python}{np.linalg.svd} berechnen dabei jeweils die Eigenwerte einer reell symmetrischen Matrix, bzw.\ die Singulärwertzerlegung einer Matrix, wobei in diesem Beispiel durch \mintinline{python}{compute_uv=False} ausschließlich die Singulärwerte berechnet werden. 
 Der vollständige Code ist zu finden unter \zcref{app:pro:lach} in \zcref{app:pro}.
 
 Für \(\varepsilon=10^{-3},\ 10^{10}\) und \(10^{-20}\) erhalten wir damit folgenden Output: 

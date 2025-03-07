@@ -340,7 +340,7 @@ headformat=\NAME~\NUMBER\NOTE,
     frame=single,                         
     escapeinside=||, 
     framesep=0pt,
-    autogobble =true, 
+    autogobble=true, 
     style=xcode,             
 }
 
@@ -355,14 +355,17 @@ headformat=\NAME~\NUMBER\NOTE,
     escapeinside=||, 
     framesep=0pt,      
     style=bw,      
-    autogobble = true,   
+    autogobble=true,   
 }
 
-% Header
+% Less vertical space after code
+\AfterEndEnvironment{minted}{\vspace{-4pt}}
+
+% Initiate header
 \automark[chapter]{chapter}
 \automark*[section]{}
 
-% Still header
+% Header rule and format
 \clearpairofpagestyles
 \rohead{%
   \headmark\quad
@@ -389,7 +392,7 @@ headformat=\NAME~\NUMBER\NOTE,
   \quad\headmark
 }
 
-% Header format
+% Header font format
 \renewcommand*{\chaptermarkformat}{%
 \footnotesize{\bfseries\chapapp~\thechapter}\autodot\enskip}
 \renewcommand*{\sectionmarkformat}{%
@@ -453,9 +456,6 @@ headformat=\NAME~\NUMBER\NOTE,
 Name-sg = Code,
 Name-pl = Codes,
 }
-% Less vertical space after code
-\AfterEndEnvironment{minted}{\vspace{-6pt}}
-
 
 % Layout ToC
 \RedeclareSectionCommands[
@@ -497,6 +497,7 @@ Name-pl = Codes,
   \vspace{-10pt}
   }{}%
 }
+
 % Section title letters spaced
 \renewcommand{\sectionlinesformat}[4]{%
 \@hangfrom{\hskip #2#3}{\textls{#4}}% chktex 41
