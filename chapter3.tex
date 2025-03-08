@@ -201,7 +201,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
         &&& \langle u_{k},u_{i} \rangle = 0 \quad \text{für alle } i \in \{1,\ldots,k-1\},    
     \end{alignat*}
     aufgestellt mit zusätzlicher Orthogonalitätsbedingung.
-    Anschließend kann, mithilfe der zusätzlichen Eigenschaft, dass Eigenvektoren zu verschiedenen Eigenwerten bei symmetrischen Matrizen orthogonal sind (\zcref{rem:orth}), das Optimierungsproblem durch \(u_{k} = r_{k}\) gelöst werden, womit der Beweis abgeschlossen ist.
+    Anschließend kann, mithilfe der Eigenschaft, dass bei symmetrischen Matrizen Eigenvektoren zu verschiedenen Eigenwerten orthogonal sind (\zcref{rem:orth}), das Optimierungsproblem durch \(u_{k} = r_{k}\) gelöst werden, womit der Beweis abgeschlossen ist.
 \end{enumerate}
 \emph{Hinweis.} Die \(i\)-te Hauptkomponente ist dann durch \(Xu_{i}\) gegeben, wodurch die Projektionen der Datenpunkte auf \(u_{i}\) im durch \(u_{i}\) aufgespannten Unterraum zusammengefasst werden.    
 \end{proof}
@@ -232,9 +232,9 @@ Diese Art der Berechnung wird in der Praxis häufig verwendet, da sie einen ents
 
 Sei also erneut \(X \in \R^{n \times d}\) eine standardisierte Datenmatrix mit zugehöriger Kovarianzmatrix
 \begin{equation}
-    \Sigma = \frac{1}{n}X^{T}X = V \Lambda V^{T} \label{eq:pcasvd1}
+    \Sigma = \frac{1}{n}X^{T}X = V \Lambda V^{T} \in \R^{d \times d} \label{eq:pcasvd1}
 \end{equation}
-nach dem \hyperref[spec]{Spektralsatz} für orthogonales \(V \in \R^{d \times d}\), welches die Eigenvektoren von \(\Sigma\) als Spaltenvektoren enthält und diagonales \(\Lambda\) mit den zugehörigen Eigenwerten auf der Diagonalen.
+nach dem \hyperref[spec]{Spektralsatz} für orthogonales \(V \in \R^{d \times d}\), welches die Eigenvektoren von \(\Sigma\) als Spaltenvektoren enthält und diagonales \(\Lambda \in \R^{d \times d}\) mit den zugehörigen Eigenwerten auf der Diagonalen.
 
 Sei außerdem
 \begin{equation*}
@@ -347,3 +347,5 @@ Für \(\varepsilon=10^{-3},\ 10^{10}\) und \(10^{-20}\) erhalten wir damit folge
 \end{outputcode}
 Es lässt sich beobachten, dass für \(\varepsilon = 10^{-3}\) beide Berechnungsmethoden übereinstimmen und exakt arbeiten. 
 Für \(\varepsilon=10^{-10}\) und \(\varepsilon = 10^{-20}\) treten jedoch Ungenauigkeiten in der direkten Eigenwertberechnung von \(X^{T}X\) auf, während die SVD weiterhin zu stabilen Ergebnissen führt.
+
+Damit sind die Vorteile der Singulärwertzerlegung bei der Berechnung der Hauptkomponentenanalyse gezeigt und es wird zum nächsten Anwendungsbeispiel übergegangen.

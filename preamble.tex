@@ -7,6 +7,7 @@
 % Math-Stuff
 \usepackage{mathtools}
 \usepackage{keytheorems}
+\usepackage{nicematrix}
 % Nice code
 \usepackage[chapter,newfloat]{minted}
 % Plots
@@ -34,12 +35,13 @@
 % Colors and graphics
 \usepackage[dvipsnames]{xcolor}
 \usepackage{graphicx}
+\usepackage{wrapfig}
 % Nice tables
-\usepackage{longtable, booktabs, diagbox}
+\usepackage{longtable, booktabs}
 % Lists
 \usepackage{enumitem}
 % Bibliography
-\usepackage[backend=biber,style=alphabetic,doi=false,isbn=false,giveninits=true, block=ragged]{biblatex}
+\usepackage[backend=biber,style=alphabetic,doi=false,isbn=false,eprint=false,giveninits=true,block=ragged]{biblatex}
 \addbibresource{literature.bib}
 \DeclareFieldFormat{urldate}{(Stand: #1)}
 % Quotes
@@ -474,7 +476,7 @@ Name-pl = Codes,
 \definecolor{chaptergrey}{gray}{0.5}
 \newfontface\eulerfont{Euler Math}
 
-% Chapter and chapter number font
+% Chapter + section font and chapter number font
 \addtokomafont{disposition}{\normalfont\scshape\bfseries}
 \newkomafont{chapternumber}{\fontsize{60}{70}\normalfont\color{chaptergrey}\eulerfont} 
 \addtokomafont{pagehead}{\normalfont\scshape}

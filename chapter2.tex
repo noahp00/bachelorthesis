@@ -221,11 +221,11 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     diagonal, da \(D\) diagonal ist.              
 \end{proof}
 \begin{corollary}\label{cor:spec}
-    Sei \(n \in \N\) und \(A \in \R^{n \times n}\) quadratisch und symmetrisch. Dann gilt: \\
-    Es existiert eine orthogonale Matrix \(R \in \R^{n \times n}\), sodass \(R^{-1}AR = \Lambda\) diagonal ist, wobei die Diagonalwerte von \(\Lambda \in \R^{n \times n}\) die Eigenwerte von \(A\) und die Spalten von \(R\) die normierten Eigenvektoren von \(A\) sind.  
+    Seien die Voraussetzungen aus \zcref{spec} gegeben.\\
+    Dann gilt, dass die Diagonalwerte von \(\Lambda \in \R^{n \times n}\) die Eigenwerte der Matrix \(A\) und die Spalten von \(R\) die zugehörigen normierten Eigenvektoren von \(A\) sind.    
 \end{corollary}
 \begin{proof}
-    Nach dem Spektralsatz (\zcref{spec}) gibt es ein orthogonales 
+    Nach dem \hyperref[spec]{Spektralsatz} gibt es ein orthogonales 
     \(
     R=
     \big[
@@ -251,9 +251,8 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     \end{equation*}
     Da \(R\) orthogonal ist, sind nach Definition die Spaltenvektoren von \(R\), also \(r_1,\ldots,r_n\), orthonormal.
     Für beliebiges \(r_i\) gilt somit \(\norm{r_i} = 1\), wodurch \(r_i \neq \symbf{0}\) sein muss.
-    Mit \zcref{eigvec} sind also \(r_1,\ldots,r_n\) die (normierten) Eigenvektoren von \(A\) mit zugehörigen Eigenwerten \(\lambda_1,\ldots,\lambda_n\).
-    
-    \underline{\emph{Hinweis}}. Mithilfe von Zeilen- und Spaltenvertauschungen innerhalb von \(R\) und \(\Lambda\) kann \(\Lambda\) so geordnet werden, dass \(\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n\).
+    Mit \zcref{eigvec} sind also \(r_1,\ldots,r_n\) die (normierten) Eigenvektoren von \(A\) mit zugehörigen Eigenwerten \(\lambda_1,\ldots,\lambda_n\).\vspace{6pt}\\
+    \noindent{\emph{Hinweis}}. Mithilfe von Zeilen- und Spaltenvertauschungen innerhalb von \(R\) und \(\Lambda\) kann \(\Lambda\) so geordnet werden, dass \(\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n\).
 Diese Sortierung wird für den Rest der Arbeit angenommen.
 \end{proof}
 \begin{remark}\label{rem:orth}
@@ -291,8 +290,7 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
         \in \R^{n \times n}
     \end{equation*}
     und diagonales \(\R^{n \times n} \ni \Lambda = \operatorname{diag}(\lambda_1,\ldots,\lambda_n)\) mit \(\lambda_1 \geq \cdots \geq \lambda_r > 0 = \lambda_{r+1} = \cdots = \lambda_n\), sodass \(C = V \Lambda V^{T}\).    
-
-    \noindent Definiere \(\sigma_i \coloneq \sqrt{\lambda_i}\) für \(i = 1,\ldots,r\) und
+    Definiere \(\sigma_i \coloneq \sqrt{\lambda_i}\) für \(i = 1,\ldots,r\) und
     \begin{alignat*}{2}
         &\Sigma_{ij} &{}={}& 
             \begin{cases}
@@ -323,7 +321,8 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
             0, \quad & i \neq j.
         \end{cases} & \bigl(v_i,v_j \text{ orthonormal}\bigr)
     \end{align*}
-    Wie bereits im Beweis des Spektralsatzes können \(u_1,\ldots,u_r\) mithilfe des Basisergänzungssatzes (\zcref{bes}) und des Gram-Schmidt-Verfahrens (\zcref{gram}) durch Vektoren \(u_{r+1}\ldots,u_m \in \R^{m}\) zu einer orthonormalen Basis von \(\R^{m}\) ergänzt werden.
+    Wie bereits im Beweis des Spektralsatzes können \(u_1,\ldots,u_r\) mithilfe des Basisergänzungssatzes (\zcref{bes}) und des Gram-Schmidt-Verfahrens (\zcref{gram}) durch Vektoren \(u_{r+1}\ldots,u_m \in \R^{m}\) zu einer orthonormalen Basis von \(\R^{m}\) ergänzt werden. 
+    \enlargethispage{\baselineskip} 
     Damit ist 
     \begin{equation*}
         \symbf{U} =
@@ -406,7 +405,7 @@ Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt
     \end{equation*} 
 \end{repitition}
 \begin{corollary}\label{cor:svd}
-    Seien \(m,n\in\N, X \in \R^{m \times n}\)\ und \(r = \textit{rg}(X)\).  \\
+    Seien \(m,n\in\N,\ X \in \R^{m \times n}\)\ und \(r = \textit{rg}(X)\).  \\
     Dann existieren orthogonale Matrizen \(U \in \R^{m \times m}, V \in \R^{n \times n}\) und eine Diagonalmatrix \(\Sigma \in \R^{m \times n}\), sodass
     \begin{equation*}
         X = U \Sigma V^{T}
@@ -455,7 +454,7 @@ Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt
     {\small\((**)\) \textit{Für} \(i, j \in \{1,\ldots,n\}\) \textit{sind} \(v_i, v_j\) \textit{orthonormal}.} 
     \vspace{5pt}
     \\
-    \textbf{Fall 1}: \(1 \leq i \leq r\). \\
+    \underline{\emph{Fall 1}}: \(1 \leq i \leq r\). \\
     Damit ist \(\sigma_i > 0\) und
     \begin{equation*}
         X \frac{v_i}{\sigma_i} = u_i.
@@ -463,7 +462,7 @@ Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt
     Nach \zcref{df:four} sind dann \(u_1,\ldots,u_r \in \text{Bild}(X)\).
     Nun ist \(\text{dim}(\text{Bild}(X)) = \text{rg}(X) = r\) und da \(\symcal{B}_S = \{u_1,\ldots,u_r\}\) genau \(r\) orthonormale Vektoren enthält, bildet \(\symcal{B}_S\) eine Basis vom \(\text{Bild}(X)\), also vom Spaltenraum. 
     \vspace{5pt} \\
-    \textbf{Fall 2}: \(i \geq r+1\). \\
+    \underline{\emph{Fall 2}}: \(i \geq r+1\). \\
     Damit ist \(\sigma_i = 0\) und
     \begin{equation*}
         Xv_i = \symbf{0}.
@@ -659,7 +658,7 @@ Da dies an einem einzelnen Vektor schwer visualisiert werden kann, multipliziere
     \right\}.
 \end{equation*} 
 Das Ergebnis ist in \zcref{fig:sph} dargestellt. 
-\begin{figure}[htb]
+\begin{figure}[b]
     \centering
     \begin{subfigure}{0.45\textwidth}
         \centering
@@ -672,7 +671,7 @@ Das Ergebnis ist in \zcref{fig:sph} dargestellt.
     \caption{Wirkung von \(A\) auf die Einheitssphäre}\label{fig:sph}
 \end{figure}
 Um nachzuvollziehen, wie dieses Ergebnis zustande gekommen ist, verwenden wir die Singulärwertzerlegung und veranschaulichen die Zwischenschritte von \(Av = U \Sigma V^{T}v\) anhand von einzelner Plots (siehe \zcref{fig:svdsph}). 
-\begin{figure}[!b]
+\begin{figure}[t]
     \centering
     \captionsetup[subfigure]{justification=centering}
     \begin{subfigure}{0.45\textwidth}
