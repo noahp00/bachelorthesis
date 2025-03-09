@@ -166,10 +166,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
             \end{bmatrix}
             =\sum_{i=1}^{d}\lambda_{i}w_{i}^{2}.
         \end{equation*}
-        Nach Bedingung ist \(\norm{u}=1\), wodurch:
-        \begin{equation*}
-            \norm{w} = \norm{R^{T}u} = \sqrt{\langle R^{T}u,R^{T}u \rangle} = \sqrt{u^{T}RR^{T}u} = \norm{u} = 1.
-        \end{equation*} 
+        Nach Bedingung ist \(\norm{u}=1\) womit nach \zcref{lem:normorth} auch \(\norm{w} = 1\). 
         Da 
         \begin{equation*}
             \sum_{i=1}^{d}\lambda_{i}w_{i}^{2} = \lambda_{1}w_{1} + \lambda_{2}w_{2} + \cdots + \lambda_{d}w_{d}
@@ -349,6 +346,3 @@ Es lässt sich beobachten, dass für \(\varepsilon = 10^{-3}\) beide Berechnungs
 Für \(\varepsilon=10^{-10}\) und \(\varepsilon = 10^{-20}\) treten jedoch Ungenauigkeiten in der direkten Eigenwertberechnung von \(X^{T}X\) auf, während die SVD weiterhin zu stabilen Ergebnissen führt.
 
 Damit sind die Vorteile der Singulärwertzerlegung bei der Berechnung der Hauptkomponentenanalyse gezeigt und es wird zum nächsten Anwendungsbeispiel übergegangen.
-\begin{equation*}
-    X_{1}^{2}
-\end{equation*}

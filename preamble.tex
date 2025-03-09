@@ -61,6 +61,7 @@
 \usepackage{bookmark}
 
 % Macros
+\newcommand{\df}{\operatorname{df}}
 \newcommand{\diag}{\operatorname{diag}}
 \newcommand{\rg}{\operatorname{rg}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -349,15 +350,14 @@ headformat=\NAME~\NUMBER\NOTE,
 % Output (from code)
 \newminted{output}{
     bgcolor = gray!15, 
-    linenos=false,                  
-    numbersep=5pt,              
+    linenos=false,                                
     fontsize=\small,            
     breaklines=true,            
     frame=single,                         
     escapeinside=||, 
-    framesep=0pt,      
-    style=bw,      
-    autogobble=true,   
+    framesep=0pt,            
+    autogobble=true,
+    style=bw,   
 }
 
 % Less vertical space after code
@@ -472,7 +472,7 @@ Name-pl = Codes,
   raggedentrytext=true
 ]{default}{figure,table}
 
-% Chapter numbers
+% Prepare chapter numbers
 \definecolor{chaptergrey}{gray}{0.5}
 \newfontface\eulerfont{Euler Math}
 

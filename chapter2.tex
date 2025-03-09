@@ -139,8 +139,8 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     \)
     mit \(C \in \R^{(n-1) \times (n-1)}\) symmetrisch.
 
-    Nach Induktionshypothese gibt es ein orthogonales \(Q \in \R^{(n-1)\times(n-1)}\) mit \(Q^{T}CQ = D\) diagonal. 
-    Damit gilt
+    Nach Induktionshypothese gibt es damit ein orthogonales \(Q \in \R^{(n-1)\times(n-1)}\) mit \(Q^{T}CQ = D\) diagonal. 
+    Dann gilt
     \begin{align*}
         P^{T}AP &= B \\
         &= 
@@ -394,7 +394,7 @@ Dafür werden zunächst die vier fundamentalen Unterräume zu einer Matrix nach~
         &&\text{Kern}(A^{T}) &{}={}& \{ y \in \R^m \mid A^{T}y = \symbf{0} \}.
     \end{alignat*}
 \end{definition}
-Die vier Unterräume geben umfangreichen Aufschluss über die Wirkung einer Matrix auf verschiedene Vektoren und stehen dabei in Verbindung mit zahlreichen Themen der linearen Algebra, wie beispielsweise dem Lösen von Gleichungssystemen.
+Die vier Unterräume geben umfangreichen Aufschluss über die Wirkung einer Matrix auf verschiedene Vektoren und stehen dabei in Verbindung mit zahlreichen Themen der linearen Algebra.
 
 Die Art der Beziehung zwischen der Singulärwertzerlegung und den vier fundamentalen Unterräumen wird in \zcref{cor:svd} zusammengefasst.
 Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt, vor der Beweisführung wird allerdings \zcref{rep:dim} benötigt.
@@ -454,7 +454,7 @@ Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt
     {\small\((**)\) \textit{Für} \(i, j \in \{1,\ldots,n\}\) \textit{sind} \(v_i, v_j\) \textit{orthonormal}.} 
     \vspace{5pt}
     \\
-    \underline{\emph{Fall 1}}: \(1 \leq i \leq r\). \\
+    \underline{Fall 1}: \(1 \leq i \leq r\). \\
     Damit ist \(\sigma_i > 0\) und
     \begin{equation*}
         X \frac{v_i}{\sigma_i} = u_i.
@@ -462,7 +462,7 @@ Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt
     Nach \zcref{df:four} sind dann \(u_1,\ldots,u_r \in \text{Bild}(X)\).
     Nun ist \(\text{dim}(\text{Bild}(X)) = \text{rg}(X) = r\) und da \(\symcal{B}_S = \{u_1,\ldots,u_r\}\) genau \(r\) orthonormale Vektoren enthält, bildet \(\symcal{B}_S\) eine Basis vom \(\text{Bild}(X)\), also vom Spaltenraum. 
     \vspace{5pt} \\
-    \underline{\emph{Fall 2}}: \(i \geq r+1\). \\
+    \underline{Fall 2}: \(i \geq r+1\). \\
     Damit ist \(\sigma_i = 0\) und
     \begin{equation*}
         Xv_i = \symbf{0}.
@@ -477,7 +477,7 @@ Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt
     \end{equation*}
     betrachtet wird.
 \end{proof}
-Damit ist die Beweisführung dieser Arbeit abgeschlossen und die Berechnung der Singulärwertzerlegung kann an einem Beispiel veranschaulicht und visualisiert werden.
+Damit ist die Beweisführung dieses Abschnitts abgeschlossen und die Berechnung der Singulärwertzerlegung kann an einem Beispiel veranschaulicht und visualisiert werden.
 \section{Beispiel und Visualisierung}
 \begin{example}\label{ex:svd}
     Sei 
@@ -704,7 +704,7 @@ Um eine Vergleichbarkeit der Plots zu verbessern, wird die Darstellung dennoch b
 
 Zusammenfassend zerlegt also die Singulärwertzerlegung eine Matrix in grundlegende geometrische Transformationen: Drehung, Skalierung und gegebenenfalls Dimensionsreduktion oder -erhöhung.
 
-Mit dieser Erkenntnis wird sich dem letzten Abschnitt des theoretischen Teils zugewandt, in dem die wichtigsten beiden Arten der SVD definiert werden.
+Mit dieser Erkenntnis wird sich dem letzten Abschnitt des theoretischen Teils zugewandt, in dem die wichtigsten beiden Arten der SVD definiert werden und eine weitere wichtige Eigenschaft gezeigt wird.
 
 \section{Arten der Singulärwertzerlegung}
 
@@ -776,14 +776,64 @@ Bevor zur nächsten Variation übergegangen werden kann, betrachten wir eine wei
 Nun wird die womöglich interessanteste Art der Singulärwertzerlegung für diverse Anwendungsfälle definiert.
 \begin{definition}\label{df:trunsvd}
     Seien \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U_r \Sigma_r V^{T}_r = \sum_{i=1}^{r} \sigma_i u_i v^{T}_i\) die reduzierte SVD von \(A\) mit \(U_r \in R^{m \times r},\ \Sigma_r \in \R^{r \times r}\) und \(V_r \in \R^{n \times r}\). \\
-    Für \(k < r\) sei die \textit{trunkierte SVD} definiert mit:
+    Für \(k \leq r\) sei die \textit{trunkierte SVD} definiert mit:
     \begin{equation*}
         A \approx \sum_{i=1}^{k} \sigma_i u_i v^{T}_i = A_k.
     \end{equation*}
 \end{definition}
-Zur \zcref{df:trunsvd} sei angemerkt, dass sich \(A_k\) für größere Werte von \(k\) zunehmend \(A\) annähert, aber da komponentenweise \(\sigma_1 u_1 v^{T}_1 \geq \cdots \geq \sigma_r u_r v^{T}_r\) gilt (siehe \zcref{rem:onesvd}), kann bereits mit \(k \ll r\) eine gute Approximation erzielt werden. 
-Außerdem sollte betont werden, dass \(\text{rg}(A_k)=k < r\) ist, aufgrund dessen spricht man auch von einer \textit{Niedrigrang-Approximation}.
-
+Zur \zcref{df:trunsvd} sei angemerkt, dass \(\rg(A_k)=k \leq r\) ist, aufgrund dessen spricht man auch von einer \emph{Niedrigrang-Approximation}.
+Außerdem sollte betont werden, dass sich \(A_k\) für größere Werte von \(k\) zunehmend \(A\) annähert.
+Da jedoch komponentenweise \(\sigma_1 u_1 v^{T}_1 \geq \cdots \geq \sigma_r u_r v^{T}_r\) gilt (siehe \zcref{rem:onesvd}), kann bereits mit \(k \ll r\) eine sehr gute Approximation erzielt werden.
+Präziser formuliert:
+Die reduzierte SVD \(A_{k}\) ist die beste Rang-\(k\)-Approximation für \(A\) bezüglich der Spektralnorm und der Frobeniusnorm.
+Diese Aussage ist auch als \emph{Eckart-Young-Satz} bekannt und wird im Folgenden für die Spektralnorm bewiesen nach~\cite[7]{zhangLinearAlgebraData2022}.
+Für den Beweis werden zunächst \zcref{lem:eck,lem:normorth} benötigt.
+\begin{lemma}\label{lem:normorth}
+    Seien \(m,n \in \N\) und \(V \in \R^{m \times n}\) orthogonal. \\
+    Dann gilt für \(x \in \R^{n}\)
+    \begin{equation*}
+        \norm{Vx} = \norm{x}.
+    \end{equation*} 
+\end{lemma}
+\begin{proof}
+    \begin{equation*}
+    \norm{Vx} = \sqrt{\langle Vx,Vx \rangle} = \sqrt{x^{T}V^{T}Vx} = \sqrt{x^{T}x} = \norm{x}.
+    \end{equation*}
+\end{proof}
+\begin{lemma}\label{lem:eck}
+    Seien \(m,n \in \N\) und \(A \in \R^{m \times n}\). \\
+    Dann gilt für die Spektralnorm
+    \begin{equation*}
+        \norm{A}_{2} \coloneqq\sup\limits_{x \neq 0} \frac{\norm{Ax}}{\norm{x}} = \max\limits_{\norm{x}=1} \norm{Ax} = \sigma_{1},
+    \end{equation*}
+    wobei \(\sigma_{1}\) den größten Singulärwert von \(A\) beschreibt. 
+\end{lemma}
+\begin{proof}
+    Der Beweis orientiert sich an~\cite[7]{frazzoliDynamicSystemsControl2011}.\\
+    Sei \(A = U\Sigma V^{T}\) die reduzierte SVD mit \(U \in R^{m \times r},\ V \in \R^{n \times r}\) und \(\Sigma=\diag(\sigma_{1},\ldots,\sigma_{r}) \in \R^{r \times r}\) für \(\rg(A) = r\).
+    Dann gilt für \(x \in \R^{n}\) mit \(\norm{x} = 1\)  
+    \begin{align*}
+        \norm{Ax} &= \norm{U\Sigma V^{T}x} \\
+        &= \norm{\Sigma V^{T}x} \qquad &&(\text{\zcref{lem:normorth}}) \\
+        &= \norm{\Sigma y} &&(\text{für } y \coloneqq V^{T}x) \\
+        &= \sqrt{\sigma_{1}^{2}y_{1}^{2} + \cdots + \sigma_{r}^{2}y_{r}^{2}}.
+    \end{align*}
+    Nach \zcref{lem:normorth} ist \(\norm{y} = \norm{x} = 1\) und da \(\sigma_{1} \geq \cdots \geq \sigma_{r}\) wird der Ausdruck maximiert für \(y = \symbf{e}_{1}\).
+    Damit ist \(\norm{A}_{2} = \sigma_{1}\).    
+\end{proof}
+\begin{theorem}[Eckart-Young]
+    Seien \(m,n \in \N\) und \(A,B \in \R^{m \times n}\) mit \(\rg(B) = k \leq r = \rg(A)\).
+    Sei außerdem \(A_{k} \in \R^{m \times n}\) die reduzierte SVD von \(A\) nach \zcref{df:trunsvd}.
+    Dann gilt
+    \begin{equation*}
+        \norm{A-B}_{2} \geq \norm{A - A_{k}}_{2}.
+    \end{equation*}   
+\end{theorem}
+\begin{proof}
+    Für \(k=r\) ist \(A_{k}=A\) und \(\norm{A-B} \geq 0\) gilt nach Definition. 
+    Sei also \(k < r\).
+    Wir wissen, dass \(\rg(B) = k\), womit \(\df(B) = n-k\) nach \zcref{rep:dim}.    
+\end{proof}
 Mit den beiden, in diesem Abschnitt eingeführten, Variationen der Singulärwertzerlegung sind alle wesentlichen Grundlagen für die Vertiefung verschiedener Anwendungsmöglichkeiten der SVD gelegt.
 Damit wird der theoretische Teil dieser Arbeit beendet und zur ersten praktischen Anwendung übergegangen.
 

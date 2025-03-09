@@ -1,17 +1,15 @@
-\chapter{Empfehlungssysteme}\label{chap:rec}
+\chapter{Empfehlungssysteme}
 
 Empfehlungssysteme sind eine Anwendungsart der Singulärwertzerlegung, mit der bereits die meisten Menschen in Kontakt gekommen sind.
 Seien es Filmempfehlungen bei Netflix oder Produktempfehlungen bei Amazon, die Wahrscheinlichkeit ist groß, dass diese mithilfe einer Abwandlung der SVD generiert werden.
-In diesem Kapitel wird zunächst, ähnlich wie im vorherigen Kapitel, die Grundidee von Empfehlungssystemen mithilfe eines intuitiven Ansatzes veranschaulicht.
+In diesem Kapitel wird zunächst, ähnlich wie im vorherigen Kapitel, die Grundidee von Empfehlungssystem mithilfe eines intuitiven Ansatzes veranschaulicht.
 Anschließend wird diese Idee mathematisch formalisiert und vertieft.
 Um das Kapitel abzuschließen, wird mithilfe von \texttt{Python} ein eigenes (simples) Empfehlungssystem für Filme programmiert, basierend auf tatsächlichen Bewertungen aus einer Datenbank.
 
-\section{Grundidee}
+\section{Intuition}
 
-Für die grundlegende Idee von Empfehlungssystemen verweilen wir beim Beispiel der Filmempfehlungen.
-Dafür sei allerdings zunächst angemerkt, dass die hier vorgestellte Methode nur eine von vielen Ansätzen darstellt.
-Dennoch beschränken wir uns darauf, damit der Fokus der Arbeit auf die Singulärwertzerlegung beibehalten wird. 
-Die Ausgangslage für ein solches Empfehlungssystem ist in \zcref{tab:rec:usit} veranschaulicht.
+Für die Intuition verweilen wir beim Beispiel der Filmempfehlungen.
+Die Ausgangslage für so ein Empfehlungssystem ist in \zcref{tab:rec:usit} veranschaulicht.
 \begin{table}[tb]
     \centering
     \caption{Nutzer-Item-Matrix}\label{tab:rec:usit}
@@ -23,10 +21,10 @@ Das Ziel des Empfehlungssystems besteht darin, die fehlenden Bewertungen so prä
 Hierfür wird die Annahme getroffen, dass die Bewertungen nicht unabhängig erfolgen, sondern einer bestimmten Struktur folgen.
 Es wird also angenommen, dass es zugrunde liegende Muster gibt, nach denen Nutzer mit ähnlichen Präferenzen auch tendenziell ähnliche Bewertungen vergeben.
 Ein Beispiel dafür wäre, dass Nutzer mit einer Vorliebe für Horrorfilme diese potenziell höher bewerten als andere Nutzer.
-Diese Muster werden als \emph{latente Merkmale} bezeichnet.
 
-Zur Approximation der fehlenden Bewertungen wird die Nutzer-Item-Matrix \(R\) als Produkt zweier Matrizen dargestellt:
-einer Nutzer-Matrix \(U\), in der die Nutzer durch die latenten Merkmale beschrieben werden, und einer Item-Matrix \(V\) mit der Beschreibung der Filme durch die Merkmale. 
+Diese Muster werden als \emph{latente Merkmale} bezeichnet.
+Zur Approximation der fehlenden Bewertungen wird die Nutzer-Item-Matrix als Produkt zweier Matrizen dargestellt:
+einer Nutzer-Matrix, in der die Nutzer durch die latenten Merkmale beschrieben werden, und einer Item-Matrix mit der Beschreibung der Filme durch die Merkmale. 
 Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merkmalen \(X_{1}\) und \(X_{2}\).  
 \begin{figure}[tb]
     \begin{equation*}
@@ -35,8 +33,7 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
                 first-row,
                 first-col,
                 code-for-first-row = \scriptstyle \Alph{jCol},
-                code-for-first-col = \scriptstyle \arabic{iRow},
-                margin = 2pt,
+                code-for-first-col = \scriptstyle \arabic{iRow}
             ]
             &&&&\\
             && 4 & 2 & 0 \\
@@ -45,8 +42,6 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
             && 4 & 3 & 3 \\
             &4 & 2 & 1 & 1 \\
             &5 &&& 2 \\
-            \CodeAfter
-            \UnderBrace[yshift=3pt]{6-1}{6-4}{R}
         \end{bNiceMatrix}
         \quad
         \approx
@@ -56,11 +51,10 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
                 first-row,
                 first-col,
                 code-for-first-row = \scriptstyle,
-                code-for-first-col = \scriptstyle \arabic{iRow},
-                margin = 2pt,
+                code-for-first-col = \scriptstyle \arabic{iRow}
             ]
             \CodeBefore
-            \rectanglecolor{red!15}{3-1}{3-2}
+            \rowcolor{red!15}{3}
             \Body
             & X_{1} & X_{2} \\
             & ? & ?  \\
@@ -69,8 +63,6 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
             & ? & ?  \\
             & ? & ?  \\
             & ? & ?  \\
-            \CodeAfter
-            \UnderBrace[yshift=3pt]{6-1}{6-2}{U}
         \end{bNiceMatrix}
         \quad
         \times
@@ -80,8 +72,7 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
                 first-row,
                 last-col = 5,
                 code-for-first-row = \scriptstyle \Alph{jCol},
-                code-for-last-col = \scriptstyle,
-                margin = 2pt,
+                code-for-last-col = \scriptstyle
             ]
             \CodeBefore
             \columncolor{red!15}{3}
@@ -89,23 +80,9 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
             &&& \\
             ? & ? & ? & ? & X_{1} \\
             ? & ? & ? & ? & X_{2} \\
-            \CodeAfter
-            \UnderBrace[yshift=6pt]{2-1}{2-4}{V^{T}}
         \end{bNiceMatrix}
     \end{equation*}
-    \vspace{4pt}
     \caption{Nutzer-Matrix und Item-Matrix}\label{fig:rec:twomat}
 \end{figure}
 
-Für eine Approximation des hervorgehobenen fehlenden Wertes genügt es dann das Skalarprodukt aus den markierten Vektoren zu bilden.
-Es bleibt damit die Frage, wie die Matrizen \(U\) und \(V\) berechnet werden können.
-
-\section{Mathematische Herleitung}
-
-Um dies zunächst intuitiv zu beantworten, wird \zcref{cor:svd} verwendet.
-Dabei befinden sich die Nutzer im Spaltenraum von \(R\), da sich jeder Nutzer als Linearkombination der Filme darstellen lässt.
-Nach \zcref{cor:svd} bilden die Spalten von \(U\) eine Basis für diesen Raum, was auch in \zcref{fig:rec:twomat} ersichtlich ist:
-Jeder Nutzer kann auch als Linearkombination der latenten Merkmale ausgedrückt werden.
-Eine analoge Argumentation gilt für die Filme über den Zeilenraum.
-
-
+Für eine Approximation des hervorgehobenen fehlenden Wertes muss dann nur das Skalarprodukt aus den markierten Vektoren gebildet werden.
