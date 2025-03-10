@@ -12,7 +12,7 @@ Für die grundlegende Idee von Empfehlungssystemen verweilen wir beim Beispiel d
 Dafür sei allerdings zunächst angemerkt, dass die hier vorgestellte Methode nur eine von vielen Ansätzen darstellt.
 Dennoch beschränken wir uns darauf, damit der Fokus der Arbeit auf die Singulärwertzerlegung beibehalten wird. 
 Die Ausgangslage für ein solches Empfehlungssystem ist in \zcref{tab:rec:usit} veranschaulicht.
-\begin{table}[tb]
+\begin{table}[t]
     \centering
     \caption{Nutzer-Item-Matrix}\label{tab:rec:usit}
     \input{tables/rec_usit.tex}
@@ -28,7 +28,7 @@ Diese Muster werden als \emph{latente Merkmale} bezeichnet.
 Zur Approximation der fehlenden Bewertungen wird die Nutzer-Item-Matrix \(R\) als Produkt zweier Matrizen dargestellt:
 einer Nutzer-Matrix \(U\), in der die Nutzer durch die latenten Merkmale beschrieben werden, und einer Item-Matrix \(V\) mit der Beschreibung der Filme durch die Merkmale. 
 Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merkmalen \(X_{1}\) und \(X_{2}\).  
-\begin{figure}[tb]
+\begin{figure}[t]
     \begin{equation*}
         \begin{bNiceMatrix}%
             [

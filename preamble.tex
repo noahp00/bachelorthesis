@@ -40,10 +40,19 @@
 \usepackage{longtable, booktabs}
 % Lists
 \usepackage{enumitem}
+
 % Bibliography
-\usepackage[backend=biber,style=alphabetic,doi=false,isbn=false,eprint=false,giveninits=true,block=ragged]{biblatex}
+\usepackage[backend=biber,style=alphabetic,doi=false,isbn=false,eprint=false,giveninits=true]{biblatex}
 \addbibresource{literature.bib}
+% Only for german
 \DeclareFieldFormat{urldate}{(Stand: #1)}
+% Author format
+\renewcommand*{\multinamedelim}{\addcomma\space} 
+\renewcommand*{\finalnamedelim}{\addspace\&\space}
+\DeclareNameAlias{author}{family-given}
+% Better linebreak for long url
+\setcounter{biburllcpenalty}{9000}
+\setcounter{biburlucpenalty}{9000}
 % Quotes
 \usepackage[autostyle=true]{csquotes}
 % Nice numbers and units
@@ -61,6 +70,7 @@
 \usepackage{bookmark}
 
 % Macros
+\newcommand{\Img}{\operatorname{Im}}
 \newcommand{\df}{\operatorname{df}}
 \newcommand{\diag}{\operatorname{diag}}
 \newcommand{\rg}{\operatorname{rg}}
@@ -463,8 +473,13 @@ Name-pl = Codes,
 \RedeclareSectionCommands[
   toclinefill=\hspace{14pt},
   tocraggedpagenumber,
-  tocpagenumberbox=\mbox
 ]{part,chapter,section,subsection,subsubsection,paragraph,subparagraph}
+
+% Letterspacing chapter ToC
+\newfontfamily\lscharter{XCharter}[LetterSpace=5]
+\RedeclareSectionCommand[
+  tocentryformat=\lscharter\scshape\bfseries,
+]{chapter}
 
 % Layout ToT, ToF
 \DeclareTOCStyleEntries[

@@ -1,8 +1,9 @@
 \chapter{Mathematische Theorie}
 
-In diesem Kapitel wird zunächst unter Verwendung vorher eingeführter Sätze und Definitionen die Existenz und eine fundamentale Eigenschaft der Singulärwertzerlegung formal bewiesen.
+In diesem Kapitel wird zunächst unter Verwendung vorher eingeführter Sätze und Definitionen die Existenz der Singulärwertzerlegung bewiesen.
 Anschließend wird an einem konkreten Beispiel die Berechnung durchgeführt und die SVD visualisiert.
-Um das Kapitel abzuschließen, erfolgt eine Beschreibung der wichtigsten beiden Arten der Singulärwertzerlegung.
+Um das Kapitel abzuschließen, erfolgt eine Beweisführung von zwei wichtigen Eigenschaften der SVD, die auch im Anwendungsteil erneut aufgegriffen werden.
+
 \section{Beweisführung}
 Es wird davon ausgegangen, dass der Leser\footnote{Aus Gründen der besseren Lesbarkeit wird das generische Maskulinum verwendet, wobei alle Geschlechter mit eingeschlossen sind.} mit den Grundlagen der linearen Algebra vertraut ist, insbesondere mit Matrizen und ihren Eigenschaften.
 Bekannte Definitionen werden nicht erneut aufgeführt, die einzige Ausnahme bildet \zcref{eigvec}, da diese für jegliche Beweisführung und für das Verständnis in diesem Kapitel unerlässlich ist und deswegen eine Auffrischung sinnvoll erscheint.
@@ -11,7 +12,7 @@ Bekannte Definitionen werden nicht erneut aufgeführt, die einzige Ausnahme bild
     \begin{equation*}
         Av=\lambda v
     \end{equation*}
-    heißen die Lösungen \(\R^{n} \ni v \neq 0\) \textit{Eigenvektoren} und die zugehörigen \(\lambda\) \textit{Eigenwerte}.   
+    heißen die Lösungen \(\R^{n} \ni v \neq \symbf{0}\) \emph{Eigenvektoren} und die zugehörigen \(\lambda\) \emph{Eigenwerte}.   
 \end{definition}
 Vorausgesetzte Sätze werden ohne weiteren Beweis verwendet, aber in wichtigen Fällen dennoch vor Verwendung kurz rekapituliert, wie in \zcref{bes} verdeutlicht.
 \begin{repitition}[Basisergänzungssatz]\label{bes}
@@ -378,106 +379,7 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
         \item Die Spalten von \(V\) heißen \textbf{\underline{rechte Singulärvektoren}} von \(X\). 
     \end{itemize}       
 \end{remark}
-Nachdem der zentrale Beweis dieses Kapitels geführt und die Existenz der Singulärwertzerlegung für beliebige reelle Matrizen gezeigt wurde, wird nun auf eine wichtige Eigenschaft der SVD eingegangen.
-
-Dafür werden zunächst die vier fundamentalen Unterräume zu einer Matrix nach~\cite[185]{strangLineareAlgebra2003} definiert:
-\begin{definition}\label{df:four}
-    Sei \(A \in \R^{m \times n}\). Definiere folgende Unterräume zu \(A\): 
-    \begin{alignat*}{3}
-        \text{\textbullet } &\textit{ Spaltenraum: } 
-        &&\text{Bild}(A) &{}={}& \{ b \in \R^m \mid \exists x \in \R^n, Ax = b \}. \\
-        \text{\textbullet } &\textit{ Zeilenraum: }
-        &&\text{Bild}(A^{T}) &{}={}& \{ z \in \R^n \mid \exists y \in \R^m, A^{T}y = z \}.\\
-        \text{\textbullet } &\textit{ Kern/Nullraum: }
-        &&\text{Kern}(A) &{}={}& \{ x \in \R^n \mid Ax = \symbf{0} \}.\\
-        \text{\textbullet } &\textit{ Linkskern: }
-        &&\text{Kern}(A^{T}) &{}={}& \{ y \in \R^m \mid A^{T}y = \symbf{0} \}.
-    \end{alignat*}
-\end{definition}
-Die vier Unterräume geben umfangreichen Aufschluss über die Wirkung einer Matrix auf verschiedene Vektoren und stehen dabei in Verbindung mit zahlreichen Themen der linearen Algebra.
-
-Die Art der Beziehung zwischen der Singulärwertzerlegung und den vier fundamentalen Unterräumen wird in \zcref{cor:svd} zusammengefasst.
-Der Beweis wird nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt, vor der Beweisführung wird allerdings \zcref{rep:dim} benötigt.
-\begin{repitition}[Dimensionssatz]\label{rep:dim}
-    Sei \(A \in \R^{m \times n}\). Dann gilt:
-    \begin{equation*}
-        \text{df}(A) + \text{rg}(A) = n.
-    \end{equation*} 
-\end{repitition}
-\begin{corollary}\label{cor:svd}
-    Seien \(m,n\in\N,\ X \in \R^{m \times n}\)\ und \(r = \textit{rg}(X)\).  \\
-    Dann existieren orthogonale Matrizen \(U \in \R^{m \times m}, V \in \R^{n \times n}\) und eine Diagonalmatrix \(\Sigma \in \R^{m \times n}\), sodass
-    \begin{equation*}
-        X = U \Sigma V^{T}
-    \end{equation*}   
-    und es gilt:
-    \begin{itemize}
-        \item Die ersten \(r\) Spalten von \(U\) sind eine Basis des Spaltenraums von \(X\).
-        \item Die letzten \(m-r\) Spalten von \(U\) sind eine Basis des Linkskerns von \(X\).
-        \item Die ersten \(r\) Spalten von \(V\) sind eine Basis des Zeilenraums von \(X\).
-        \item Die letzten \(n - r\) Spalten von \(V\) sind eine Basis des Kerns von \(X\).          
-    \end{itemize}
-\end{corollary}
-\begin{proof}
-    Mit der Singulärwertzerlegung (\zcref{th:svd}) erhalten wir orthogonales
-    \begin{alignat*}{2}
-        &U &{}={}&
-        \big[
-        \begin{matrix}
-            u_1 \dots u_{r}u_{r+1} \dots u_m
-        \end{matrix}
-        \big]
-        \in \R^{m \times m}, \\
-        &V &{}={}&
-        \big[
-        \begin{matrix}
-            v_1 \dots v_{r}v_{r+1} \dots v_n
-        \end{matrix}
-        \big]
-        \in \R^{n \times n} \\
-        \intertext{und diagonales} 
-        &\Sigma &{}={}&
-        \begin{bmatrix}
-            \text{diag}(\sigma_i,\ldots,\sigma_r) & \symbf{0} \\
-            \symbf{0} & \symbf{0}
-        \end{bmatrix}
-        \in \R^{m \times n},
-    \end{alignat*} 
-    sodass
-    \(
-        X = U \Sigma V^{T}
-    \).
-    Sei nun \(i \in \{1,\ldots,n\}\) und betrachte 
-    \begin{equation*}
-        Xv_i = U \Sigma V^{T}v_i \overset{(**)}{=} U \Sigma \symbf{e}_i = U \sigma_i \symbf{e}_i = \sigma_i U \symbf{e}_i = \sigma_i u_i.
-    \end{equation*}
-    {\small\((**)\) \textit{Für} \(i, j \in \{1,\ldots,n\}\) \textit{sind} \(v_i, v_j\) \textit{orthonormal}.} 
-    \vspace{5pt}
-    \\
-    \underline{Fall 1}: \(1 \leq i \leq r\). \\
-    Damit ist \(\sigma_i > 0\) und
-    \begin{equation*}
-        X \frac{v_i}{\sigma_i} = u_i.
-    \end{equation*} 
-    Nach \zcref{df:four} sind dann \(u_1,\ldots,u_r \in \text{Bild}(X)\).
-    Nun ist \(\text{dim}(\text{Bild}(X)) = \text{rg}(X) = r\) und da \(\symcal{B}_S = \{u_1,\ldots,u_r\}\) genau \(r\) orthonormale Vektoren enthält, bildet \(\symcal{B}_S\) eine Basis vom \(\text{Bild}(X)\), also vom Spaltenraum. 
-    \vspace{5pt} \\
-    \underline{Fall 2}: \(i \geq r+1\). \\
-    Damit ist \(\sigma_i = 0\) und
-    \begin{equation*}
-        Xv_i = \symbf{0}.
-    \end{equation*}  
-    Nach \zcref{df:four} sind dann \(v_{r+1},\ldots,v_n \in \text{Kern}(X)\).
-    Durch \zcref{rep:dim} wissen wir, dass \(\text{dim}(\text{Kern}(X)) = \text{df}(X) = n - r\). 
-    Mit \(\symcal{B}_K = \{v_{r+1},\ldots,v_n\}\) haben wir \(n-r\) orthonormale Vektoren gegeben, also bildet \(\symcal{B}_K\) eine Basis vom \(\text{Kern}(X)\).
-    
-    Die Beweise für die Basen des Linkskerns und des Zeilenraums werden analog gezeigt, indem
-    \begin{equation*}
-        X^{T}u_i = V \Sigma U^{T} u_i
-    \end{equation*}
-    betrachtet wird.
-\end{proof}
-Damit ist die Beweisführung dieses Abschnitts abgeschlossen und die Berechnung der Singulärwertzerlegung kann an einem Beispiel veranschaulicht und visualisiert werden.
+Der zentrale Beweis dieses Kapitels ist somit abgeschlossen und die Berechnung der Singulärwertzerlegung kann an einem Beispiel veranschaulicht und visualisiert werden.
 \section{Beispiel und Visualisierung}
 \begin{example}\label{ex:svd}
     Sei 
@@ -704,7 +606,7 @@ Um eine Vergleichbarkeit der Plots zu verbessern, wird die Darstellung dennoch b
 
 Zusammenfassend zerlegt also die Singulärwertzerlegung eine Matrix in grundlegende geometrische Transformationen: Drehung, Skalierung und gegebenenfalls Dimensionsreduktion oder -erhöhung.
 
-Mit dieser Erkenntnis wird sich dem letzten Abschnitt des theoretischen Teils zugewandt, in dem die wichtigsten beiden Arten der SVD definiert werden und eine weitere wichtige Eigenschaft gezeigt wird.
+Mit dieser Erkenntnis wird sich dem nächsten Abschnitt zugewandt, in dem die wichtigsten beiden Arten der SVD definiert werden.
 
 \section{Arten der Singulärwertzerlegung}
 
@@ -775,7 +677,7 @@ Bevor zur nächsten Variation übergegangen werden kann, betrachten wir eine wei
 \end{remark}
 Nun wird die womöglich interessanteste Art der Singulärwertzerlegung für diverse Anwendungsfälle definiert.
 \begin{definition}\label{df:trunsvd}
-    Seien \(m,n \in \N,\ A \in \R^{m \times n},\ \text{rg}(A)=r\) und \(A=U_r \Sigma_r V^{T}_r = \sum_{i=1}^{r} \sigma_i u_i v^{T}_i\) die reduzierte SVD von \(A\) mit \(U_r \in R^{m \times r},\ \Sigma_r \in \R^{r \times r}\) und \(V_r \in \R^{n \times r}\). \\
+    Seien \(m,n \in \N,\ A \in \R^{m \times n},\ \rg(A)=r\) und \(A=U_r \Sigma_r V^{T}_r = \sum_{i=1}^{r} \sigma_i u_i v^{T}_i\) die reduzierte SVD von \(A\) mit \(U_r \in R^{m \times r},\ \Sigma_r \in \R^{r \times r}\) und \(V_r \in \R^{n \times r}\). \\
     Für \(k \leq r\) sei die \textit{trunkierte SVD} definiert mit:
     \begin{equation*}
         A \approx \sum_{i=1}^{k} \sigma_i u_i v^{T}_i = A_k.
@@ -783,11 +685,14 @@ Nun wird die womöglich interessanteste Art der Singulärwertzerlegung für dive
 \end{definition}
 Zur \zcref{df:trunsvd} sei angemerkt, dass \(\rg(A_k)=k \leq r\) ist, aufgrund dessen spricht man auch von einer \emph{Niedrigrang-Approximation}.
 Außerdem sollte betont werden, dass sich \(A_k\) für größere Werte von \(k\) zunehmend \(A\) annähert.
-Da jedoch komponentenweise \(\sigma_1 u_1 v^{T}_1 \geq \cdots \geq \sigma_r u_r v^{T}_r\) gilt (siehe \zcref{rem:onesvd}), kann bereits mit \(k \ll r\) eine sehr gute Approximation erzielt werden.
-Präziser formuliert:
-Die reduzierte SVD \(A_{k}\) ist die beste Rang-\(k\)-Approximation für \(A\) bezüglich der Spektralnorm und der Frobeniusnorm.
-Diese Aussage ist auch als \emph{Eckart-Young-Satz} bekannt und wird im Folgenden für die Spektralnorm bewiesen nach~\cite[7]{zhangLinearAlgebraData2022}.
-Für den Beweis werden zunächst \zcref{lem:eck,lem:normorth} benötigt.
+Da jedoch komponentenweise \(\sigma_1 u_1 v^{T}_1 \geq \cdots \geq \sigma_r u_r v^{T}_r\) gilt (siehe \zcref{rem:onesvd}), kann bereits mit \(k \ll r\) eine gute Approximation erzielt werden.
+Eine Präzisierung dieser Aussage findet im nachfolgenden und letzten Abschnitt des theoretischen Teils statt.
+
+\section{Eigenschaften der SVD}
+
+Die reduzierte SVD \(A_{k}\) ist nicht nur eine gute Approximation von \(A\), sondern die beste Rang-\(k\)-Approximation für \(A\) bezüglich der Spektralnorm und der Frobeniusnorm.
+Diese Behauptung ist auch als \emph{Eckart-Young-Satz} bekannt und wird im Folgenden nach~\cite[7]{zhangLinearAlgebraData2022} für die Spektralnorm bewiesen.
+Für den Beweis werden allerdings zunächst \zcref{lem:normorth,lem:eck,rep:dim} benötigt.
 \begin{lemma}\label{lem:normorth}
     Seien \(m,n \in \N\) und \(V \in \R^{m \times n}\) orthogonal. \\
     Dann gilt für \(x \in \R^{n}\)
@@ -821,6 +726,12 @@ Für den Beweis werden zunächst \zcref{lem:eck,lem:normorth} benötigt.
     Nach \zcref{lem:normorth} ist \(\norm{y} = \norm{x} = 1\) und da \(\sigma_{1} \geq \cdots \geq \sigma_{r}\) wird der Ausdruck maximiert für \(y = \symbf{e}_{1}\).
     Damit ist \(\norm{A}_{2} = \sigma_{1}\).    
 \end{proof}
+\begin{repitition}[Dimensionssatz]\label{rep:dim}
+    Sei \(A \in \R^{m \times n}\). Dann gilt:
+    \begin{equation*}
+        \text{df}(A) + \text{rg}(A) = n.
+    \end{equation*} 
+\end{repitition}
 \begin{theorem}[Eckart-Young]
     Seien \(m,n \in \N\) und \(A,B \in \R^{m \times n}\) mit \(\rg(B) = k \leq r = \rg(A)\).
     Sei außerdem \(A_{k} \in \R^{m \times n}\) die reduzierte SVD von \(A\) nach \zcref{df:trunsvd}.
@@ -830,10 +741,165 @@ Für den Beweis werden zunächst \zcref{lem:eck,lem:normorth} benötigt.
     \end{equation*}   
 \end{theorem}
 \begin{proof}
-    Für \(k=r\) ist \(A_{k}=A\) und \(\norm{A-B} \geq 0\) gilt nach Definition. 
+    Für \(k=r\) ist \(A_{k}=A\) und 
+    \begin{equation*}
+        \norm{A-B}_{2} \geq 0
+    \end{equation*}
+    gilt nach Definition der Norm. 
+
     Sei also \(k < r\).
-    Wir wissen, dass \(\rg(B) = k\), womit \(\df(B) = n-k\) nach \zcref{rep:dim}.    
+    Wir zeigen zunächst, dass \(\norm{A-A_{k}}_{2} = \sigma_{k+1}\).
+    Nach \zcref{rem:onesvd} gilt
+    \begin{equation*}
+        A-A_{k} = \sum_{i=1}^{r}\sigma_{i}u_{i}v_{i}^{T} - \sum_{i=1}^{k}\sigma_{i}u_{i}v_{i}^{T} = \sum_{i=k+1}^{r}\sigma_{i}u_{i}v_{i}^{T}=\sum_{i=1}^{r-k}\sigma_{i+k}u_{i+k}v_{i+k}^{T}.
+    \end{equation*}
+    Die letzte Summe bildet dann die reduzierte SVD von \(A-A_{k}\), wodurch nach \zcref{lem:eck}: 
+    \begin{equation*}
+        \norm{A-A_{k}}_{2} = \sigma_{k+1}.
+    \end{equation*}
+    Wir wollen nun einen Widerspruchsbeweis führen.
+    Sei also angenommen, dass ein \(B \in \R^{m \times n}\) existiert mit \(\rg(B)=k\) und 
+    \begin{equation*}
+        \norm{A-B}_{2} < \norm{A-A_{k}}_{2} = \sigma_{k+1}.
+    \end{equation*}
+    Für beliebiges \(w \in \R^{n}\) gilt
+    \begin{equation*}
+        \norm{(A-B)w}_{2} \leq \norm{A-B}_{2}\norm{w} < \sigma_{k+1}\norm{w}.
+    \end{equation*}  
+    Sei zusätzlich \(w \in \ker(B)\). Dann ist 
+    \begin{equation}
+        \norm{(A-B)w}_{2} = \norm{Aw-Bw}_{2} = \norm{Aw} < \sigma_{k+1}\norm{w} \label{eq:eck1}.
+    \end{equation}
+    Wir definieren \(V_{k+1} \coloneqq 
+    \big[
+        \begin{matrix}
+            v_{1} \ldots v_{k+1}
+        \end{matrix}
+    \big]
+    \) 
+    für die ersten \(k+1\) rechten Singulärvektoren von \(A\).
+    
+    Sei außerdem \(w \in \Img(V_{k+1})\).
+    Dann existieren \(c_{1},\ldots,c_{k+1} \in \R\) mit \(w = \sum_{i=1}^{k+1}c_{i}v_{i}\) und es gilt
+    \begin{equation*}
+        \norm{w}^{2} = \norm{\sum_{i=1}^{k+1}c_{i}v_{i}}^{2} = \sum_{i=1}^{k+1}c_{i}v_{i}^{T} \sum_{j=1}^{k+1}c_{j}v_{j} \overset{(*)}{=} \sum_{i=1}^{k+1}c_{i}^{2}\norm{v_{i}} = \sum_{i=1}^{k+1}c_{i}^{2}.
+    \end{equation*}  
+    {\small (\(*\)) \textit{Da} \(v_{i},v_{j}\) \textit{orthogonal sind für} \(i \neq j\).}
+    \vspace{5pt}
+    \\
+    Damit ist
+    \begin{align}
+        \norm{Aw}_{2}^{2} = \norm{\sum_{i=1}^{k+1}c_{i}Av_{i}}_{2}^{2} = \norm{\sum_{i=1}^{k+1}c_{i}\sigma_{i}u_{i}}_{2}^{2} &= \sum_{i=1}^{k+1}c_{i}\sigma_{i}u_{i}^{T} \sum_{j=1}^{k+1}c_{j}\sigma_{j}u_{j} \notag \\
+        &= \sum_{i=1}^{k+1}c_{i}^{2}\sigma_{i}^{2} \notag \\
+        &\geq \sigma_{k+1}^{2}\norm{w}^{2} \label{eq:eck2}.
+    \end{align}
+    Da~\eqref{eq:eck1} und~\eqref{eq:eck2} nicht gleichzeitig gelten können, bleibt es zu zeigen, dass so ein \(w \in \ker(B) \cap \Img(V_{k+1})\) existiert. 
+    Wir betrachten dafür:
+    \begin{align*}
+        \dim\left[\ker(B) \cap \Img(V_{k+1})\right] &= \df(B) + \rg(V_{k+1}) - \dim\left[\ker(B) + \Img(V_{k+1})\right] \\
+        &\overset{(*)}{=} (n-k) + (k + 1) - \dim\left[\ker(B) + \Img(V_{k+1})\right] \\
+        &\geq (n-k) + (k + 1) -n \\
+        &= 1,
+    \end{align*}
+    {\small \((*)\) \textit{Siehe \zcref{rep:dim}}.}
+    \vspace{5pt}
+    \\
+    da \(\ker(B),\Img(V_{k+1}) \subseteq \R^{n}\), womit \(\dim\left[\ker(B) + \Img(V_{k+1})\right] \leq n\) sein muss.  
+    Folglich existiert ein \(w \neq \symbf{0}\) mit den gewünschten Eigenschaften und der Widerspruch wurde gezeigt.    
 \end{proof}
-Mit den beiden, in diesem Abschnitt eingeführten, Variationen der Singulärwertzerlegung sind alle wesentlichen Grundlagen für die Vertiefung verschiedener Anwendungsmöglichkeiten der SVD gelegt.
-Damit wird der theoretische Teil dieser Arbeit beendet und zur ersten praktischen Anwendung übergegangen.
+Eine weitere wichtige Eigenschaft der Singulärwertzerlegung besteht in ihrer Verbindung zu den \emph{vier fundamentalen Unterräumen}.
+Diese werden zunächst nach~\cite[185]{strangLineareAlgebra2003} definiert:
+\begin{definition}\label{df:four}
+    Sei \(A \in \R^{m \times n}\). Definiere folgende Unterräume zu \(A\): 
+    \begin{alignat*}{3}
+        \text{\textbullet } &\textit{ Spaltenraum: } 
+        &&\Img(A) &{}={}& \{ b \in \R^m \mid \exists x \in \R^n, Ax = b \}. \\
+        \text{\textbullet } &\textit{ Zeilenraum: }
+        &&\Img(A^{T}) &{}={}& \{ z \in \R^n \mid \exists y \in \R^m, A^{T}y = z \}.\\
+        \text{\textbullet } &\textit{ Kern/Nullraum: }
+        &&\ker(A) &{}={}& \{ x \in \R^n \mid Ax = \symbf{0} \}.\\
+        \text{\textbullet } &\textit{ Linkskern: }
+        &&\ker(A^{T}) &{}={}& \{ y \in \R^m \mid A^{T}y = \symbf{0} \}.
+    \end{alignat*}
+\end{definition}
+Die Unterräume geben umfangreichen Aufschluss über die Wirkung einer Matrix auf verschiedene Vektoren und stehen dabei in Verbindung mit zahlreichen Themen der linearen Algebra.
+
+Die Art der Beziehung zwischen der Singulärwertzerlegung und den vier fundamentalen Unterräumen wird in \zcref{cor:svd} zusammengefasst, wobei
+der Beweis nach~\cite[S. 214~f.]{johnstonAdvancedLinearMatrix2021} geführt wird.
+\begin{corollary}\label{cor:svd}
+    Seien \(m,n\in\N,\ X \in \R^{m \times n}\)\ und \(r = \textit{rg}(X)\).  \\
+    Dann existieren orthogonale Matrizen \(U \in \R^{m \times m}, V \in \R^{n \times n}\) und eine Diagonalmatrix \(\Sigma \in \R^{m \times n}\), sodass
+    \begin{equation*}
+        X = U \Sigma V^{T}
+    \end{equation*}   
+    und es gilt:
+    \begin{itemize}
+        \item Die ersten \(r\) Spalten von \(U\) sind eine Basis des Spaltenraums von \(X\).
+        \item Die letzten \(m-r\) Spalten von \(U\) sind eine Basis des Linkskerns von \(X\).
+        \item Die ersten \(r\) Spalten von \(V\) sind eine Basis des Zeilenraums von \(X\).
+        \item Die letzten \(n - r\) Spalten von \(V\) sind eine Basis des Kerns von \(X\).          
+    \end{itemize}
+\end{corollary}
+\begin{proof}
+    Mit der Singulärwertzerlegung (\zcref{th:svd}) erhalten wir orthogonales
+    \begin{alignat*}{2}
+        &U &{}={}&
+        \big[
+        \begin{matrix}
+            u_1 \dots u_{r}u_{r+1} \dots u_m
+        \end{matrix}
+        \big]
+        \in \R^{m \times m}, \\
+        &V &{}={}&
+        \big[
+        \begin{matrix}
+            v_1 \dots v_{r}v_{r+1} \dots v_n
+        \end{matrix}
+        \big]
+        \in \R^{n \times n} \\
+        \intertext{und diagonales} 
+        &\Sigma &{}={}&
+        \begin{bmatrix}
+            \text{diag}(\sigma_i,\ldots,\sigma_r) & \symbf{0} \\
+            \symbf{0} & \symbf{0}
+        \end{bmatrix}
+        \in \R^{m \times n},
+    \end{alignat*} 
+    sodass
+    \(
+        X = U \Sigma V^{T}
+    \).
+    Sei \(i \in \{1,\ldots,n\}\) und betrachte 
+    \begin{equation*}
+        Xv_i = U \Sigma V^{T}v_i \overset{(*)}{=} U \Sigma \symbf{e}_i = U \sigma_i \symbf{e}_i = \sigma_i U \symbf{e}_i = \sigma_i u_i.
+    \end{equation*}
+    {\small\((*)\) \textit{Für} \(i, j \in \{1,\ldots,n\}\) \textit{sind} \(v_i, v_j\) \textit{orthonormal}.} 
+    \vspace{5pt}
+    \\
+    \underline{Fall 1}: \(1 \leq i \leq r\). \\
+    Damit ist \(\sigma_i > 0\) und
+    \begin{equation*}
+        X \frac{v_i}{\sigma_i} = u_i.
+    \end{equation*} 
+    Nach \zcref{df:four} sind dann \(u_1,\ldots,u_r \in \Img(X)\).
+    Nun ist \(\dim(\Img(X)) = \rg(X) = r\) und da \(\symcal{B}_S = \{u_1,\ldots,u_r\}\) genau \(r\) orthonormale Vektoren enthält, bildet \(\symcal{B}_S\) eine Basis vom \(\Img(X)\), also vom Spaltenraum. 
+    \vspace{5pt} \\
+    \underline{Fall 2}: \(i \geq r+1\). \\
+    Damit ist \(\sigma_i = 0\) und
+    \begin{equation*}
+        Xv_i = \symbf{0}.
+    \end{equation*}  
+    Nach \zcref{df:four} sind dann \(v_{r+1},\ldots,v_n \in \ker(X)\).
+    Mithilfe von \zcref{rep:dim} wissen wir, dass \(\dim(\ker(X)) = \df(X) = n - r\). 
+    Mit \(\symcal{B}_K = \{v_{r+1},\ldots,v_n\}\) haben wir \(n-r\) orthonormale Vektoren gegeben, also bildet \(\symcal{B}_K\) eine Basis vom \(\ker(X)\).
+    
+    Die Beweise für die Basen des Linkskerns und des Zeilenraums werden analog gezeigt, indem
+    \begin{equation*}
+        X^{T}u_i = V \Sigma U^{T} u_i
+    \end{equation*}
+    betrachtet wird.
+\end{proof}
+
+Es sind damit alle wesentlichen Grundlagen für die Vertiefung verschiedener Anwendungsmöglichkeiten der SVD gelegt.
+Der theoretische Teil der Arbeit wird hiermit abgeschlossen und es folgt nun die erste praktische Anwendung.
 
