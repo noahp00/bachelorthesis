@@ -9,26 +9,26 @@ Um das Kapitel abzuschließen, wird mithilfe von \texttt{Python} ein eigenes (si
 \section{Grundidee}
 
 Für die grundlegende Idee von Empfehlungssystemen verweilen wir beim Beispiel der Filmempfehlungen.
-Dafür sei allerdings zunächst angemerkt, dass die hier vorgestellte Methode nur eine von vielen Ansätzen darstellt.
-Dennoch beschränken wir uns darauf, damit der Fokus der Arbeit auf die Singulärwertzerlegung beibehalten wird. 
 Die Ausgangslage für ein solches Empfehlungssystem ist in \zcref{tab:rec:usit} veranschaulicht.
-\begin{table}[t]
+\begin{table}[tb]
     \centering
     \caption{Nutzer-Item-Matrix}\label{tab:rec:usit}
     \input{tables/rec_usit.tex}
 \end{table}
 
-Gegeben sei eine Nutzer-Item-Matrix, in der jede Zeile einen Nutzer und jede Spalte einen Film repräsentiert, wobei die einzelnen Einträge die abgegebenen Bewertungen der Nutzer für den jeweiligen Film darstellen.
-Das Ziel des Empfehlungssystems besteht darin, die fehlenden Bewertungen so präzise wie möglich zu approximieren, um darauf basierend Empfehlungen generieren zu können.
-Hierfür wird die Annahme getroffen, dass die Bewertungen nicht unabhängig erfolgen, sondern einer bestimmten Struktur folgen.
+Gegeben ist eine Nutzer-Item-Matrix, in der jede Zeile einen Nutzer und jede Spalte einen Film repräsentiert, wobei die einzelnen Einträge die abgegebenen Bewertungen der Nutzer für den jeweiligen Film darstellen.
+Das Ziel des Empfehlungssystems ist, basierend auf den vorhandenen Bewertungen möglichst präzise Empfehlungen zu generieren.
+Dies kann zum einen durch eine Approximation und anschließende Sortierung der fehlenden Bewertungen erfolgen.
+Eine andere Möglichkeit besteht darin, die Ähnlichkeit verschiedener Nutzer oder Filme zu analysieren.
+Für beide Vorgehensweisen wird die Annahme getroffen, dass die Bewertungen nicht unabhängig erfolgen, sondern einer bestimmten Struktur folgen.
 Es wird also angenommen, dass es zugrunde liegende Muster gibt, nach denen Nutzer mit ähnlichen Präferenzen auch tendenziell ähnliche Bewertungen vergeben.
 Ein Beispiel dafür wäre, dass Nutzer mit einer Vorliebe für Horrorfilme diese potenziell höher bewerten als andere Nutzer.
 Diese Muster werden als \emph{latente Merkmale} bezeichnet.
 
-Zur Approximation der fehlenden Bewertungen wird die Nutzer-Item-Matrix \(R\) als Produkt zweier Matrizen dargestellt:
+Im Folgenden werden die Merkmale genutzt, indem die Nutzer-Item-Matrix \(R\) als Produkt zweier Matrizen dargestellt wird:
 einer Nutzer-Matrix \(U\), in der die Nutzer durch die latenten Merkmale beschrieben werden, und einer Item-Matrix \(V\) mit der Beschreibung der Filme durch die Merkmale. 
 Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merkmalen \(X_{1}\) und \(X_{2}\).  
-\begin{figure}[t]
+\begin{figure}[tb]
     \begin{equation*}
         \begin{bNiceMatrix}%
             [
@@ -70,7 +70,7 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
             & ? & ?  \\
             & ? & ?  \\
             \CodeAfter
-            \UnderBrace[yshift=3pt]{6-1}{6-2}{U}
+            \UnderBrace[yshift=3pt]{6-1}{6-2}{U^{'}}
         \end{bNiceMatrix}
         \quad
         \times
@@ -90,22 +90,37 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
             ? & ? & ? & ? & X_{1} \\
             ? & ? & ? & ? & X_{2} \\
             \CodeAfter
-            \UnderBrace[yshift=6pt]{2-1}{2-4}{V^{T}}
+            \UnderBrace[yshift=6pt]{2-1}{2-4}{V^{'}}
         \end{bNiceMatrix}
     \end{equation*}
     \vspace{4pt}
     \caption{Nutzer-Matrix und Item-Matrix}\label{fig:rec:twomat}
 \end{figure}
 
-Für eine Approximation des hervorgehobenen fehlenden Wertes genügt es dann das Skalarprodukt aus den markierten Vektoren zu bilden.
-Es bleibt damit die Frage, wie die Matrizen \(U\) und \(V\) berechnet werden können.
+Fehlende Bewertungen können damit als Skalarprodukt der jeweiligen Vektoren approximiert werden, wie in \zcref{fig:rec:twomat} farblich hervorgehoben ist.
+Zudem kann die Ähnlichkeit zwischen Nutzern oder Filmen analysiert werden, indem diese als Punkte im Raum der latenten Merkmale dargestellt werden.
+Es bleibt damit die Frage, wie die Matrizen \(U^{'}\) und \(V^{'}\) berechnet werden können.
 
 \section{Mathematische Herleitung}
 
-Um dies zunächst intuitiv zu beantworten, wird \zcref{cor:svd} verwendet.
-Dabei befinden sich die Nutzer im Spaltenraum von \(R\), da sich jeder Nutzer als Linearkombination der Filme darstellen lässt.
-Nach \zcref{cor:svd} bilden die Spalten von \(U\) eine Basis für diesen Raum, was auch in \zcref{fig:rec:twomat} ersichtlich ist:
-Jeder Nutzer kann auch als Linearkombination der latenten Merkmale ausgedrückt werden.
+Mit Blick auf den Rahmen dieser Arbeit liegt es nahe, dass diese Frage mithilfe der Singulärwertzerlegung beantwortet werden kann.
+Sei also 
+\begin{equation*}
+    R \approx U_{k} \Sigma_{k} V_{k}^{T}
+\end{equation*}
+für \(k < \rg(R)\) die trunkierte SVD wie in \zcref{df:trunsvd}. 
+Wir wollen zeigen, dass eine Darstellungsform der gesuchten Matrizen durch
+\begin{equation}
+    U^{'} = U_{k} \sqrt{\Sigma_{k}}, \quad V^{'} = \sqrt{\Sigma_{k}}V^{T}_{k} \label{eq:svdrec}
+\end{equation}
+gegeben ist.
+Ein intuitives Verständnis für diese Verbindung zwischen der SVD und der Nutzer-, bzw.\ Item-Matrix bieten bereits bewiesene Aussagen im vorherigen Teil der Arbeit.
+Da sich die Nutzer als Linearkombination der Filme darstellen lassen, befinden sie sich im Spaltenraum von \(R\). 
+Nach \zcref{cor:svd} bilden die Spalten von \(U\) eine Basis für diesen Raum, was sich auch in \zcref{fig:rec:twomat} widerspiegelt:
+Jeder Nutzer kann ebenfalls als Linearkombination der latenten Merkmale ausgedrückt werden.
 Eine analoge Argumentation gilt für die Filme über den Zeilenraum.
+
+Da durch \(\Sigma_{k}\) nur eine Streckung erfolgt und die Basen damit erhalten bleiben, erhalten wir die gewünschte Darstellung in \eqref{eq:svdrec}.
+Diese bietet nach \zcref{th:eckyou} sogar die beste Rang-\(k\)-Approximation für \(R\).   
 
 
