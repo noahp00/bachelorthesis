@@ -66,7 +66,7 @@ In höheren Dimensionen wird die zweite Hauptrichtung so gewählt, dass sie orth
 Dies kann beliebig fortgesetzt werden, die PCA besitzt allerdings die nützliche Eigenschaft, dass die Hauptrichtungen nach \enquote{Wichtigkeit} sortiert sind, also die ersten Richtungen bereits den Großteil der Varianz erklären.
 Eine genauere Erläuterung dieser Aussage wird dabei in der folgenden mathematischen Herleitung gegeben.
 
-\section{Mathematische Herleitung}
+\section{Mathematische Herleitung der PCA}
 Bevor die vorangegangenen Überlegungen formalisiert werden können, rekapitulieren wir durch \zcref{rep:proj} die Formel der orthogonalen Projektion.
 \begin{repitition}\label{rep:proj}
     Sei \(n \in \N\) und \(u,x \in \R^{n}\) mit \(\norm{u} = 1\).  \\
@@ -76,7 +76,7 @@ Bevor die vorangegangenen Überlegungen formalisiert werden können, rekapitulie
     \end{equation*}     
 \end{repitition}
 Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammengefasst.
-\begin{application}[PCA]\label{app:pca}
+\begin{application}[Hauptkomponentenanalyse]\label{app:pca}
     Seien \(n,d \in \N\) und  
     \begin{equation*}
         X = 
@@ -177,7 +177,7 @@ Das Ziel der Herleitung in diesem Abschnitt wird durch \zcref{app:pca} zusammeng
             u = Rw = R\symbf{e}_{1} = r_{1},
         \end{equation*}
         womit \(u\) nach \zcref{cor:spec} gleich dem zugehörigen Eigenvektor zum größten Eigenwert von \(\Sigma\) ist.
-    \item Herleitung für beliebiges \(k\) mit vollständiger Induktion über \(k\):\\
+    \item Herleitung für bel.\ \(k \in \N\) mit vollständiger Induktion über \(k\):\\
     \emph{Induktionsanfang}. Gegeben durch \hyperref[itm:pca2]{Schritt 2}.\\
     \emph{Induktionshypothese}. Angenommen die ersten \(k-1\) Eigenvektoren \(r_{1},\ldots,r_{k-1}\) von \(\Sigma\) maximieren die Varianz der Projektion.\\
     \emph{Induktionsschritt}. Wir wollen zeigen, dass 

@@ -17,15 +17,13 @@ Die Ausgangslage für ein solches Empfehlungssystem ist in \zcref{tab:rec:usit} 
 \end{table}
 
 Gegeben ist eine Nutzer-Item-Matrix, in der jede Zeile einen Nutzer und jede Spalte einen Film repräsentiert, wobei die einzelnen Einträge die abgegebenen Bewertungen der Nutzer für den jeweiligen Film darstellen.
-Das Ziel des Empfehlungssystems ist, basierend auf den vorhandenen Bewertungen möglichst präzise Empfehlungen zu generieren.
-Dies kann zum einen durch eine Approximation und anschließende Sortierung der fehlenden Bewertungen erfolgen.
-Eine andere Möglichkeit besteht darin, die Ähnlichkeit verschiedener Nutzer oder Filme zu analysieren.
-Für beide Vorgehensweisen wird die Annahme getroffen, dass die Bewertungen nicht unabhängig erfolgen, sondern einer bestimmten Struktur folgen.
+Das Ziel des Empfehlungssystems ist, basierend auf den vorhandenen Bewertungen möglichst präzise Empfehlungen für fehlende Einträge zu generieren.
+Dafür wird die Annahme getroffen, dass die Bewertungen nicht unabhängig erfolgen, sondern einer bestimmten Struktur folgen.
 Es wird also angenommen, dass es zugrunde liegende Muster gibt, nach denen Nutzer mit ähnlichen Präferenzen auch tendenziell ähnliche Bewertungen vergeben.
-Ein Beispiel dafür wäre, dass Nutzer mit einer Vorliebe für Horrorfilme diese potenziell höher bewerten als andere Nutzer.
-Diese Muster werden als \emph{latente Merkmale} bezeichnet.
+Ein Beispiel dafür wäre, dass Nutzer mit einer Vorliebe für Horrorfilme diese häufiger höher bewerten als andere Nutzer.
+Solche Muster werden als \emph{latente Merkmale} bezeichnet.
 
-Im Folgenden werden die Merkmale genutzt, indem die Nutzer-Item-Matrix \(R\) als Produkt zweier Matrizen dargestellt wird:
+Im Folgenden werden diese Merkmale genutzt, indem die Nutzer-Item-Matrix \(R\) als Produkt zweier Matrizen approximiert wird:
 einer Nutzer-Matrix \(U\), in der die Nutzer durch die latenten Merkmale beschrieben werden, und einer Item-Matrix \(V\) mit der Beschreibung der Filme durch die Merkmale. 
 Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merkmalen \(X_{1}\) und \(X_{2}\).  
 \begin{figure}[tb]
@@ -96,10 +94,14 @@ Dieses Konzept wird in \zcref{fig:rec:twomat} verdeutlicht mit den latenten Merk
     \vspace{4pt}
     \caption{Nutzer-Matrix und Item-Matrix}\label{fig:rec:twomat}
 \end{figure}
+Fehlende Bewertungen können damit als Skalarprodukt der jeweiligen Vektoren approximiert werden, wie in der Abbildung farblich hervorgehoben ist.
+Die kontextuelle Bedeutung der latenten Merkmale \(X_{1}\) und \(X_{2}\) ist dabei nicht explizit bekannt.
+Im Rahmen des vorher gegebenen Beispiels könnte allerdings \(X_{1}\) für \enquote{Horror} und \(X_{2}\) für \enquote{Drama} stehen.
+In diesem Fall wird jeder Nutzer durch seine Vorliebe für die beiden Genres beschrieben, während jeder Film durch seine Ausprägung dieser Genres charakterisiert wird.
 
-Fehlende Bewertungen können damit als Skalarprodukt der jeweiligen Vektoren approximiert werden, wie in \zcref{fig:rec:twomat} farblich hervorgehoben ist.
-Zudem kann die Ähnlichkeit zwischen Nutzern oder Filmen analysiert werden, indem diese als Punkte im Raum der latenten Merkmale dargestellt werden.
-Es bleibt damit die Frage, wie die Matrizen \(U^{'}\) und \(V^{'}\) berechnet werden können.
+Zur Bewertung der Qualität eines Empfehlungssystems können verschiedene Metriken herangezogen werden, die die Genauigkeit der Approximation anhand der Abweichung zwischen den einzelnen bekannten und vorhergesagten Werten messbar machen. 
+Für die Berechnung dieser Abweichung gibt es verschiedene Formeln, auf die an dieser Stelle nicht näher eingegangen wird.
+Damit stellt sich nur noch die Frage, wie die Matrizen \(U^{'}\) und \(V^{'}\) berechnet werden können, um eine möglichst genaue Approximation zu erzielen.
 
 \section{Mathematische Herleitung}
 
@@ -108,8 +110,10 @@ Sei also
 \begin{equation*}
     R \approx U_{k} \Sigma_{k} V_{k}^{T}
 \end{equation*}
-für \(k < \rg(R)\) die trunkierte SVD wie in \zcref{df:trunsvd}. 
-Wir wollen zeigen, dass eine Darstellungsform der gesuchten Matrizen durch
+für \(k < \rg(R)\) die trunkierte SVD wie in \zcref{df:trunsvd}.
+Damit ist bereits eine Voraussetzung für die Qualität des Empfehlungssystems in Bezug auf zwei verschiedene Gütekriterien erfüllt:
+Nach \zcref{th:eckyou} bietet die trunkierte SVD die beste Rang-\(k\)-Approximation für \(R\) sowohl hinsichtlich der Spektralnorm als auch der Frobeniusnorm.
+Wir wollen nun zeigen, dass eine Darstellungsform der gesuchten Matrizen durch
 \begin{equation}
     U^{'} = U_{k} \sqrt{\Sigma_{k}}, \quad V^{'} = \sqrt{\Sigma_{k}}V^{T}_{k} \label{eq:svdrec}
 \end{equation}
@@ -118,9 +122,9 @@ Ein intuitives Verständnis für diese Verbindung zwischen der SVD und der Nutze
 Da sich die Nutzer als Linearkombination der Filme darstellen lassen, befinden sie sich im Spaltenraum von \(R\). 
 Nach \zcref{cor:svd} bilden die Spalten von \(U\) eine Basis für diesen Raum, was sich auch in \zcref{fig:rec:twomat} widerspiegelt:
 Jeder Nutzer kann ebenfalls als Linearkombination der latenten Merkmale ausgedrückt werden.
-Eine analoge Argumentation gilt für die Filme über den Zeilenraum.
 
-Da durch \(\Sigma_{k}\) nur eine Streckung erfolgt und die Basen damit erhalten bleiben, erhalten wir die gewünschte Darstellung in \eqref{eq:svdrec}.
-Diese bietet nach \zcref{th:eckyou} sogar die beste Rang-\(k\)-Approximation für \(R\).   
+Eine analoge Argumentation gilt für die Filme über den Zeilenraum.
+Da durch \(\Sigma_{k}\) nur eine Streckung erfolgt und die Basen damit erhalten bleiben, können wir \(\Sigma_{k}\) mit \(U_{k}\) und \(V_{k}^{T}\) \enquote{verrechnen} und erhalten die gewünschte Darstellung in~\eqref{eq:svdrec}.
+
 
 

@@ -4,7 +4,7 @@ In diesem Kapitel wird zunächst unter Verwendung vorher eingeführter Sätze un
 Anschließend wird an einem konkreten Beispiel die Berechnung durchgeführt und die SVD visualisiert.
 Um das Kapitel abzuschließen, erfolgt eine Beweisführung von zwei wichtigen Eigenschaften der SVD, die auch im Anwendungsteil erneut aufgegriffen werden.
 
-\section{Beweisführung}
+\section{Existenzbeweis der SVD}
 Es wird davon ausgegangen, dass der Leser\footnote{Aus Gründen der besseren Lesbarkeit wird das generische Maskulinum verwendet, wobei alle Geschlechter mit eingeschlossen sind.} mit den Grundlagen der linearen Algebra vertraut ist, insbesondere mit Matrizen und ihren Eigenschaften.
 Bekannte Definitionen werden nicht erneut aufgeführt, die einzige Ausnahme bildet \zcref{eigvec}, da diese für jegliche Beweisführung und für das Verständnis in diesem Kapitel unerlässlich ist und deswegen eine Auffrischung sinnvoll erscheint.
 \begin{definition}\label{eigvec}
@@ -21,7 +21,7 @@ Vorausgesetzte Sätze werden ohne weiteren Beweis verwendet, aber in wichtigen F
 Um die Existenz der Singulärwertzerlegung für beliebige Matrizen zu beweisen, bedarf es der Hilfe eines anderen Satzes, des sogenannten Spektralsatzes.
 Dieser hat keine eindeutige Ausführung, sondern beschreibt vielmehr mehrere verwandte Aussagen der Mathematik, wobei sich in dieser Arbeit auf seine Folgerungen für symmetrische Matrizen beschränkt wird.
 Es ist ebenfalls wichtig zu betonen, dass der Spektralsatz zwar hier \enquote{nur} für den Beweis der Singulärwertzerlegung verwendet wird, eine Bezeichnung als Hilfssatz jedoch irreführend wäre, da der Satz für sich genommen bereits eine bedeutende Aussage der linearen Algebra und Funktionalanalysis darstellt.
-Um den Spektralsatz für symmetrische Matrizen einführen und anschließend beweisen zu können, benötigen wir zunächst \zcref{complex} und \zcref{gram}.
+Um den Spektralsatz für symmetrische Matrizen einführen und anschließend beweisen zu können, benötigen wir zunächst \zcref{complex,lm:realeig} sowie \zcref{gram}.
 \begin{lemma}\label{complex}
     Sei \(z \in \C\) und \(a,b \in \R\) mit \(z = a + bi\).\ \(z = \overline{z}\) gilt genau dann, wenn \(z \in \R\).     
 \end{lemma}
@@ -34,7 +34,24 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     Da \(i \neq 0\) muss \(b = 0\), womit \(\mathfrak{Im}(z) = 0\). Also ist \(z = \mathfrak{Re}(z) \in \R\).\ \newline
     \enquote{\(\La\)}\ Folgt direkt aus der Definition.  
 \end{proof}
-
+\begin{lemma}\label{lm:realeig} 
+    Sei \(n \in \N,\ A \in \R^{n \times n} \) und \(\lambda \in \R\) ein reeller Eigenwert von \(A\). \\
+    Dann gibt es einen zugehörigen Eigenvektor \(\R^{n} \ni v \neq 0\), der ebenfalls reell ist.     
+\end{lemma}
+\begin{proof}
+    Angenommen \(\C^{n} \ni v \neq 0\) mit \(v = x+iy\) für \(x,y \in \R\).
+    Dann gilt nach \zcref{eigvec}
+    \begin{align*}
+        Av &= \lambda v \\
+        \Lra A(x+yi) &= \lambda(x+yi) \\ 
+        \Lra Ax + Ayi &= \lambda x + \lambda yi.
+    \end{align*}        
+    Durch einen Koeffizientenvergleich erhalten wir damit
+    \begin{equation*}
+        Ax = \lambda x \quad \wedge \quad Ay = \lambda y.
+    \end{equation*}
+    Da \(v \neq 0\) ist, muss entweder \(x \neq 0\) oder \(y \neq 0\) sein, womit nach \zcref{eigvec} mindestens ein reeller Eigenvektor zu \(\lambda\) existiert.
+\end{proof}
 \begin{repitition}[Gram-Schmidtsches Orthonormalisierungsverfahren]\label{gram}
     Sei \(V\) ein euklidischer Vektorraum und \(\{u_1,\ldots,u_n\}\) eine Menge von linear unabhängigen Vektoren in \(V\). 
     Dann kann eine Menge \(\{v_1,\ldots,v_n\}\) aus Vektoren in \(V\)  konstruiert werden, sodass \(\{v_1,\ldots,v_n\}\) orthonormal ist und 
@@ -46,7 +63,7 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     Sei \(n \in \N\) und \(A \in \R^{n \times n} \) quadratisch und symmetrisch. 
     Dann gilt:
     \begin{enumerate}[label= (\roman*)]
-        \item \(A\) hat reelle Eigenwerte.\label{spec1}
+        \item \(A\) hat nur reelle Eigenwerte.\label{spec1}
         \item Es existiert eine orthogonale Matrix \(R \in \R^{n \times n}\), sodass \(R^{-1}AR = R^{T}AR = \Lambda \in \R^{n \times n}\) diagonal ist.\label{spec2}
     \end{enumerate}
 \end{theorem}
@@ -54,7 +71,7 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     Die Behauptungen werden nacheinander bewiesen (vgl.~\cite{proof:SpectralTom}).
 
     \vspace{5pt}
-    \underline{Zu~\ref{spec1}}. Sei \(\lambda \in \C\) ein Eigenwert von \(A\) mit zugehörigem Eigenvektor \(v \in \C^{n}\). 
+    \underline{Zu~\ref{spec1}}. Sei \(\lambda \in \C\) ein Eigenwert von \(A\) mit zugehörigem Eigenvektor \(\C^{n} \ni v \neq 0 \). 
     Dann ist mit \zcref{eigvec}
     \begin{align}
         Av &=\lambda v \notag \label{al21}\\
@@ -77,7 +94,7 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     \begin{equation*}
         \lambda = \overline{\lambda}.
     \end{equation*}
-    Nach \zcref{complex} ist dann \(\lambda \in \R\), wodurch auch \(v \in \R^{n}\) sein muss.\qed
+    Nach \zcref{complex} ist dann \(\lambda \in \R\).\qed
     \vspace{5pt} 
 
     \underline{Zu~\ref{spec2}}. Induktion über \(n \in \N\): \\
@@ -86,11 +103,11 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
     Setze \(R=1\). 
     Damit ist \(R\) orthogonal, da \(R^{-1}=R^{T}\) und \(\R \ni A = R^{-1}AR\) trivialerweise diagonal. \\
     \textit{Induktionshypothese}. 
-    Die Behauptung~\ref{spec2} gelte für festes, beliebiges \(\N \ni n-1\). 
+    Die Behauptung~\ref{spec2} gelte für festes, beliebiges \(n-1 \in \N\). 
     Es soll gezeigt werden, dass sie dann auch für \(n\) gilt.  \\
     \textit{Induktionsschritt}.  
     Sei \(\lambda_1\) ein beliebiger Eigenwert von \(A\) mit zugehörigem normalisiertem Eigenvektor \(v_1\), also \(\norm{v_1} = 1\).  
-    Nach~\ref{spec1} gilt \(\lambda_1 \in \R\) und \(v_1 \in \R^{n}\). 
+    Nach~\ref{spec1} gilt \(\lambda_1 \in \R\) und damit nach \zcref{lm:realeig} auch \(v_1 \in \R^{n}\). 
     Mit dem Basisergänzungssatz (\zcref{bes}) kann \(v_1\) durch Vektoren \(u_2,\ldots,u_n\) zu einer Basis von \(\R^{n}\) ergänzt werden. 
     Nun kann das Gram-Schmidt’sche Orthonormalisierungsverfahren (\zcref{gram}) angewendet werden, wodurch eine orthonormale Basis \(\{v_1,\ldots,v_n\}\) von \(\R^{n}\) konstruiert wird.  
     Der Leser wird daran erinnert, dass orthonormale Vektoren normiert und orthogonal sind.
@@ -104,7 +121,7 @@ Um den Spektralsatz für symmetrische Matrizen einführen und anschließend bewe
         \end{bmatrix} 
         \in \R ^{n \times n}
     \end{equation*} 
-    mit \(v_1,\ldots,v_n\) als Spaltenvektoren und setze \(\R^{n \times n} \ni B = P^{-1}AP = P^{T}AP\).
+    mit \(v_1,\ldots,v_n\) als Spaltenvektoren und setze \(B = P^{-1}AP = P^{T}AP \in \R^{n \times n}\).
 
     Das Ziel ist, die Induktionshypothese auf eine symmetrische Untermatrix \(C \in \R^{\left(n-1\right)\times\left(n-1\right)}\) von \(B\) anzuwenden.
     Dafür wird zunächst die Symmetrie von \(B\) gezeigt:   
@@ -323,7 +340,6 @@ Der Beweis orientiert sich dabei an~\cite{chenLecture5Singular2020}.
         \end{cases} & \bigl(v_i,v_j \text{ orthonormal}\bigr)
     \end{align*}
     Wie bereits im Beweis des Spektralsatzes können \(u_1,\ldots,u_r\) mithilfe des Basisergänzungssatzes (\zcref{bes}) und des Gram-Schmidt-Verfahrens (\zcref{gram}) durch Vektoren \(u_{r+1}\ldots,u_m \in \R^{m}\) zu einer orthonormalen Basis von \(\R^{m}\) ergänzt werden. 
-    \enlargethispage{\baselineskip} 
     Damit ist 
     \begin{equation*}
         \symbf{U} =
@@ -390,8 +406,8 @@ Der zentrale Beweis dieses Kapitels ist somit abgeschlossen und die Berechnung d
             3 & \phantom{-}1 & 1
         \end{bmatrix} \in \R^{2 \times 3}.
     \end{equation*}
-    Wir wollen nun die SVD dieser Matrix finden.
-    Dafür muss der Beweis der Singulärwertzerlegung (\zcref{th:svd}) mithilfe unserer konkreten Werte schrittweise nachvollzogen werden.
+    Wir wollen nun die Singulärwertzerlegung dieser Matrix finden.
+    Dafür muss der Beweis der SVD (\zcref{th:svd}) mithilfe unserer konkreten Werte schrittweise nachvollzogen werden.
     Zuerst wird also
     \begin{equation*}
         A^{T}A = 
@@ -560,7 +576,7 @@ Da dies an einem einzelnen Vektor schwer visualisiert werden kann, multipliziere
     \right\}.
 \end{equation*} 
 Das Ergebnis ist in \zcref{fig:sph} dargestellt. 
-\begin{figure}[b]
+\begin{figure}[t]
     \centering
     \begin{subfigure}{0.45\textwidth}
         \centering
@@ -599,16 +615,15 @@ Um nachzuvollziehen, wie dieses Ergebnis zustande gekommen ist, verwenden wir di
     \caption{Visualisierung der Singulärwertzerlegung}\label{fig:svdsph}
 \end{figure}
 
-Grundlage für diese Visualisierung ist das Wissen, dass im euklidischen Raum orthogonale Matrizen Drehungen und Diagonalmatrizen Skalierungen (entlang der Hauptachsen) darstellen.
-An dieser Stelle ist auch wichtig zu erwähnen, dass in \zcref{fig:svdsphc} und \zcref{fig:svdsphd} der zu beobachtende Wertebereich vergrößert wurde, also eine größere Streckung durch \(\Sigma\) erfolgt ist, als auf dem Plot zu sehen ist.
-Außerdem sei angemerkt, dass ab \zcref{fig:svdsphc} die Darstellung der \(z\)-Achse überflüssig und eigentlich nicht zu empfehlen ist, da sich dort durch die Dimensionsreduktion mittels \(\Sigma\) im zweidimensionalen Raum bewegt wird.
-Um eine Vergleichbarkeit der Plots zu verbessern, wird die Darstellung dennoch beibehalten.  
+Die Grundlage für diese Visualisierung bildet das Wissen, dass im euklidischen Raum orthogonale Matrizen Drehungen und Diagonalmatrizen Skalierungen (entlang der Hauptachsen) entsprechen.
+An dieser Stelle sei angemerkt, dass in \zcref{fig:svdsphc} und \zcref{fig:svdsphd} der zu beobachtende Wertebereich vergrößert wurde, also eine größere Streckung durch \(\Sigma\) erfolgt ist, als auf dem Plot zu sehen ist.
+Außerdem ist ab \zcref{fig:svdsphc} die Darstellung der \(z\)-Achse überflüssig und eigentlich nicht zu empfehlen, da sich dort durch die Dimensionsreduktion mittels \(\Sigma\) im zweidimensionalen Raum bewegt wird.
+Zur besseren Vergleichbarkeit wird die Darstellung dennoch beibehalten.  
 
 Zusammenfassend zerlegt also die Singulärwertzerlegung eine Matrix in grundlegende geometrische Transformationen: Drehung, Skalierung und gegebenenfalls Dimensionsreduktion oder -erhöhung.
-
 Mit dieser Erkenntnis wird sich dem nächsten Abschnitt zugewandt, in dem die wichtigsten beiden Arten der SVD definiert werden.
 
-\section{Arten der Singulärwertzerlegung}
+\section{Arten der SVD}
 
 Die Singulärwertzerlegung, die im vorherigen Teil der Arbeit beschrieben wurde, ist die klassische und vollständige Zerlegung.
 In den tatsächlichen Anwendungsgebieten, welche im nächsten Kapitel ausgeführt werden, finden häufig Variationen Verwendung.
@@ -690,7 +705,7 @@ Eine Präzisierung dieser Aussage findet im nachfolgenden und letzten Abschnitt 
 
 \section{Eigenschaften der SVD}
 
-Die reduzierte SVD \(A_{k}\) ist nicht nur eine gute Approximation von \(A\), sondern die beste Rang-\(k\)-Approximation für \(A\) bezüglich der Spektralnorm und der Frobeniusnorm.
+Die reduzierte Singulärwertzerlegung \(A_{k}\) ist nicht nur eine gute Approximation von \(A\), sondern die beste Rang-\(k\)-Approximation für \(A\) bezüglich der Spektralnorm und der Frobeniusnorm.
 Diese Behauptung ist auch als \emph{Eckart-Young-Satz} bekannt und wird im Folgenden nach~\cite[7]{zhangLinearAlgebraData2022} für die Spektralnorm bewiesen.
 Für den Beweis werden allerdings zunächst \zcref{lem:normorth,lem:eck,rep:dim} benötigt.
 \begin{lemma}\label{lem:normorth}
@@ -749,7 +764,7 @@ Für den Beweis werden allerdings zunächst \zcref{lem:normorth,lem:eck,rep:dim}
 
     Sei also \(k < r\).
     Wir zeigen zunächst, dass \(\norm{A-A_{k}}_{2} = \sigma_{k+1}\).
-    Nach \zcref{rem:onesvd} gilt
+    Nach~\zcref{rem:onesvd} gilt
     \begin{equation*}
         A-A_{k} = \sum_{i=1}^{r}\sigma_{i}u_{i}v_{i}^{T} - \sum_{i=1}^{k}\sigma_{i}u_{i}v_{i}^{T} = \sum_{i=k+1}^{r}\sigma_{i}u_{i}v_{i}^{T}=\sum_{i=1}^{r-k}\sigma_{i+k}u_{i+k}v_{i+k}^{T}.
     \end{equation*}
