@@ -2,14 +2,18 @@
 
 Empfehlungssysteme sind eine Anwendungsart der Singulärwertzerlegung, mit der bereits die meisten Menschen in Kontakt gekommen sind.
 Seien es Filmempfehlungen bei Netflix oder Produktempfehlungen bei Amazon, die Wahrscheinlichkeit ist groß, dass diese mithilfe einer Abwandlung der SVD generiert werden.
-In diesem Kapitel wird zunächst, ähnlich wie im vorherigen Kapitel, die Grundidee von Empfehlungssystemen mithilfe eines intuitiven Ansatzes veranschaulicht.
-Anschließend wird diese Idee mathematisch formalisiert und vertieft.
-Um das Kapitel abzuschließen, wird mithilfe von \texttt{Python} ein eigenes (simples) Empfehlungssystem für Filme programmiert, basierend auf tatsächlichen Bewertungen aus einer Datenbank.
+Es sei jedoch angemerkt, dass Empfehlungssysteme keine eindeutige mathematische Realisierung besitzen.
+Vielmehr existieren zahlreiche Formen und Varianten, wobei eine Behandlung aller Formen genügend Material für eine alleinstehende Abschlussarbeit bieten würde.
+Aus diesem Grund konzentrieren wir uns in diesem Kapitel, mit Blick auf den Rahmen dieser Arbeit, auf eine Variante, die ausschließlich auf der hier eingeführten reinen Singulärwertzerlegung basiert.
+
+Dafür wird zunächst die grundlegende Idee des Empfehlungssystems erläutert.
+Anschließend erweitern wir das System durch ein bereits bekanntes mathematisches Konzept, um auf verschiedene Arten Empfehlungen generieren zu können.
+Um das Kapitel abzuschließen, wird mithilfe von \texttt{Python} das zuvor eingeführte Empfehlungssystem realisiert.
 
 \section{Grundidee}
 
-Für die grundlegende Idee von Empfehlungssystemen verweilen wir beim Beispiel der Filmempfehlungen.
-Die Ausgangslage für ein solches Empfehlungssystem ist in \zcref{tab:rec:usit} veranschaulicht.
+Das hier eingeführte Modell wird als \emph{PureSVD}~\cite{cremonesiPerformanceRecommenderAlgorithms2010a} bezeichnet. 
+Die Ausgangslage des Empfehlungssystems ist in \zcref{tab:rec:usit} veranschaulicht.
 \begin{table}[tb]
     \centering
     \caption{Nutzer-Item-Matrix}\label{tab:rec:usit}
@@ -17,11 +21,20 @@ Die Ausgangslage für ein solches Empfehlungssystem ist in \zcref{tab:rec:usit} 
 \end{table}
 
 Gegeben ist eine Nutzer-Item-Matrix, in der jede Zeile einen Nutzer und jede Spalte einen Film repräsentiert, wobei die einzelnen Einträge die abgegebenen Bewertungen der Nutzer für den jeweiligen Film darstellen.
-Das Ziel des Empfehlungssystems ist, basierend auf den vorhandenen Bewertungen möglichst präzise Empfehlungen für fehlende Einträge zu generieren.
+PureSVD gehört zu den \emph{Top-N-Empfehlungssystemen}, womit das Ziel nicht darin besteht, die fehlenden Werte so präzise wie möglich zu approximieren.
+Stattdessen wird versucht, basierend auf den vorhanden Bewertungen eine Auswahl an Empfehlungen zu generieren, die dem Nutzer gefallen könnten.
 Dafür wird die Annahme getroffen, dass die Bewertungen nicht unabhängig erfolgen, sondern einer bestimmten Struktur folgen.
 Es wird also angenommen, dass es zugrunde liegende Muster gibt, nach denen Nutzer mit ähnlichen Präferenzen auch tendenziell ähnliche Bewertungen vergeben.
 Ein Beispiel dafür wäre, dass Nutzer mit einer Vorliebe für Horrorfilme diese häufiger höher bewerten als andere Nutzer.
 Solche Muster werden als \emph{latente Merkmale} bezeichnet.
+
+\begin{comment}
+Für die grundlegende Idee von Empfehlungssystemen verweilen wir beim Beispiel der Filmempfehlungen.
+
+
+
+Das Ziel des Empfehlungssystems ist, basierend auf den vorhandenen Bewertungen möglichst präzise Empfehlungen für fehlende Einträge zu generieren.
+
 
 Im Folgenden werden diese Merkmale genutzt, indem die Nutzer-Item-Matrix \(R\) als Produkt zweier Matrizen approximiert wird:
 einer Nutzer-Matrix \(U\), in der die Nutzer durch die latenten Merkmale beschrieben werden, und einer Item-Matrix \(V\) mit der Beschreibung der Filme durch die Merkmale. 
@@ -99,13 +112,13 @@ Die kontextuelle Bedeutung der latenten Merkmale \(X_{1}\) und \(X_{2}\) ist dab
 Im Rahmen des vorher gegebenen Beispiels könnte allerdings \(X_{1}\) für \enquote{Horror} und \(X_{2}\) für \enquote{Drama} stehen.
 In diesem Fall wird jeder Nutzer durch seine Vorliebe für die beiden Genres beschrieben, während jeder Film durch seine Ausprägung dieser Genres charakterisiert wird.
 
-Zur Bewertung der Qualität eines Empfehlungssystems können verschiedene Metriken herangezogen werden, die die Genauigkeit der Approximation anhand der Abweichung zwischen den einzelnen bekannten und vorhergesagten Werten messbar machen. 
-Für die Berechnung dieser Abweichung gibt es verschiedene Formeln, auf die an dieser Stelle nicht näher eingegangen wird.
-Damit stellt sich nur noch die Frage, wie die Matrizen \(U^{'}\) und \(V^{'}\) berechnet werden können, um eine möglichst genaue Approximation zu erzielen.
+Zur Bewertung der Qualität eines Empfehlungssystems können verschiedenen Metriken herangezogen werden, die die Genauigkeit der Approximation anhand der Abweichung zwischen den einzelnen bekannten und vorhergesagten Werten messbar machen.
+Auf die Formeln der Metriken wird hier allerdings nicht genauer eingegangen.
+Damit stellt sich nur noch die Frage, wie die Matrizen \(U^{'}\) und \(V^{'}\) berechnet werden können, um eine möglichst genaue Approximation zu erzielen. \cite{cremonesiPerformanceRecommenderAlgorithms2010a}
 
 \section{Mathematische Herleitung}
 
-Mit Blick auf den Rahmen dieser Arbeit liegt es nahe, dass diese Frage mithilfe der Singulärwertzerlegung beantwortet werden kann.
+Mit Blick auf das Thema dieser Arbeit liegt es nahe, dass diese Frage mithilfe der Singulärwertzerlegung beantwortet werden kann.
 Sei also 
 \begin{equation*}
     R \approx U_{k} \Sigma_{k} V_{k}^{T}
@@ -125,6 +138,11 @@ Jeder Nutzer kann ebenfalls als Linearkombination der latenten Merkmale ausgedr�
 
 Eine analoge Argumentation gilt für die Filme über den Zeilenraum.
 Da durch \(\Sigma_{k}\) nur eine Streckung erfolgt und die Basen damit erhalten bleiben, können wir \(\Sigma_{k}\) mit \(U_{k}\) und \(V_{k}^{T}\) \enquote{verrechnen} und erhalten die gewünschte Darstellung in~\eqref{eq:svdrec}.
+Es sei angemerkt, dass die Darstellung nur eine Möglichkeit der Verrechnung darstellt.
+Man könnte auch 
 
+Eine formalere Herleitung kann mithilfe der Hauptkomponentenanalyse erfolgen.
+
+\end{comment}
 
 
