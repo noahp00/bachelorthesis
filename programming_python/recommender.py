@@ -21,7 +21,7 @@ R_demeaned = R - user_means.reshape(-1, 1)
 U, S, Vh = svds(R_demeaned, k=100)
 Sigma = np.diag(S)
 
-prediction_matrix = U @ Sigma @ Vh + user_means.reshape(-1, 1)
+prediction_matrix = U @ Sigma @ Vh
 
 
 def recommender(R, prediction_matrix, num_recom, user):

@@ -449,6 +449,8 @@ headformat=\NAME~\NUMBER\NOTE,
     }% 
   }%    
 }
+
+% Only year in bib
 \AtEveryBibitem{\clearfield{month}}
 \AtEveryBibitem{\clearfield{day}}
 
@@ -477,7 +479,7 @@ Name-pl = Codes,
   tocraggedpagenumber,
 ]{part,chapter,section,subsection,subsubsection,paragraph,subparagraph}
 
-% Letterspacing chapter ToC
+% Letterspacing chapterfont ToC
 \newfontfamily\lscharter{XCharter}[LetterSpace=5]
 \RedeclareSectionCommand[
   tocentryformat=\lscharter\scshape\bfseries,
